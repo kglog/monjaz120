@@ -1,22 +1,10 @@
 import { NextResponse } from 'next/server';
 
-export const orders: any[] = []; // قاعدة بيانات مؤقتة
+// هذه دالة للتعامل مع طلبات POST
+export async function POST(request: Request) {
+  // تقدر تستخرج بيانات من request لو ودك
+  // const data = await request.json();
 
-export async function POST(req: Request) {
-  const formData = await req.formData();
-
-  const serviceId = formData.get('serviceId')?.toString() || '';
-  const notes = formData.get('notes')?.toString() || '';
-  const file = formData.get('file') as File | null;
-
-  const newOrder = {
-    serviceId,
-    notes,
-    fileName: file?.name || null,
-    createdAt: new Date().toISOString(), // ✅ تنسيق تاريخ صحيح
-  };
-
-  orders.push(newOrder);
-
-  return NextResponse.json({ message: '🚀 تم حفظ الطلب بنجاح', order: newOrder });
+  // ترجع رد JSON بسيط للعميل
+  return NextResponse.json({ message: "تم بنجاح" });
 }
