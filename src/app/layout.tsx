@@ -1,5 +1,5 @@
 // src/app/layout.tsx
-import "@/styles/global.css";
+import "./globals.css";
 
 export default function RootLayout({
   children,
@@ -7,13 +7,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ar" dir="rtl">
-      <head>
-        <title>منصة منجز</title>
-      </head>
-      <body className="font-sans bg-gray-100 text-gray-800">
-        {children}
-      </body>
+    <html lang="en">
+      <body>{children}</body>
     </html>
   );
 }

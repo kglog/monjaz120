@@ -1,14 +1,13 @@
-// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        'primary-green': '#4CAF50',
-        'secondary-green': '#45a049',
+        primary: '#0070f3',
+        secondary: '#1c1c1e',
       },
     },
   },
