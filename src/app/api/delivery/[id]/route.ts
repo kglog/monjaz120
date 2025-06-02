@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export async function GET(request: Request) {
-  // استخراج id من الـ URL
-  const url = new URL(request.url);
-  const id = url.pathname.split('/').pop();
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
 
-  // هنا تقدر تستخدم id للبحث عن الطلب أو أي منطق خاص فيك
-  // هذا مجرد مثال يطبع الـ id المستخرج
   return NextResponse.json({ id });
 }
