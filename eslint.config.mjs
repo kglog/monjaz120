@@ -1,12 +1,13 @@
-export default {
-  globals: {
-    browser: true,
-    node: true,
-  },
-  rules: {
-    // يخلي تحذير unused vars بس تنبيه عشان ما يوقفك
-    'no-unused-vars': 'warn',
-    // لو ودك تخلي تحذير react/react-in-jsx-scope ما يزعجك
-    'react/react-in-jsx-scope': 'off',
-  },
-};
+import js from "@eslint/js";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+import pluginReact from "eslint-plugin-react";
+import { defineConfig } from "eslint/config";
+
+
+export default defineConfig([
+  { files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], plugins: { js }, extends: ["js/recommended"] },
+  { files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  tseslint.configs.recommended,
+  pluginReact.configs.flat.recommended,
+]);

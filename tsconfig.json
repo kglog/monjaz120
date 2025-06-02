@@ -12,7 +12,7 @@
     "strict": true,
     "noEmit": true,
     "incremental": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
