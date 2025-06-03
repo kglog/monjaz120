@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function VendorDashboard() {
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <h1>لوحة تحكم البائع</h1>
 
       <h2>طلبات جديدة 📝</h2>
