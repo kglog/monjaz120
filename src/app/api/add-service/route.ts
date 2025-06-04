@@ -19,11 +19,11 @@ export async function POST(request: Request) {
       createdAt: new Date(),
     });
 
-    return NextResponse.json({ message: "تمت إضافة الخدمة بنجاح!" });
+    return NextResponse.json({ success: true, message: "✅ تمت الإضافة" });
   } catch (error) {
-    console.error(error);
+    console.error("❌ خطأ داخلي:", error); // هذا مهم
     return NextResponse.json(
-      { message: "❌ حدث خطأ أثناء الإضافة." },
+      { success: false, message: "❌ حدث خطأ أثناء الإضافة" },
       { status: 500 }
     );
   } finally {
