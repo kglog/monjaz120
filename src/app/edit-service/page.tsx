@@ -1,10 +1,9 @@
-'use client';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import EditServicePage from './EditServicePage';
 
-export default function Page() {
+export default function PageWrapper() {
   return (
-    <Suspense fallback={<div>جاري التحميل...</div>}>
+    <Suspense fallback={<div>جاري تحميل الصفحة...</div>}>
       <EditServicePage />
     </Suspense>
   );
