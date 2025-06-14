@@ -1,29 +1,48 @@
-// src/app/market/page.tsx
+'use client';
+import { useEffect, useState } from 'react';
+
 export default function MarketPage() {
+  const [services, setServices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/get-all-services')
+      .then((res) => res.json())
+      .then((data) => {
+        setServices(data.services || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('خطأ في جلب الخدمات:', err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-primary text-white p-8">
-      <header className="text-center mb-8">
-        <h1 className="text-3xl font-bold">السوق</h1>
-        <p className="text-sm mt-2">تصفح جميع الخدمات المتاحة</p>
-      </header>
+    <div className="max-w-3xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4">🛒 السوق</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-3xl">
-        {/* خدمة رقم 1 */}
-        <div className="bg-white text-black p-4 rounded shadow hover:shadow-lg transition">
-          <h2 className="text-xl font-bold mb-2">تصميم شعار احترافي</h2>
-          <p className="text-sm mb-2">وصف مختصر عن هذه الخدمة.</p>
-          <p className="text-green-600 font-bold">50 ريال</p>
-        </div>
+      {loading && <p>جاري تحميل الخدمات...</p>}
 
-        {/* خدمة رقم 2 */}
-        <div className="bg-white text-black p-4 rounded shadow hover:shadow-lg transition">
-          <h2 className="text-xl font-bold mb-2">كتابة مقال تسويقي</h2>
-          <p className="text-sm mb-2">وصف مختصر عن هذه الخدمة.</p>
-          <p className="text-green-600 font-bold">30 ريال</p>
-        </div>
+      {!loading && services.length === 0 && (
+        <p className="text-gray-600">لا توجد خدمات متاحة حالياً.</p>
+      )}
 
-        {/* إضافة خدمات أكثر لاحقًا */}
-      </div>
-    </main>
+      <ul className="space-y-4">
+        {services.map((service) => (
+          <li key={service._id} className="border p-4 rounded shadow">
+            <h2 className="text-xl font-semibold">🛠️ {service.name}</h2>
+            <p className="text-gray-700 mb-1">💰 السعر: {service.price} ريال</p>
+            <p className="text-gray-700 mb-2">📄 الوصف: {service.description}</p>
+            <a
+              href={`/services/${service._id}`}
+              className="inline-block mt-2 text-sm text-blue-600 hover:underline"
+            >
+              عرض التفاصيل
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

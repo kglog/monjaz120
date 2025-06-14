@@ -1,17 +1,18 @@
-// src/app/vendor/add-service/page.tsx
-
 'use client';
+
 import { useState } from 'react';
 
 export default function AddServicePage() {
-  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [message, setMessage] = useState('');
-  const [success, setSuccess] = useState(false);
+  const [category, setCategory] = useState('');
+  const [image, setImage] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    const vendorId = '64884fcadadb30db0a57db9e'; // هذا id البائع من MongoDB
 
     const res = await fetch('/api/add-service', {
       method: 'POST',
@@ -19,45 +20,45 @@ export default function AddServicePage() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name,
+        title,
         description,
         price,
+        category,
+        image,
+        vendorId,
       }),
     });
 
-    const result = await res.json();
+    const data = await res.json();
 
-    if (res.ok) {
-      setMessage(result.message);
-      setSuccess(true);
-      setName('');
+    if (data.success) {
+      alert('✅ تم إضافة الخدمة بنجاح');
+      setTitle('');
       setDescription('');
       setPrice('');
+      setCategory('');
+      setImage('');
     } else {
-      setMessage(result.message || '❌ حدث خطأ أثناء الإضافة.');
-      setSuccess(false);
+      alert('❌ فشل في إضافة الخدمة');
     }
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: 'auto', padding: 20 }}>
-      <h1 style={{ fontWeight: 'bold', fontSize: '1.8rem' }}>🛠️ إضافة خدمة جديدة</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <label>اسم الخدمة:</label>
-        <input value={name} onChange={(e) => setName(e.target.value)} required />
-
-        <label>الوصف:</label>
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
-
-        <label>السعر:</label>
-        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} required />
-
-        <button type="submit">➕ إضافة</button>
+    <div style={{ padding: '2rem' }}>
+      <h2>🆕 إضافة خدمة جديدة</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="عنوان الخدمة" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <br />
+        <textarea placeholder="وصف" value={description} onChange={(e) => setDescription(e.target.value)} />
+        <br />
+        <input type="text" placeholder="السعر" value={price} onChange={(e) => setPrice(e.target.value)} />
+        <br />
+        <input type="text" placeholder="التصنيف" value={category} onChange={(e) => setCategory(e.target.value)} />
+        <br />
+        <input type="text" placeholder="رابط الصورة (مؤقتًا)" value={image} onChange={(e) => setImage(e.target.value)} />
+        <br />
+        <button type="submit">نشر الخدمة</button>
       </form>
-
-      {message && (
-        <p style={{ marginTop: 20, color: success ? 'green' : 'red' }}>{message}</p>
-      )}
     </div>
   );
 }

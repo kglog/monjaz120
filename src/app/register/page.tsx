@@ -1,50 +1,52 @@
-// src/app/register/page.tsx
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 export default function RegisterPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('buyer');
+  const router = useRouter();
+
+  const handleRegister = async (e: any) => {
+    e.preventDefault();
+
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password, role }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert('تم إنشاء الحساب بنجاح!');
+      router.push('/login');
+    } else {
+      alert('فشل في إنشاء الحساب: ' + data.message);
+    }
+  };
+
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-primary text-white p-8">
-      <header className="text-center mb-8">
-        <h1 className="text-3xl font-bold">تسجيل حساب جديد</h1>
-        <p className="text-sm mt-2">أنشئ حسابك وابدأ الآن!</p>
-      </header>
-
-      <form className="w-full max-w-md bg-white text-black rounded shadow p-4 space-y-4">
-        <div>
-          <label htmlFor="name" className="block text-sm font-bold mb-1">اسم المستخدم:</label>
-          <input
-            type="text"
-            id="name"
-            placeholder="اسمك هنا"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="email" className="block text-sm font-bold mb-1">البريد الإلكتروني:</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="you@example.com"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="password" className="block text-sm font-bold mb-1">كلمة المرور:</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="••••••••"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-secondary hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded shadow hover:shadow-lg transition-all duration-300"
-        >
-          إنشاء حساب
-        </button>
+    <div style={{ padding: '2rem' }}>
+      <h2>تسجيل حساب جديد</h2>
+      <form onSubmit={handleRegister}>
+        <input type="text" placeholder="الاسم" value={name} onChange={(e) => setName(e.target.value)} required />
+        <br />
+        <input type="email" placeholder="البريد الإلكتروني" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <br />
+        <input type="password" placeholder="كلمة المرور" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <br />
+        <label>نوع الحساب:</label>
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="buyer">مشتري</option>
+          <option value="vendor">بائع</option>
+        </select>
+        <br />
+        <button type="submit">تسجيل</button>
       </form>
-    </main>
+    </div>
   );
 }

@@ -1,32 +1,26 @@
-import { NextResponse } from "next/server";
-import { MongoClient } from "mongodb";
+import { NextResponse } from 'next/server';
+import mongoose from 'mongoose';
+import connectDB from '@/lib/mongodb';
+import Service from '@/models/Service';
 
-const uri = process.env.MONGODB_URI!;
-const client = new MongoClient(uri);
-
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const { name, description, price } = await request.json();
+    await connectDB();
+    
+    const { title, description, price, category, image, vendorId } = await req.json();
 
-    await client.connect();
-    const db = client.db("monjaz");
-    const collection = db.collection("services");
-
-    await collection.insertOne({
-      name,
+    const service = await Service.create({
+      title,
       description,
-      price: parseFloat(price),
-      createdAt: new Date(),
+      price,
+      category,
+      image,
+      vendorId: new mongoose.Types.ObjectId(vendorId), // ✅ هنا المهم
     });
 
-    return NextResponse.json({ success: true, message: "✅ تمت الإضافة" });
+    return NextResponse.json({ success: true, message: '✅ تم حفظ الخدمة' });
   } catch (error) {
-    console.error("❌ خطأ داخلي:", error); // هذا مهم
-    return NextResponse.json(
-      { success: false, message: "❌ حدث خطأ أثناء الإضافة" },
-      { status: 500 }
-    );
-  } finally {
-    await client.close();
+    console.error('❌ خطأ في API add-service:', error);
+    return NextResponse.json({ success: false, message: '❌ فشل في إضافة الخدمة' });
   }
 }

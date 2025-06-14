@@ -1,40 +1,41 @@
-// src/app/login/page.tsx
+'use client';
+
+import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const handleLogin = async (e: any) => {
+    e.preventDefault();
+
+    const res = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (res?.ok) {
+      alert('تم تسجيل الدخول بنجاح');
+      router.push('/vendor/ratings'); // ✅ توجهه لصفحة البائع مؤقتًا
+    } else {
+      alert('فشل تسجيل الدخول: تحقق من البيانات');
+    }
+  };
+
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-primary text-white p-8">
-      <header className="text-center mb-8">
-        <h1 className="text-3xl font-bold">تسجيل الدخول</h1>
-        <p className="text-sm mt-2">ادخل بريدك وكلمة المرور لتسجيل الدخول</p>
-      </header>
-
-      <form className="w-full max-w-md bg-white text-black rounded shadow p-4 space-y-4">
-        <div>
-          <label htmlFor="email" className="block text-sm font-bold mb-1">البريد الإلكتروني:</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="you@example.com"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="password" className="block text-sm font-bold mb-1">كلمة المرور:</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="••••••••"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-secondary hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded shadow hover:shadow-lg transition-all duration-300"
-        >
-          دخول
-        </button>
+    <div style={{ padding: '2rem' }}>
+      <h2>تسجيل الدخول</h2>
+      <form onSubmit={handleLogin}>
+        <input type="email" placeholder="البريد الإلكتروني" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <br />
+        <input type="password" placeholder="كلمة المرور" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <br />
+        <button type="submit">دخول</button>
       </form>
-    </main>
+    </div>
   );
 }
