@@ -1,29 +1,17 @@
 export default function HomePage() {
   return (
-    <main dir="rtl" className="min-h-screen bg-[#fff3cd] text-[#856404] font-sans p-8">
-      <section className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-2">مرحبًا بك في منصتي</h1>
-        <p className="text-lg">أفضل مكان للخدمات المصغّرة والاحترافية</p>
-      </section>
+    <main className="min-h-screen bg-white text-gray-800 p-6">
+      <section className="text-center mt-20">
+        <h1 className="text-4xl font-bold mb-4 text-black">مرحبًا بك في منصتي</h1>
+        <p className="text-lg mb-8">أفضل مكان للخدمات المصغّرة والاحترافية</p>
 
-      <section className="grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
-        <div className="bg-white shadow p-6 rounded hover:scale-105 transition">
-          💻 <p className="mt-2">برمجة وتطوير</p>
-        </div>
-        <div className="bg-white shadow p-6 rounded hover:scale-105 transition">
-          🎨 <p className="mt-2">تصميم</p>
-        </div>
-        <div className="bg-white shadow p-6 rounded hover:scale-105 transition">
-          📢 <p className="mt-2">تسويق رقمي</p>
-        </div>
-        <div className="bg-white shadow p-6 rounded hover:scale-105 transition">
-          ✍️ <p className="mt-2">كتابة وترجمة</p>
-        </div>
-        <div className="bg-white shadow p-6 rounded hover:scale-105 transition">
-          🎧 <p className="mt-2">صوتيات</p>
-        </div>
-        <div className="bg-white shadow p-6 rounded hover:scale-105 transition">
-          📈 <p className="mt-2">أعمال</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto text-right">
+          <button className="bg-blue-100 hover:bg-blue-200 p-4 rounded">💻 برمجة وتطوير</button>
+          <button className="bg-purple-100 hover:bg-purple-200 p-4 rounded">🎨 تصميم</button>
+          <button className="bg-yellow-100 hover:bg-yellow-200 p-4 rounded">📢 تسويق رقمي</button>
+          <button className="bg-green-100 hover:bg-green-200 p-4 rounded">✍️ كتابة وترجمة</button>
+          <button className="bg-pink-100 hover:bg-pink-200 p-4 rounded">🎧 صوتيات</button>
+          <button className="bg-gray-100 hover:bg-gray-200 p-4 rounded">📈 أعمال</button>
         </div>
       </section>
     </main>
