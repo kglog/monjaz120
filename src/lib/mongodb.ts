@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || '';
+const MONGODB_URI = process.env.MONGODB_URI as string;
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
@@ -12,13 +12,14 @@ if (!cached) {
   cached = (global as any).mongoose = { conn: null, promise: null };
 }
 
-async function connectToDatabase() {
-  if (cached.conn) return cached.conn;
+async function connectDB() {
+  if (cached.conn) {
+    return cached.conn;
+  }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI, {
-      dbName: 'manasatt',
-      bufferCommands: false,
+    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => {
+      return mongoose;
     });
   }
 
@@ -26,4 +27,4 @@ async function connectToDatabase() {
   return cached.conn;
 }
 
-export default connectToDatabase;
+export default connectDB;
