@@ -1,28 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/mongodb';
-import Order from '@/models/Order';
+import connectDB from '@/lib/mongodb';
+import Order from '@/models/order';
+import { NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     await connectDB();
 
-    const { serviceId, userId } = await req.json();
+    const { serviceId, buyerId } = await req.json();
 
-    if (!serviceId || !userId) {
-      return NextResponse.json({ success: false, message: 'المعرّفات ناقصة' });
-    }
-
-    const newOrder = new Order({
+    const order = new Order({
       serviceId,
-      buyerId: userId,
+      buyerId,
       status: 'pending',
     });
 
-    await newOrder.save();
+    await order.save();
 
-    return NextResponse.json({ success: true, message: '✅ تم إنشاء الطلب بنجاح' });
+    return NextResponse.json(order);
   } catch (error) {
-    console.error('❌ خطأ في إنشاء الطلب:', error);
-    return NextResponse.json({ success: false, message: 'فشل في إنشاء الطلب' });
+    console.error('Error creating service request:', error);
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }

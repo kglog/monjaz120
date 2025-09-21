@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 
 const statusColors: Record<string, string> = {
-  pending: 'gray',
-  accepted: 'green',
-  rejected: 'red',
-  delivered: 'blue',
+  'بانتظار الموافقة': 'gray',
+  'مقبول': 'green',
+  'مرفوض': 'red',
+  'تم التسليم': 'blue',
 };
 
 export default function VendorOrdersPage() {
@@ -14,14 +14,14 @@ export default function VendorOrdersPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/get-orders-by-vendor', {
+    fetch('/api/orders/vendor', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ vendorId: '123' }),
+      body: JSON.stringify({ vendorEmail: 'vendor@example.com' }), // غيّرها لاحقًا
     })
       .then((res) => res.json())
       .then((data) => {
-        setOrders(data.orders || []);
+        if (data.status === 'success') setOrders(data.orders || []);
         setLoading(false);
       });
   }, []);
@@ -41,13 +41,13 @@ export default function VendorOrdersPage() {
         )
       );
     } else {
-      alert('فشل في التحديث');
+      alert('❌ فشل في التحديث');
     }
   };
 
   return (
-    <div style={{ padding: '30px', fontFamily: 'Arial' }}>
-      <h1 style={{ fontSize: '28px', marginBottom: '20px' }}>📥 الطلبات الواردة:</h1>
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">📥 الطلبات الواردة</h1>
 
       {loading ? (
         <p>⏳ جاري التحميل...</p>
@@ -56,18 +56,43 @@ export default function VendorOrdersPage() {
       ) : (
         <ul>
           {orders.map((order) => (
-            <li key={order._id} style={{ marginBottom: '30px', borderBottom: '1px solid #ddd', paddingBottom: '15px' }}>
-              <p>طلب على خدمة رقم: <b>{order.serviceId}</b> بواسطة المشتري: <b>{order.buyerId}</b></p>
-              <p>
-                الحالة الحالية:{' '}
-                <span style={{ color: statusColors[order.status] || 'black', fontWeight: 'bold' }}>
+            <li
+              key={order._id}
+              className="border p-3 mb-4 rounded shadow-sm bg-white"
+            >
+              <div>الخدمة: {order.serviceTitle}</div>
+              <div>المشتري: {order.buyerEmail}</div>
+              <div>السعر: {order.servicePrice} ريال</div>
+              <div>
+                الحالة:{' '}
+                <span
+                  style={{ color: statusColors[order.status] || 'black' }}
+                  className="font-semibold"
+                >
                   {order.status}
                 </span>
-              </p>
-              <div style={{ marginTop: '10px' }}>
-                <button onClick={() => updateStatus(order._id, 'accepted')} style={{ marginRight: '10px', padding: '5px 10px' }}>✅ قبول</button>
-                <button onClick={() => updateStatus(order._id, 'rejected')} style={{ marginRight: '10px', padding: '5px 10px' }}>❌ رفض</button>
-                <button onClick={() => updateStatus(order._id, 'delivered')} style={{ padding: '5px 10px' }}>📦 تسليم</button>
+              </div>
+              <div>تاريخ: {new Date(order.createdAt).toLocaleString()}</div>
+
+              <div className="mt-3 flex gap-2">
+                <button
+                  onClick={() => updateStatus(order._id, 'مقبول')}
+                  className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
+                >
+                  ✅ قبول
+                </button>
+                <button
+                  onClick={() => updateStatus(order._id, 'مرفوض')}
+                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+                >
+                  ❌ رفض
+                </button>
+                <button
+                  onClick={() => updateStatus(order._id, 'تم التسليم')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                >
+                  📦 تسليم
+                </button>
               </div>
             </li>
           ))}

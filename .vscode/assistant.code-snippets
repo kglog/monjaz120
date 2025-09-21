@@ -1,0 +1,19 @@
+﻿{
+  "ASSISTANT FINAL HEADER": {
+    "prefix": "afinal",
+    "body": [
+      "// ASSISTANT_FINAL: true",
+      "$0"
+    ],
+    "description": "Insert ASSISTANT_FINAL marker"
+  },
+  "Path+Commands": {
+    "prefix": "pathcmd",
+    "body": [
+      "ni ${1:path\\\\to\\\\file} -ItemType File -Force",
+      "code ${1:path\\\\to\\\\file}",
+      "explorer ${2:path\\\\to\\\\folder}"
+    ],
+    "description": "Generate ni/code/explorer commands for any path"
+  }
+}

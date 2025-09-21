@@ -1,44 +1,59 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+interface Service {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+  createdAt: string;
+}
 
 export default function ServiceDetailsPage() {
-  const searchParams = useSearchParams();
-  const [service, setService] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+  const router = useRouter();
+  const [service, setService] = useState<Service | null>(null);
 
   useEffect(() => {
-    const id = window.location.pathname.split('/').pop();
-    if (!id) return;
+    async function fetchService() {
+      const res = await fetch(`/api/services/${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setService(data);
+      }
+    }
+    fetchService();
+  }, [id]);
 
-    fetch(`/api/get-service?id=${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setService(data.service);
-        setLoading(false);
-      });
-  }, []);
+  if (!service) {
+    return <p className="text-center mt-10">جاري تحميل الخدمة...</p>;
+  }
 
-  if (loading) return <div>⏳ جاري تحميل الخدمة...</div>;
-  if (!service) return <div>❌ لم يتم العثور على الخدمة.</div>;
+  const handleOrder = () => {
+    router.push(`/order/new?serviceId=${service.id}`);
+  };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">🛠️ {service.name}</h1>
-      <p className="text-lg">💰 السعر: {service.price} ريال</p>
-      <p className="text-lg mt-2">📄 الوصف: {service.description}</p>
-
-      <div className="mt-6 flex gap-2">
-        <button className="bg-green-600 text-white px-4 py-2 rounded">طلب الخدمة</button>
-        <button className="bg-yellow-600 text-white px-4 py-2 rounded">تعديل الخدمة</button>
-        <button className="bg-red-600 text-white px-4 py-2 rounded">حذف الخدمة</button>
-      </div>
-
-      <Link href="/services" className="text-blue-600 underline block mt-6">
-        🔙 العودة إلى جميع الخدمات
-      </Link>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md mt-10">
+      <img
+        src={service.image || "/category-cover.png"}
+        alt={service.title}
+        className="w-full h-64 object-cover rounded-md mb-4"
+      />
+      <h1 className="text-2xl font-bold mb-2">{service.title}</h1>
+      <p className="text-gray-600 mb-4">{service.description}</p>
+      <p className="text-green-600 font-semibold mb-6">
+        السعر: {service.price} ريال
+      </p>
+      <button
+        onClick={handleOrder}
+        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+      >
+        اطلب الخدمة
+      </button>
     </div>
   );
 }

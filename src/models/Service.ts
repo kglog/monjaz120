@@ -1,37 +1,13 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-const serviceSchema = new Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: String,
-      required: true,
-    },
-    category: {
-      type: String,
-      required: true,
-    },
-    image: {
-      type: String,
-    },
-    vendorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // أو حسب اسم مجموعة المستخدمين عندك
-      required: true,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
+const ServiceSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  category: String,
+  image: String,
+  price: Number,
+  vendorName: String,
+  rating: Number,
+}, { timestamps: true });
 
-const Service = mongoose.models.Service || mongoose.model('Service', serviceSchema);
-
-export default Service;
+export default mongoose.models.Service || mongoose.model('Service', ServiceSchema);

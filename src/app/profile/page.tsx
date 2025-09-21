@@ -1,40 +1,47 @@
-// src/app/profile/page.tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+
 export default function ProfilePage() {
+  const [user, setUser] = useState<{ username: string; email: string; role: string } | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('user');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setUser({
+        username: parsed.username || parsed.name || '',
+        email: parsed.email || '',
+        role: parsed.role || '',
+      });
+    }
+  }, []);
+
+  if (!user) return <p className="text-center mt-10">لم يتم تسجيل الدخول</p>;
+
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-primary text-white p-8">
-      <header className="text-center mb-8">
-        <h1 className="text-3xl font-bold">الملف الشخصي</h1>
-        <p className="text-sm mt-2">تحكم في بياناتك الشخصية</p>
-      </header>
+    <div className="max-w-xl mx-auto py-10 px-4 bg-white rounded shadow">
+      <h1 className="text-2xl font-bold mb-6 text-center">الملف الشخصي</h1>
 
-      <form className="w-full max-w-md bg-white text-black rounded shadow p-4 space-y-4">
-        <div>
-          <label htmlFor="name" className="block text-sm font-bold mb-1">اسم المستخدم:</label>
-          <input
-            type="text"
-            id="name"
-            placeholder="اسمك"
-            className="w-full p-2 border rounded"
-          />
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-right">
+        <div className="font-semibold">الاسم:</div>
+        <div>{user.username}</div>
 
-        <div>
-          <label htmlFor="email" className="block text-sm font-bold mb-1">البريد الإلكتروني:</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="you@example.com"
-            className="w-full p-2 border rounded"
-          />
-        </div>
+        <div className="font-semibold">البريد الإلكتروني:</div>
+        <div>{user.email}</div>
 
+        <div className="font-semibold">الدور:</div>
+        <div>{user.role === 'vendor' ? 'بائع' : 'مشتري'}</div>
+      </div>
+
+      <div className="mt-8 text-center">
         <button
-          type="submit"
-          className="w-full bg-secondary hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded shadow hover:shadow-lg transition-all duration-300"
+          onClick={() => alert('قريبًا: تعديل الملف')}
+          className="bg-cyan-600 text-white px-6 py-2 rounded hover:bg-cyan-700 transition"
         >
-          حفظ التغييرات
+          تعديل الملف
         </button>
-      </form>
-    </main>
+      </div>
+    </div>
   );
 }

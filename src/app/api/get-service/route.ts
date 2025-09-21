@@ -1,26 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/mongodb';
+import { NextResponse } from 'next/server';
+import connectDB from '@/lib/mongodb';
 import Service from '@/models/Service';
 
-export async function GET(req: NextRequest) {
+export async function GET(req: Request) {
   try {
     await connectDB();
-
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
+    if (!id) return NextResponse.json({ message: 'Missing ID' }, { status: 400 });
 
-    if (!id || id.length !== 24) {
-      return NextResponse.json({ success: false, message: 'معرّف غير صالح' });
-    }
+    const service = await Service.findById(id).lean();
+    if (!service) return NextResponse.json({ message: 'Service not found' }, { status: 404 });
 
-    const service = await Service.findById(id);
-    if (!service) {
-      return NextResponse.json({ success: false, message: 'الخدمة غير موجودة' });
-    }
-
-    return NextResponse.json({ success: true, service });
+    return NextResponse.json({ service });
   } catch (error) {
-    console.error('❌ خطأ في السيرفر:', error);
-    return NextResponse.json({ success: false, message: 'فشل في جلب الخدمة' });
+    return NextResponse.json({ message: 'Server error', error }, { status: 500 });
   }
 }
