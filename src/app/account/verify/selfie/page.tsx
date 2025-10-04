@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function IdBackPage() {
+export default function SelfiePage() {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState("");
@@ -22,27 +22,27 @@ export default function IdBackPage() {
     e.preventDefault();
     setError("");
     if (!file) {
-      setError("يرجى رفع صورة وجه الهوية الخلفية.");
+      setError("يرجى رفع صورة سيلفي واضحة.");
       return;
     }
     // هنا ترفع الصورة للسيرفر (لو فيه API)
-    // بعد نجاح الرفع تنتقل للخطوة التالية
-    router.push("/account/verify/selfie");
+    // بعد نجاح الرفع تنتقل للصفحة الرئيسية أو صفحة التأكيد
+    router.push("/account/verify");
   };
 
   return (
     <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow mt-10">
       <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">
-        رفع صورة الهوية (وجه خلفي)
+        رفع صورة شخصية (سيلفي)
       </h2>
       <div className="mb-5 p-4 bg-gray-50 border border-gray-200 rounded text-sm">
-        <b>يرجى رفع صورة واضحة للوجه الخلفي للهوية.</b><br/>
-        يجب أن تظهر كل البيانات والأرقام بوضوح.<br/>
+        <b>يرجى رفع صورة سيلفي واضحة لوجهك.</b><br/>
+        يجب أن تظهر ملامح الوجه بوضوح.<br/>
         لا تقم بتغطية أو تعديل أي جزء من الصورة.<br/>
         أي صورة غير واضحة أو معدلة سيتم رفضها تلقائيًا.<br/>
         <hr className="my-2" />
-        <b>Please upload a clear image of your ID back side.</b><br/>
-        All details and numbers must be clearly visible.<br/>
+        <b>Please upload a clear selfie of your face.</b><br/>
+        All facial features must be clearly visible.<br/>
         Do not cover or edit any part of the image.<br/>
         Any unclear or edited images will be rejected automatically.<br/>
       </div>
