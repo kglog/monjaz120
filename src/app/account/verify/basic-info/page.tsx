@@ -1,4 +1,4 @@
-use client;
+"use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,41 @@ export default function BasicInfoPage() {
   const [dob, setDob] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+
+  // تصميم عصري وأنيق
+  const cardStyle = {
+    background: "#e3f6fd",
+    border: "2px solid #222",
+    borderRadius: "16px",
+    padding: "32px 24px",
+    maxWidth: 400,
+    margin: "40px auto",
+    boxShadow: "0 2px 8px #eee",
+    textAlign: "center" as const
+  };
+
+  const inputStyle = {
+    width: "100%",
+    padding: "12px",
+    margin: "14px 0",
+    fontSize: "18px",
+    borderRadius: "8px",
+    border: "1px solid #bbb"
+  };
+
+  const buttonStyle = {
+    width: "100%",
+    padding: "14px",
+    background: "#1792d2",
+    color: "#fff",
+    fontWeight: "bold",
+    border: "none",
+    borderRadius: "8px",
+    fontSize: "18px",
+    marginTop: "16px",
+    cursor: "pointer",
+    boxShadow: "0 1px 4px #ccc"
+  };
 
   // فلترة رقم الهوية بحيث يقبل فقط أرقام ويمنع الأحرف نهائياً
   const handleNationalIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,19 +85,20 @@ export default function BasicInfoPage() {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10">
-      <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">البيانات الأساسية</h2>
+    <div style={cardStyle}>
+      <h2 style={{ color: "#1792d2", marginBottom: 18 }}>البيانات الأساسية</h2>
       <form onSubmit={handleSubmit}>
-        <label className="block font-semibold mb-2">الاسم الكامل</label>
+        <label style={{ fontWeight: "bold", fontSize: 16, display: "block", textAlign: "right" }}>الاسم الكامل</label>
         <input
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
-          className="w-full mb-4 p-3 border rounded"
           placeholder="أدخل اسمك كاملًا"
+          style={inputStyle}
+          required
         />
 
-        <label className="block font-semibold mb-2">رقم الهوية الوطنية</label>
+        <label style={{ fontWeight: "bold", fontSize: 16, display: "block", textAlign: "right" }}>رقم الهوية الوطنية</label>
         <input
           type="text"
           value={nationalId}
@@ -70,26 +106,26 @@ export default function BasicInfoPage() {
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
           maxLength={10}
-          className="w-full mb-4 p-3 border rounded"
           placeholder="أدخل رقم الهوية (10 أرقام)"
+          style={inputStyle}
           inputMode="numeric"
           pattern="[0-9]*"
           autoComplete="off"
+          dir="ltr"
+          required
         />
 
-        <label className="block font-semibold mb-2">تاريخ الميلاد</label>
+        <label style={{ fontWeight: "bold", fontSize: 16, display: "block", textAlign: "right" }}>تاريخ الميلاد</label>
         <input
           type="date"
           value={dob}
           onChange={e => setDob(e.target.value)}
-          className="w-full mb-4 p-3 border rounded"
+          style={inputStyle}
+          required
         />
 
-        {error && <div className="text-red-600 mb-4">{error}</div>}
-        <button
-          type="submit"
-          className="w-full py-3 bg-cyan-600 text-white font-bold rounded hover:bg-cyan-700"
-        >
+        {error && <div style={{ color: "red", marginBottom: 12 }}>{error}</div>}
+        <button type="submit" style={buttonStyle}>
           حفظ البيانات والمتابعة
         </button>
       </form>
