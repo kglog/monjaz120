@@ -10,20 +10,42 @@ export default function BasicInfoPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  // فلترة رقم الهوية بحيث يقبل فقط أرقام
+  // فلترة رقم الهوية بحيث يقبل فقط أرقام ويمنع الأحرف نهائياً
   const handleNationalIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
     setNationalId(value);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // منع أي إدخال غير رقم (0-9) مع السماح بالتحكم مثل backspace, tab, arrows
+    if (
+      e.key.length === 1 &&
+      !/[0-9]/.test(e.key) &&
+      !["Backspace", "Tab", "ArrowLeft", "ArrowRight", "Delete"].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pasteData = e.clipboardData.getData('Text');
+    if (!/^\d+$/.test(pasteData)) {
+      e.preventDefault();
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!name || nationalId.length !== 10 || !dob) {
+    // تحقق إضافي أن كل المدخلات سليمة ورقم الهوية أرقام فقط
+    if (
+      !name ||
+      !/^\d{10}$/.test(nationalId) ||
+      !dob
+    ) {
       setError("يرجى إدخال جميع البيانات بشكل صحيح. رقم الهوية يجب أن يكون 10 أرقام فقط.");
       return;
     }
-    // بعد حفظ البيانات، الانتقال للخطوة التالية
     router.push("/account/verify/id-front");
   };
 
@@ -45,10 +67,14 @@ export default function BasicInfoPage() {
           type="text"
           value={nationalId}
           onChange={handleNationalIdChange}
+          onKeyDown={handleKeyDown}
+          onPaste={handlePaste}
           maxLength={10}
           className="w-full mb-4 p-3 border rounded"
           placeholder="أدخل رقم الهوية (10 أرقام)"
           inputMode="numeric"
+          pattern="[0-9]*"
+          autoComplete="off"
         />
 
         <label className="block font-semibold mb-2">تاريخ الميلاد</label>
