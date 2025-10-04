@@ -1,118 +1,42 @@
 "use client";
 
-import React, { useState } from "react";
+import Link from "next/link";
+import VerifySteps from "@/components/VerifySteps";
 
-export default function VerifyPage() {
-  const [step, setStep] = useState(1);
-  const [phone, setPhone] = useState("");
-  const [code, setCode] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  // كود التحقق من الهوية
-  const cardStyle = {
-    background: "#e3f6fd",
-    border: "2px solid #222",
-    borderRadius: "16px",
-    padding: "32px 24px",
-    maxWidth: 400,
-    margin: "40px auto",
-    boxShadow: "0 2px 8px #eee",
-    textAlign: "center"
-  };
-
-  const inputStyle = {
-    width: "100%",
-    padding: "12px",
-    margin: "14px 0",
-    fontSize: "18px",
-    borderRadius: "8px",
-    border: "1px solid #bbb"
-  };
-
-  const buttonStyle = {
-    width: "100%",
-    padding: "14px",
-    background: "#1792d2",
-    color: "#fff",
-    fontWeight: "bold",
-    border: "none",
-    borderRadius: "8px",
-    fontSize: "18px",
-    marginTop: "16px",
-    cursor: "pointer",
-    boxShadow: "0 1px 4px #ccc"
-  };
-
-  const handleSendCode = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    // التحقق من الرقم السعودي (05XXXXXXXX)
-    if (!phone.match(/^05[0-9]{8}$/)) {
-      setError("يرجى إدخال رقم سعودي صحيح يبدأ بـ 05");
-      return;
-    }
-    // محاكاة إرسال كود
-    setStep(2);
-  };
-
-  const handleVerifyCode = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    // تحقق من كود التحقق (6 أرقام)
-    if (!code.match(/^[0-9]{6}$/)) {
-      setError("يرجى إدخال كود تحقق صحيح مكون من 6 أرقام");
-      return;
-    }
-    // محاكاة نجاح التحقق
-    setSuccess(true);
-  };
-
+export default function VerifyStartPage() {
   return (
-    <div style={cardStyle}>
-      <h2 style={{ color: "#1792d2", marginBottom: 18 }}>توثيق الهوية</h2>
+    <main className="max-w-2xl mx-auto px-4 py-12">
+      <h1 className="text-2xl font-bold text-center mb-4 text-gray-800">
+        توثيق الهوية
+      </h1>
 
-      {step === 1 && (
-        <form onSubmit={handleSendCode}>
-          <label style={{ fontWeight: "bold", fontSize: 16 }}>رقم الجوال</label>
-          <input
-            type="text"
-            value={phone}
-            onChange={e => setPhone(e.target.value)}
-            placeholder="أدخل رقمك: 05XXXXXXXX"
-            style={inputStyle}
-            dir="ltr"
-          />
-          {error && <div style={{ color: "red", marginBottom: 12 }}>{error}</div>}
-          <button type="submit" style={buttonStyle}>
-            إرسال كود التحقق
-          </button>
-        </form>
-      )}
+      <p className="text-center text-gray-600 mb-8">
+        لإستخدام جميع مزايا منصة.كوم مثل سحب الأرباح، يجب إكمال خطوات التوثيق.
+      </p>
 
-      {step === 2 && !success && (
-        <form onSubmit={handleVerifyCode}>
-          <label style={{ fontWeight: "bold", fontSize: 16 }}>كود التحقق</label>
-          <input
-            type="text"
-            value={code}
-            onChange={e => setCode(e.target.value)}
-            placeholder="أدخل كود التحقق: 6 أرقام"
-            style={inputStyle}
-            dir="ltr"
-          />
-          {error && <div style={{ color: "red", marginBottom: 12 }}>{error}</div>}
-          <button type="submit" style={buttonStyle}>
-            تحقق
-          </button>
-        </form>
-      )}
+      {/* ✅ الخطوات */}
+      <VerifySteps currentStep={1} />
 
-      {success && (
-        <div style={{ color: "#1792d2", fontWeight: "bold", fontSize: "20px" }}>
-          تم التحقق بنجاح 🎉
-        </div>
-      )}
-    </div>
+      <div className="bg-white rounded-2xl shadow-md p-6 mt-8">
+        <p className="text-gray-700 mb-4">
+          حالياً: لم يتم توثيق هويتك.  
+          <br />
+          ابدأ الآن بإدخال بياناتك الأساسية.
+        </p>
+
+        <Link
+          href="/account/verify/basic-info"
+          className="block w-full text-center bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-3 rounded-xl"
+        >
+          ابدأ التوثيق
+        </Link>
+      </div>
+
+      <div className="mt-6 text-center">
+        <Link href="/account/verify/more" className="text-sm text-cyan-700 hover:underline">
+          المزيد من المعلومات
+        </Link>
+      </div>
+    </main>
   );
 }
