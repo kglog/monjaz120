@@ -26,14 +26,16 @@ export default function IdFrontPage() {
       setError("يرجى رفع صورة وجه الهوية الأمامية.");
       return;
     }
-    // هنا ترفع الصورة للسيرفر
+    // هنا ترفع الصورة للسيرفر (لو فيه API)
     // بعد نجاح الرفع تنتقل للخطوة التالية
     router.push("/account/verify/id-back");
   };
 
   return (
     <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10">
-      <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">رفع صورة الهوية (وجه أمامي)</h2>
+      <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">
+        رفع صورة الهوية (وجه أمامي)
+      </h2>
       <form onSubmit={handleSubmit}>
         <input
           type="file"
