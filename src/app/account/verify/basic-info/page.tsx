@@ -52,18 +52,16 @@ export default function BasicInfoPage() {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10">
+    <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow mt-10">
       <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">توثيق الهوية</h2>
       <div className="mb-5 p-4 bg-gray-50 border border-gray-200 rounded text-sm">
         <b>يرجى إدخال جميع البيانات كما هي في الهوية أو الجواز.</b><br/>
         الاسم بالعربي والانجليزي كما هو في الوثائق.<br/>
         إذا كانت البيانات غير صحيحة أو غير واضحة سيتم رفض الطلب أو إيقاف الحساب.<br/>
-        منصة.كوم تحمي بياناتك وتتحقق منها بأنظمة ذكية لضمان الأمان والجودة.<br/>
         <hr className="my-2" />
         <b>Please enter your details exactly as in your official ID or passport.</b><br/>
         Name in Arabic and English as shown in your documents.<br/>
         Wrong or unclear information will result in rejection or account suspension.<br/>
-        Monjaz platform protects your data and verifies it with smart systems for safety and quality.<br/>
       </div>
       <form onSubmit={handleSubmit}>
         <label className="block font-semibold mb-2">الاسم الكامل (بالعربي)</label>
