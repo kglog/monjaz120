@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 
 export default function VerifyPage() {
@@ -7,7 +9,7 @@ export default function VerifyPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // ألوان وهوية المنصة (أزرق فاتح وحدود سوداء وزوايا دائرية)
+  // كود التحقق من الهوية
   const cardStyle = {
     background: "#e3f6fd",
     border: "2px solid #222",
@@ -45,24 +47,24 @@ export default function VerifyPage() {
   const handleSendCode = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    // تحقق من صحة رقم الجوال السعودي
+    // التحقق من الرقم السعودي (05XXXXXXXX)
     if (!phone.match(/^05[0-9]{8}$/)) {
-      setError("يرجى إدخال رقم جوال سعودي صحيح يبدأ بـ 05");
+      setError("يرجى إدخال رقم سعودي صحيح يبدأ بـ 05");
       return;
     }
-    // هنا يتم إرسال رمز التحقق للباك اند (تطوير مستقبلي)
+    // محاكاة إرسال كود
     setStep(2);
   };
 
   const handleVerifyCode = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    // تحقق من صحة الرمز (مثال: 6 أرقام)
+    // تحقق من كود التحقق (6 أرقام)
     if (!code.match(/^[0-9]{6}$/)) {
-      setError("يرجى إدخال رمز تحقق صحيح مكون من 6 أرقام");
+      setError("يرجى إدخال كود تحقق صحيح مكون من 6 أرقام");
       return;
     }
-    // تحقق الرمز من الباك اند (تطوير مستقبلي)
+    // محاكاة نجاح التحقق
     setSuccess(true);
   };
 
@@ -77,38 +79,38 @@ export default function VerifyPage() {
             type="text"
             value={phone}
             onChange={e => setPhone(e.target.value)}
-            placeholder="مثال: 0512345678"
+            placeholder="أدخل رقمك: 05XXXXXXXX"
             style={inputStyle}
             dir="ltr"
           />
           {error && <div style={{ color: "red", marginBottom: 12 }}>{error}</div>}
           <button type="submit" style={buttonStyle}>
-            إرسال رمز التحقق
+            إرسال كود التحقق
           </button>
         </form>
       )}
 
       {step === 2 && !success && (
         <form onSubmit={handleVerifyCode}>
-          <label style={{ fontWeight: "bold", fontSize: 16 }}>رمز التحقق</label>
+          <label style={{ fontWeight: "bold", fontSize: 16 }}>كود التحقق</label>
           <input
             type="text"
             value={code}
             onChange={e => setCode(e.target.value)}
-            placeholder="أدخل رمز التحقق المرسل لجوالك"
+            placeholder="أدخل كود التحقق: 6 أرقام"
             style={inputStyle}
             dir="ltr"
           />
           {error && <div style={{ color: "red", marginBottom: 12 }}>{error}</div>}
           <button type="submit" style={buttonStyle}>
-            تحقق الآن
+            تحقق
           </button>
         </form>
       )}
 
       {success && (
         <div style={{ color: "#1792d2", fontWeight: "bold", fontSize: "20px" }}>
-          تم توثيق هويتك بنجاح ✅
+          تم التحقق بنجاح 🎉
         </div>
       )}
     </div>
