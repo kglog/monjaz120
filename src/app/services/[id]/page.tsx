@@ -1,58 +1,41 @@
 "use client";
+import { useParams } from "next/navigation";
 
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+const services = [
+  {
+    id: "1",
+    title: "تصميم شعار احترافي",
+    description: "خدمة تصميم شعار مميز يعكس هوية مشروعك.",
+    price: 50,
+    rating: 4.9,
+    seller: "أحمد الزهراني",
+  },
+  {
+    id: "2",
+    title: "تحليل بيانات باستخدام الذكاء الاصطناعي",
+    description: "استخدام أدوات الذكاء الاصطناعي لاستخراج أنماط وتقارير من بياناتك.",
+    price: 100,
+    rating: 4.8,
+    seller: "نورة العبدالله",
+  },
+];
 
-interface Service {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  image: string;
-  createdAt: string;
-}
+export default function ServiceDetails() {
+  const params = useParams();
+  const service = services.find((s) => s.id === params?.id);
 
-export default function ServiceDetailsPage() {
-  const { id } = useParams();
-  const router = useRouter();
-  const [service, setService] = useState<Service | null>(null);
-
-  useEffect(() => {
-    async function fetchService() {
-      const res = await fetch(`/api/services/${id}`);
-      if (res.ok) {
-        const data = await res.json();
-        setService(data);
-      }
-    }
-    fetchService();
-  }, [id]);
-
-  if (!service) {
-    return <p className="text-center mt-10">جاري تحميل الخدمة...</p>;
-  }
-
-  const handleOrder = () => {
-    router.push(`/order/new?serviceId=${service.id}`);
-  };
+  if (!service) return <p className="p-6">الخدمة غير موجودة</p>;
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md mt-10">
-      <img
-        src={service.image || "/category-cover.png"}
-        alt={service.title}
-        className="w-full h-64 object-cover rounded-md mb-4"
-      />
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow">
       <h1 className="text-2xl font-bold mb-2">{service.title}</h1>
       <p className="text-gray-600 mb-4">{service.description}</p>
-      <p className="text-green-600 font-semibold mb-6">
-        السعر: {service.price} ريال
-      </p>
-      <button
-        onClick={handleOrder}
-        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
-      >
-        اطلب الخدمة
+      <p className="text-lg font-semibold text-green-600">السعر: {service.price} ريال</p>
+      <p className="text-yellow-600">التقييم: ⭐ {service.rating}</p>
+      <p className="text-gray-700 mt-2">البائع: {service.seller}</p>
+
+      <button className="mt-6 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">
+        اطلب الخدمة الآن
       </button>
     </div>
   );

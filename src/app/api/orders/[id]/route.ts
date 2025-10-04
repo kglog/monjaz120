@@ -1,64 +1,60 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { sendTelegram } from "@/utils/notify";
 
-export async function PATCH(
+// GET /api/orders/[id] => جلب تفاصيل طلب واحد
+export async function GET(
+  _req: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const order = await prisma.order.findUnique({
+      where: { id: params.id },
+      include: { service: true, user: true },
+    });
+
+    if (!order) {
+      return NextResponse.json({ error: "الطلب غير موجود" }, { status: 404 });
+    }
+
+    return NextResponse.json(order);
+  } catch {
+    return NextResponse.json({ error: "خطأ في جلب الطلب" }, { status: 500 });
+  }
+}
+
+// PUT /api/orders/[id] => تعديل طلب
+export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
     const body = await req.json();
-    const { status } = body as { status?: "accepted" | "completed" | "rejected" };
+    const { title, price, details } = body;
 
-    if (!status) {
-      return NextResponse.json({ status: "error", message: "status مطلوب" }, { status: 400 });
-    }
-
-    const order = await prisma.order.update({
-      where: { id },
-      data: { status },
+    const updated = await prisma.order.update({
+      where: { id: params.id },
+      data: {
+        title,
+        price: price !== undefined ? parseFloat(price) : undefined,
+        details,
+      },
     });
 
-    await sendTelegram(
-      [
-        "🔔 <b>تم تحديث حالة طلب</b>",
-        `• العنوان: ${order.title}`,
-        `• الحالة الجديدة: ${order.status}`,
-        `• الوقت: ${new Date().toLocaleString()}`
-      ].join("\n")
-    );
-
-    return NextResponse.json({ status: "success", order });
-  } catch (err) {
-    console.error("PATCH /api/orders/[id] error:", err);
-    return NextResponse.json({ status: "error", message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(updated);
+  } catch {
+    return NextResponse.json({ error: "فشل في تحديث الطلب" }, { status: 500 });
   }
 }
 
+// DELETE /api/orders/[id] => حذف طلب
 export async function DELETE(
   _req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
-
-    const order = await prisma.order.delete({
-      where: { id },
-    });
-
-    await sendTelegram(
-      [
-        "🗑️ <b>تم حذف طلب</b>",
-        `• العنوان: ${order.title}`,
-        `• الخدمة: ${order.serviceId}`,
-        `• الوقت: ${new Date().toLocaleString()}`
-      ].join("\n")
-    );
-
-    return NextResponse.json({ status: "success" });
-  } catch (err) {
-    console.error("DELETE /api/orders/[id] error:", err);
-    return NextResponse.json({ status: "error", message: "Internal Server Error" }, { status: 500 });
+    await prisma.order.delete({ where: { id: params.id } });
+    return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: "فشل في حذف الطلب" }, { status: 500 });
   }
 }

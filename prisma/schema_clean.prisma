@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      String    @default("user")
+  services  Service[]
+  orders    Order[]   @relation("UserOrders")
+  createdAt DateTime  @default(now())
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  price       Float
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  orders      Order[]
+  createdAt   DateTime @default(now())
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  title     String
+  price     Float
+  details   String?
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
+  userId    String
+  user      User     @relation("UserOrders", fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model IdentitySession {
+  id          String   @id @default(cuid())
+  userId      String?  @index
+  status      String   @default("pending") // pending | verified | rejected | manual_review
+  step        String   @default("basic")   // basic | front | back | selfie | verify
+  frontUrl    String?
+  backUrl     String?
+  selfieUrl   String?
+  ocrResult   Json?
+  flags       Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Fingerprint {
+  id       String   @id @default(cuid())
+  fpHash   String   @unique
+  ip       String?
+  ua       String?
+  meta     Json?
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  type      String
+  userId    String?
+  meta      Json
+  createdAt DateTime @default(now())
+}
+
+model VerificationRequest {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  fullName    String
+  nationalId  String
+  dob         DateTime
+  selfiePath  String
+  idCardPath  String
+  status      String   @default("pending") // pending | approved | rejected
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  User User @relation(fields: [userId], references: [id])
+}

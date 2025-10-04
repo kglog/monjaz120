@@ -1,80 +1,64 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
-type User = { id: number; name: string; email: string; role: string };
-
-export default function UsersPage() {
-  const [users, setUsers] = useState<User[]>([]);
+export default function AdminUsersPage() {
+  const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  async function load() {
-    const res = await fetch("/api/admin/users", { cache: "no-store" });
-    const data = await res.json();
-    setUsers(Array.isArray(data) ? data : []);
-    setLoading(false);
-  }
-
-  useEffect(() => { load(); }, []);
-
-  if (loading) return <p>جاري التحميل...</p>;
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const res = await fetch("/api/admin/users");
+        const data = await res.json();
+        setUsers(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("خطأ في جلب المستخدمين", err);
+        setUsers([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchUsers();
+  }, []);
 
   return (
-    <div className="p-6 space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">قائمة المستخدمين</h1>
-        <a
-          href="/admin/users/new"
-          className="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700"
-        >
-          + إضافة مستخدم
-        </a>
-      </div>
+    <main className="max-w-6xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold mb-6">إدارة المستخدمين</h1>
 
-      <table className="w-full border border-gray-300">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="p-2 border">الاسم</th>
-            <th className="p-2 border">البريد الإلكتروني</th>
-            <th className="p-2 border">الدور</th>
-            <th className="p-2 border">إجراءات</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length === 0 ? (
-            <tr><td className="p-3 text-center" colSpan={4}>لا يوجد مستخدمون</td></tr>
-          ) : users.map((user) => (
-            <tr key={user.id} className="text-center border-t">
-              <td className="p-2 border">{user.name}</td>
-              <td className="p-2 border">{user.email}</td>
-              <td className="p-2 border">
-                {user.role === "بائع"
-                  ? <span className="bg-green-500 text-white px-2 py-1 rounded">بائع</span>
-                  : <span className="bg-blue-500 text-white px-2 py-1 rounded">مشتري</span>}
-              </td>
-              <td className="p-2 border flex justify-center gap-2">
-                <a
-                  href={`/admin/users/${user.id}`}
-                  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                >
-                  تعديل
-                </a>
-                <button
-                  onClick={async () => {
-                    if (!confirm("تأكيد حذف المستخدم؟")) return;
-                    const res = await fetch(`/api/admin/users/${user.id}`, { method: "DELETE" });
-                    if (res.ok) { alert("تم الحذف ✅"); load(); }
-                    else { alert("⚠️ خطأ أثناء الحذف"); }
-                  }}
-                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                >
-                  حذف
-                </button>
-              </td>
+      {loading ? (
+        <p className="text-gray-600">جاري تحميل المستخدمين...</p>
+      ) : users.length === 0 ? (
+        <p className="text-gray-600">لا يوجد مستخدمون حالياً</p>
+      ) : (
+        <table className="min-w-full bg-white border rounded-lg shadow">
+          <thead>
+            <tr className="bg-gray-100 text-right">
+              <th className="py-3 px-4 border-b">#</th>
+              <th className="py-3 px-4 border-b">الاسم</th>
+              <th className="py-3 px-4 border-b">الإيميل</th>
+              <th className="py-3 px-4 border-b">الدور</th>
+              <th className="py-3 px-4 border-b">الإجراءات</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {users.map((u, idx) => (
+              <tr key={u.id} className="hover:bg-gray-50">
+                <td className="py-2 px-4 border-b">{idx + 1}</td>
+                <td className="py-2 px-4 border-b">{u.name}</td>
+                <td className="py-2 px-4 border-b">{u.email}</td>
+                <td className="py-2 px-4 border-b">{u.role || "user"} </td>
+                <td className="py-2 px-4 border-b">
+                  <Link href={`/admin/users/${u.id}`} className="text-blue-600 hover:underline">
+                    عرض
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </main>
   );
 }
