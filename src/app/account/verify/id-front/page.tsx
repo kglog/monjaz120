@@ -1,5 +1,4 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -36,6 +35,17 @@ export default function IdFrontPage() {
       <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">
         رفع صورة الهوية (وجه أمامي)
       </h2>
+      <div className="mb-5 p-4 bg-gray-50 border border-gray-200 rounded text-sm">
+        <b>يرجى رفع صورة واضحة للوجه الأمامي للهوية.</b><br/>
+        يجب أن تظهر كل البيانات والأرقام بوضوح، الحواف سوداء وحادة.<br/>
+        لا تقم بتغطية أو تعديل أي جزء من الصورة.<br/>
+        أي صورة غير واضحة أو معدلة سيتم رفضها تلقائيًا.<br/>
+        <hr className="my-2" />
+        <b>Please upload a clear image of your ID front side.</b><br/>
+        All details and numbers must be visible, edges black and sharp.<br/>
+        Do not cover or edit any part of the image.<br/>
+        Any unclear or edited images will be rejected automatically.<br/>
+      </div>
       <form onSubmit={handleSubmit}>
         <input
           type="file"
