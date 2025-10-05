@@ -10,7 +10,7 @@ export default function AccountPage() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Profile Card */}
-          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
+          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 border-black h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
             <div>
               <h2 className="text-xl font-semibold mb-2 text-gray-800">الملف الشخصي</h2>
               <p className="text-gray-600 text-sm">إدارة معلوماتك الشخصية</p>
@@ -24,7 +24,7 @@ export default function AccountPage() {
           </div>
 
           {/* Settings Card */}
-          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
+          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 border-black h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
             <div>
               <h2 className="text-xl font-semibold mb-2 text-gray-800">الإعدادات</h2>
               <p className="text-gray-600 text-sm">تخصيص تفضيلاتك وإعداداتك</p>
@@ -38,7 +38,7 @@ export default function AccountPage() {
           </div>
 
           {/* Verification Card - h-44 to make it taller initially */}
-          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 h-44 flex flex-col justify-between hover:shadow-lg transition-shadow">
+          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 border-black h-44 !h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
             <div>
               <h2 className="text-xl font-semibold mb-2 text-gray-800">التوثيق</h2>
               <p className="text-gray-600 text-sm">وثّق هويتك لزيادة مصداقيتك</p>
@@ -52,7 +52,7 @@ export default function AccountPage() {
           </div>
 
           {/* Orders Card */}
-          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
+          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 border-black h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
             <div>
               <h2 className="text-xl font-semibold mb-2 text-gray-800">طلباتي</h2>
               <p className="text-gray-600 text-sm">تتبع حالة طلباتك</p>
@@ -66,7 +66,7 @@ export default function AccountPage() {
           </div>
 
           {/* Purchases Card */}
-          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
+          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 border-black h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
             <div>
               <h2 className="text-xl font-semibold mb-2 text-gray-800">مشترياتي</h2>
               <p className="text-gray-600 text-sm">راجع مشترياتك السابقة</p>
@@ -80,7 +80,7 @@ export default function AccountPage() {
           </div>
 
           {/* Services Card */}
-          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
+          <div className="bg-white rounded-lg p-6 shadow-md border border-cyan-600 border-black h-40 flex flex-col justify-between hover:shadow-lg transition-shadow">
             <div>
               <h2 className="text-xl font-semibold mb-2 text-gray-800">خدماتي</h2>
               <p className="text-gray-600 text-sm">إدارة الخدمات التي تقدمها</p>
