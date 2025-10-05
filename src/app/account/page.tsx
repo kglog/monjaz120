@@ -76,7 +76,7 @@ export default function AccountPage() {
       {/* البطاقات */}
       <div className="max-w-5xl mx-auto mt-10 grid md:grid-cols-3 gap-6">
         {/* التوثيق */}
-        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-between h-44 bg-white hover:shadow-md transition cursor-pointer">
+        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-between h-44 bg-white hover:shadow-md transition cursor-pointer !border-black !h-40">
           <div>
             <h2 className="flex items-center gap-2 text-lg font-semibold text-cyan-600">
               <ShieldCheck className="w-5 h-5" /> التوثيق
@@ -113,7 +113,7 @@ export default function AccountPage() {
         </div>
 
         {/* إحصائيات */}
-        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer">
+        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer !border-black">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-cyan-600">
             <BarChart3 className="w-5 h-5" /> إحصائيات
           </h2>
@@ -127,7 +127,7 @@ export default function AccountPage() {
         </div>
 
         {/* نبذة عني */}
-        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer">
+        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer !border-black">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-cyan-600">
             <Info className="w-5 h-5" /> نبذة عني
           </h2>
@@ -139,7 +139,7 @@ export default function AccountPage() {
         </div>
 
         {/* البريد الإلكتروني */}
-        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer">
+        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer !border-black">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-cyan-600">
             <Mail className="w-5 h-5" /> البريد الإلكتروني
           </h2>
@@ -151,7 +151,7 @@ export default function AccountPage() {
         </div>
 
         {/* المعلومات الشخصية */}
-        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer">
+        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer !border-black">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-cyan-600">
             <UserCircle className="w-5 h-5" /> المعلومات الشخصية
           </h2>
@@ -163,7 +163,7 @@ export default function AccountPage() {
         </div>
 
         {/* البطاقات الائتمانية */}
-        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer">
+        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer !border-black">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-cyan-600">
             <CreditCard className="w-5 h-5" /> البطاقات الائتمانية
           </h2>
