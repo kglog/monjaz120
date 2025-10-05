@@ -1,0 +1,138 @@
+/* 
+ * Identity-Aligned Visual Refinements for /account
+ * Scoped to .account-page to avoid affecting other routes
+ * Append-Only approach - no modifications to existing page code
+ */
+
+/* Base refinements for all cards in the grid */
+.account-page section:nth-of-type(2) .grid > * {
+  border-radius: 12px;
+  border: 1px solid #cffafe; /* cyan-100 */
+  background: linear-gradient(to bottom, #ffffff, #f0fdff); /* subtle sky gradient */
+  box-shadow: 0 1px 2px rgba(6, 182, 212, 0.05);
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for all cards */
+.account-page section:nth-of-type(2) .grid > *:hover {
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Verification card (3rd child) - subtle accent without enlarging */
+.account-page section:nth-of-type(2) .grid > *:nth-child(3) {
+  border-color: #67e8f9; /* cyan-300 - slightly deeper border */
+  background: linear-gradient(to bottom, #ffffff, #ecfeff); /* cyan-50 tint */
+  box-shadow: 0 2px 4px rgba(6, 182, 212, 0.1);
+}
+
+/* Override any potential col-span on verification card to keep same size */
+.account-page section:nth-of-type(2) .grid > *:nth-child(3) {
+  grid-column: span 1 !important;
+}
+
+/* Enhanced hover for verification card */
+.account-page section:nth-of-type(2) .grid > *:nth-child(3):hover {
+  box-shadow: 0 6px 16px rgba(6, 182, 212, 0.2);
+  border-color: #22d3ee; /* cyan-400 */
+}
+
+/* Focus states for primary buttons (cyan-600 background) */
+.account-page button:focus-visible {
+  outline: 2px solid #0891b2; /* cyan-600 */
+  outline-offset: 2px;
+}
+
+/* Enhanced focus for the verification card button */
+.account-page section:nth-of-type(2) .grid > *:nth-child(3) button:focus-visible {
+  outline: 3px solid #06b6d4; /* cyan-500 */
+  outline-offset: 2px;
+}
+
+/* Ensure all card inner elements maintain proper spacing */
+.account-page section:nth-of-type(2) .grid > * > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Subtle pulse animation for verification card to draw attention (very gentle) */
+@keyframes subtle-pulse {
+  0%, 100% {
+    box-shadow: 0 2px 4px rgba(6, 182, 212, 0.1);
+  }
+  50% {
+    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.15);
+  }
+}
+
+.account-page section:nth-of-type(2) .grid > *:nth-child(3) {
+  animation: subtle-pulse 3s ease-in-out infinite;
+}
+
+/* Remove animation on hover to keep it stable */
+.account-page section:nth-of-type(2) .grid > *:nth-child(3):hover {
+  animation: none;
+}
+
+/* Refinements for the header section card */
+.account-page section:first-of-type > div {
+  border: 1px solid #cffafe; /* cyan-100 */
+  box-shadow: 0 2px 4px rgba(6, 182, 212, 0.08);
+}
+
+/* Footer section refinements */
+.account-page section:last-of-type > div {
+  border: 1px solid #cffafe; /* cyan-100 */
+  box-shadow: 0 1px 2px rgba(6, 182, 212, 0.05);
+}
+
+/* Ensure RTL compatibility - all styles work naturally with RTL */
+.account-page[dir="rtl"] section:nth-of-type(2) .grid > * {
+  text-align: right;
+}
+
+/* Smooth transitions for all interactive elements */
+.account-page button,
+.account-page a {
+  transition: all 0.2s ease;
+}
+
+/* Accessible button hover states */
+.account-page button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.account-page button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Enhanced button focus for keyboard navigation */
+.account-page button:focus-visible {
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25);
+}
+
+/* Card title refinements */
+.account-page section:nth-of-type(2) .grid > * h3 {
+  color: #164e63; /* cyan-900 - slightly deeper for better contrast */
+}
+
+/* Icon container subtle glow */
+.account-page section:nth-of-type(2) .grid > * .rounded-full {
+  box-shadow: 0 2px 4px rgba(6, 182, 212, 0.1);
+}
+
+/* Verification card icon gets a subtle glow */
+.account-page section:nth-of-type(2) .grid > *:nth-child(3) .rounded-full {
+  box-shadow: 0 2px 6px rgba(6, 182, 212, 0.2);
+}
+
+/* Ensure no transform scale is applied (override any utility classes) */
+.account-page section:nth-of-type(2) .grid > *:nth-child(3) {
+  transform: scale(1) !important;
+}
+
+/* Keep hover transform limited to vertical movement only */
+.account-page section:nth-of-type(2) .grid > *:nth-child(3):hover {
+  transform: translateY(-2px) scale(1) !important;
+}
