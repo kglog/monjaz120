@@ -1,0 +1,69 @@
+/* Route-scoped styles for /account page only */
+/* All styles scoped under .account-page to avoid affecting other routes */
+
+/* Base card styling - subtle refinement for all account cards */
+.account-page .account-card {
+  border: 1.5px solid #67c6d1;
+  border-radius: 14px;
+  background: rgba(8, 145, 178, 0.03);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+/* Hover effect for all cards */
+.account-page .account-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+/* Verification card - more prominent styling */
+.account-page .card--verify {
+  border-color: #0891b2;
+  background: rgba(8, 145, 178, 0.06);
+  transform: translateY(-2px);
+  /* Slightly larger to make it more prominent */
+  padding: 1.75rem !important;
+}
+
+/* Enhanced hover for verification card */
+.account-page .card--verify:hover {
+  box-shadow: 0 6px 14px rgba(8, 145, 178, 0.12);
+  transform: translateY(-3px);
+}
+
+/* Primary button in verification card */
+.account-page .card--verify .primary-btn {
+  background: #0891b2;
+  color: #fff;
+}
+
+.account-page .card--verify .primary-btn:hover {
+  background: #0e7490;
+}
+
+/* Focus-visible for accessibility */
+.account-page .primary-btn:focus-visible {
+  outline: 2px solid #0891b2;
+  outline-offset: 2px;
+}
+
+/* All buttons accessibility */
+.account-page button:focus-visible {
+  outline: 2px solid #0891b2;
+  outline-offset: 2px;
+}
+
+/* RTL support - ensure icons and spacing work correctly */
+[dir="rtl"] .account-page .account-card {
+  text-align: right;
+}
+
+/* Responsive: Make verification card span 2 columns on medium screens */
+@media (min-width: 768px) {
+  .account-page .card--verify {
+    grid-column: span 2;
+  }
+}
+
+/* Ensure cards maintain visual hierarchy */
+.account-page .card--verify h2 {
+  color: #0891b2;
+}
