@@ -1,0 +1,223 @@
+name: Auto Merge PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  pull_request_review:
+    types: [submitted]
+  check_suite:
+    types: [completed]
+  status: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.title, '[automerge]') || (github.event_name == 'check_suite' && contains(github.event.check_suite.pull_requests[0].title, '[automerge]'))
+    steps:
+      - name: Auto Merge with Retry Logic
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request?.number || 
+                            context.payload.check_suite?.pull_requests?.[0]?.number;
+            
+            if (!prNumber) {
+              console.log('No PR number found, skipping automerge');
+              return;
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            async function getPR() {
+              const { data: pr } = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: prNumber,
+              });
+              return pr;
+            }
+
+            async function waitForChecks(maxAttempts = 10, delayMs = 30000) {
+              for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+                console.log(`Attempt ${attempt}/${maxAttempts}: Checking PR status...`);
+                
+                const pr = await getPR();
+                
+                // Check if PR is already merged
+                if (pr.merged) {
+                  console.log('PR is already merged');
+                  return { success: true, merged: true };
+                }
+
+                // Check if PR base is main
+                if (pr.base.ref !== 'main') {
+                  console.log(`PR base is ${pr.base.ref}, not main. Skipping automerge.`);
+                  return { success: false, reason: 'base_not_main' };
+                }
+
+                // Get commit status
+                const { data: statuses } = await github.rest.repos.getCombinedStatusForRef({
+                  owner,
+                  repo,
+                  ref: pr.head.sha,
+                });
+
+                // Get check runs
+                const { data: checkRuns } = await github.rest.checks.listForRef({
+                  owner,
+                  repo,
+                  ref: pr.head.sha,
+                });
+
+                console.log(`Commit status: ${statuses.state}`);
+                console.log(`Check runs: ${checkRuns.total_count} total`);
+
+                const allChecksPassed = checkRuns.check_runs.every(check => 
+                  check.status === 'completed' && 
+                  (check.conclusion === 'success' || check.conclusion === 'neutral' || check.conclusion === 'skipped')
+                );
+
+                const statusSuccess = statuses.state === 'success' || statuses.state === 'pending' || statuses.total_count === 0;
+
+                if (allChecksPassed && (statusSuccess || statuses.state === 'success')) {
+                  console.log('All checks passed!');
+                  return { success: true, merged: false };
+                }
+
+                if (attempt < maxAttempts) {
+                  console.log(`Waiting ${delayMs/1000}s before next attempt...`);
+                  await new Promise(resolve => setTimeout(resolve, delayMs));
+                }
+              }
+
+              return { success: false, reason: 'checks_timeout' };
+            }
+
+            async function attemptMerge(retries = 3) {
+              for (let attempt = 1; attempt <= retries; attempt++) {
+                try {
+                  console.log(`Merge attempt ${attempt}/${retries}...`);
+
+                  // Try to merge
+                  const { data: mergeResult } = await github.rest.pulls.merge({
+                    owner,
+                    repo,
+                    pull_number: prNumber,
+                    merge_method: 'squash',
+                  });
+
+                  console.log('Successfully merged PR!');
+                  console.log(`Merge SHA: ${mergeResult.sha}`);
+                  return { success: true };
+
+                } catch (error) {
+                  console.log(`Merge attempt ${attempt} failed: ${error.message}`);
+
+                  if (error.status === 405) {
+                    // PR not mergeable - check why
+                    const pr = await getPR();
+                    
+                    if (pr.mergeable === false) {
+                      return { 
+                        success: false, 
+                        reason: 'merge_conflict',
+                        message: 'PR has merge conflicts that need to be resolved.'
+                      };
+                    }
+
+                    // Check if approval is required
+                    const { data: reviews } = await github.rest.pulls.listReviews({
+                      owner,
+                      repo,
+                      pull_number: prNumber,
+                    });
+
+                    const hasApproval = reviews.some(review => review.state === 'APPROVED');
+
+                    if (!hasApproval) {
+                      console.log('No approval found, attempting to approve...');
+                      try {
+                        await github.rest.pulls.createReview({
+                          owner,
+                          repo,
+                          pull_number: prNumber,
+                          event: 'APPROVE',
+                          body: 'Auto-approving PR with [automerge] tag',
+                        });
+                        console.log('Successfully approved PR');
+                      } catch (approveError) {
+                        console.log(`Failed to approve: ${approveError.message}`);
+                      }
+                    }
+
+                    // Wait before retry with exponential backoff
+                    if (attempt < retries) {
+                      const backoffMs = Math.pow(2, attempt) * 10000; // 20s, 40s, 80s
+                      console.log(`Waiting ${backoffMs/1000}s before retry...`);
+                      await new Promise(resolve => setTimeout(resolve, backoffMs));
+                    }
+                  } else {
+                    throw error;
+                  }
+                }
+              }
+
+              return { 
+                success: false, 
+                reason: 'merge_failed',
+                message: 'Failed to merge after multiple attempts. PR may require manual approval or has branch protection rules.'
+              };
+            }
+
+            // Main execution
+            console.log('Starting automerge process...');
+            console.log(`PR #${prNumber}`);
+
+            // Wait for checks to complete
+            const checkResult = await waitForChecks();
+
+            if (!checkResult.success) {
+              let message = 'Automerge failed: ';
+              if (checkResult.reason === 'base_not_main') {
+                message += 'PR base branch is not main.';
+              } else if (checkResult.reason === 'checks_timeout') {
+                message += 'Checks did not complete in time.';
+              }
+
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body: `❌ ${message}`,
+              });
+              return;
+            }
+
+            if (checkResult.merged) {
+              console.log('PR already merged, nothing to do');
+              return;
+            }
+
+            // Attempt to merge
+            const mergeResult = await attemptMerge();
+
+            if (!mergeResult.success) {
+              const message = mergeResult.message || 'Unknown error occurred during merge';
+              console.log(`Automerge failed: ${message}`);
+
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body: `❌ **Automerge Failed**\n\n${message}\n\nPlease review the PR and merge manually if needed.`,
+              });
+            } else {
+              console.log('Automerge completed successfully! 🎉');
+            }
