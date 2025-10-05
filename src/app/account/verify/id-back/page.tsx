@@ -31,7 +31,7 @@ export default function IdBackPage() {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10">
+    <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10 border !border-black border-[1px]">
       <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">
         رفع صورة الهوية (وجه خلفي)
       </h2>
