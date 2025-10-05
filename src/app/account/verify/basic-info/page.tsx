@@ -10,6 +10,10 @@ export default function BasicInfoPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  // DOB validation helpers (append-only)
+  const todayISO = new Date().toISOString().split('T')[0];
+  const minStaticISO = '1900-01-01';
+
   // فلترة رقم الهوية بحيث يقبل فقط أرقام ويمنع الأحرف نهائياً
   const handleNationalIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
@@ -34,6 +38,16 @@ export default function BasicInfoPage() {
     }
   };
 
+  // DOB input/blur handlers (append-only, state sync only)
+  const handleDobInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    setDob(target.value);
+  };
+
+  const handleDobBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setDob(e.target.value);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -45,6 +59,11 @@ export default function BasicInfoPage() {
       !dob
     ) {
       setError("يرجى إدخال جميع البيانات بشكل صحيح. رقم الهوية يجب أن يكون 10 أرقام فقط.");
+      return;
+    }
+    // DOB validation (append-only)
+    if (!dob || dob < minStaticISO || dob > todayISO) {
+      setError(`تاريخ الميلاد غير صالح. يُسمح بإدخال تاريخ بين ${minStaticISO} و ${todayISO}.`);
       return;
     }
     router.push("/account/verify/id-front");
@@ -104,6 +123,10 @@ export default function BasicInfoPage() {
           value={dob}
           onChange={e => setDob(e.target.value)}
           className="w-full mb-4 p-3 border rounded"
+          min={minStaticISO}
+          max={todayISO}
+          onInput={handleDobInput}
+          onBlur={handleDobBlur}
         />
 
         {error && <div className="text-red-600 mb-4">{error}</div>}
