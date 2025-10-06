@@ -1,0 +1,75 @@
+name: Auto Ready and Auto-merge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  auto-ready-and-merge:
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.title, '[automerge]') && github.event.pull_request.base.ref == 'main' && github.event.pull_request.draft == true
+    
+    steps:
+      - name: Mark PR as Ready for Review
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const query = `
+              mutation($pullRequestId: ID!) {
+                markPullRequestReadyForReview(input: {pullRequestId: $pullRequestId}) {
+                  pullRequest {
+                    id
+                    number
+                    state
+                  }
+                }
+              }
+            `;
+            
+            const variables = {
+              pullRequestId: context.payload.pull_request.node_id
+            };
+            
+            try {
+              const result = await github.graphql(query, variables);
+              console.log('PR marked as ready for review:', result);
+            } catch (error) {
+              console.error('Error marking PR as ready:', error);
+            }
+      
+      - name: Enable Auto-merge (Squash)
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const mutation = `
+              mutation($pullRequestId: ID!) {
+                enablePullRequestAutoMerge(input: {
+                  pullRequestId: $pullRequestId,
+                  mergeMethod: SQUASH
+                }) {
+                  pullRequest {
+                    id
+                    number
+                    autoMergeRequest {
+                      enabledAt
+                      enabledBy {
+                        login
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+            
+            const variables = {
+              pullRequestId: context.payload.pull_request.node_id
+            };
+            
+            try {
+              const result = await github.graphql(mutation, variables);
+              console.log('Auto-merge enabled:', result);
+            } catch (error) {
+              console.error('Error enabling auto-merge:', error);
+            }
