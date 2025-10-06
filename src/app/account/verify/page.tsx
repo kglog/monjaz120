@@ -2,8 +2,20 @@
 
 import Link from "next/link";
 import VerifySteps from "@/components/VerifySteps";
+import { useEffect, useState } from "react";
 
 export default function VerifyStartPage() {
+  const [lastSessionId, setLastSessionId] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check for last verification session in localStorage
+    try {
+      const storedSessionId = localStorage.getItem('lastVerificationSessionId');
+      setLastSessionId(storedSessionId);
+    } catch (err) {
+      console.error('Failed to read sessionId from localStorage:', err);
+    }
+  }, []);
   return (
     <main className="max-w-2xl mx-auto px-4 py-12">
       <h1 className="text-2xl font-bold text-center mb-4 text-gray-800">
@@ -37,6 +49,21 @@ export default function VerifyStartPage() {
           المزيد من المعلومات
         </Link>
       </div>
+
+      {/* Add status tracking button if session exists */}
+      {lastSessionId && (
+        <div className="bg-white rounded-2xl shadow-md p-6 mt-6">
+          <p className="text-gray-700 mb-4">
+            لديك طلب توثيق سابق يمكنك متابعة حالته.
+          </p>
+          <Link
+            href={`/account/verify/status/${lastSessionId}`}
+            className="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl"
+          >
+            متابعة حالة التوثيق
+          </Link>
+        </div>
+      )}
     </main>
   );
 }
