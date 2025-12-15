@@ -1,11 +1,14 @@
 "use client";
 
+"use client";
+
 import Link from "next/link";
-import { CATEGORY_MAP } from "@/lib/categoryData";
+import { CATEGORY_MAP } from '@/lib/categoryData';
+
+// Use canonical CATEGORY_MAP for listing
+const categories = Object.values(CATEGORY_MAP).map((c) => ({ key: c.key, title: c.title }));
 
 export default function CategoriesPage() {
-  const categories = Object.values(CATEGORY_MAP);
-
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-2xl font-bold mb-6 text-center">التصنيفات</h1>
@@ -26,4 +29,4 @@ export default function CategoriesPage() {
   );
 }
 
-// ASSISTANT_FINAL: true
+  // ASSISTANT_FINAL: true

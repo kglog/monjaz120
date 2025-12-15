@@ -1,5 +1,5 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+import React, { useState } from 'react';
 import { CATEGORY_MAP } from '@/lib/categoryData';
 
 export default function AddServicePage() {
@@ -38,7 +38,8 @@ export default function AddServicePage() {
       setTitle('');
       setDescription('');
       setPrice('');
-      setCategory('');
+      setMainCategory('');
+      setSubCategory('');
       setImage('');
     } else {
       alert('❌ فشل في إضافة الخدمة');

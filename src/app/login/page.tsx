@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Mail, Eye, EyeOff } from 'lucide-react';
-import LoginFallbackLinks from '../../components/LoginFallbackLinks';
 
 function SocialButton({ children, className, onClick, disabled }: any) {
   return (
@@ -10,41 +9,14 @@ function SocialButton({ children, className, onClick, disabled }: any) {
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`w-full flex items-center gap-3 justify-center px-4 py-2 rounded-2xl font-medium ${className} ${disabled ? 'opacity-70 cursor-wait' : ''}`}>
+      className={`w-full flex items-center gap-3 justify-center px-4 py-2 rounded-2xl font-medium ${className} ${disabled ? 'opacity-70 cursor-wait' : ''}`}
+    >
       {children}
     </button>
   );
 }
 
 export default function LoginPage() {
-  // preserve returnTo (set by middleware) to redirect after successful login
-  const [returnTo, setReturnTo] = useState<string | null>(null);
-
-  useEffect(() => {
-    try {
-      const sp = new URLSearchParams(window.location.search);
-      const r = sp.get("returnTo");
-      if (r) setReturnTo(r);
-    } catch (e) {}
-  }, []);
-
-  // If user already has a session, forward them to returnTo immediately
-  useEffect(() => {
-    let mounted = true;
-    async function checkSession() {
-      try {
-        const res = await fetch('/api/auth/me');
-        if (!mounted) return;
-        const json = await res.json().catch(() => null);
-        if (json && json.ok) {
-          if (returnTo) window.location.href = returnTo;
-          else window.location.href = '/';
-        }
-      } catch (e) {}
-    }
-    checkSession();
-    return () => { mounted = false };
-  }, [returnTo]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -54,24 +26,19 @@ export default function LoginPage() {
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
   const [googleConfigured, setGoogleConfigured] = useState<boolean | null>(null);
   const [googleHint, setGoogleHint] = useState<string | null>(null);
-  const [microsoftConfigured, setMicrosoftConfigured] = useState<boolean | null>(null);
-  const [microsoftModuleAvailable, setMicrosoftModuleAvailable] = useState<boolean | null>(null);
 
   useEffect(() => {
     let mounted = true;
     fetch('/api/auth/config')
       .then((r) => r.json())
-        .then((data) => {
-          if (!mounted) return;
-          setGoogleConfigured(!!data.googleConfigured);
-          setGoogleHint(data.googleHint ?? null);
-          setMicrosoftConfigured(!!data.microsoftConfigured);
-          setMicrosoftModuleAvailable(!!data.microsoftModuleAvailable);
+      .then((data) => {
+        if (!mounted) return;
+        setGoogleConfigured(!!data.googleConfigured);
+        setGoogleHint(data.googleHint ?? null);
       })
       .catch(() => {
         if (!mounted) return;
         setGoogleConfigured(false);
-        setMicrosoftConfigured(false);
       });
     return () => {
       mounted = false;
@@ -79,12 +46,6 @@ export default function LoginPage() {
   }, []);
 
   const handleSocial = (provider: string) => {
-    // if Microsoft provider module is not available on server, show a helpful alert instead of redirecting
-    if (provider === 'microsoft' && microsoftModuleAvailable === false) {
-      window.alert('مزود تسجيل الدخول عبر مايكروسوفت غير مفعّل على الخادم المحلي.\n\nالحل: أضف قيم MICROSOFT_CLIENT_ID وMICROSOFT_CLIENT_SECRET في ملف .env.local ثم أعد تشغيل الخادم، أو ثبت مزود Microsoft في node_modules.');
-      return;
-    }
-
     setSocialLoading(provider);
     const callback = encodeURIComponent(window.location.href);
     window.location.assign(`/api/auth/signin/${provider}?callbackUrl=${callback}`);
@@ -119,9 +80,7 @@ export default function LoginPage() {
         };
         if (createdAt) userObj.createdAt = createdAt;
         localStorage.setItem('user', JSON.stringify(userObj));
-        // redirect to original admin page if provided
-        if (returnTo) window.location.href = returnTo;
-        else window.location.href = '/';
+        window.location.href = '/';
       } else {
         setError(data.message || 'فشل تسجيل الدخول');
       }
@@ -172,7 +131,7 @@ export default function LoginPage() {
               <SocialButton
                 className="bg-gradient-to-r from-[#0f9bb1] to-[#1fb6d6] text-white shadow-sm hover:brightness-95"
                 onClick={() => handleSocial('microsoft')}
-                disabled={!!socialLoading || microsoftConfigured === false}
+                disabled={!!socialLoading}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden className="text-white">
                   <rect x="3" y="3" width="8" height="8" fill="currentColor" />
@@ -181,16 +140,12 @@ export default function LoginPage() {
               </SocialButton>
 
               <div className="text-xs text-slate-600 text-right mt-1">
-                {microsoftConfigured === false ? (
-                  <span className="text-xs text-yellow-700">مايكروسوفت OAuth غير مفعّلة محليًا</span>
-                ) : (
-                  <a
-                    href={`/api/auth/signin/microsoft?callbackUrl=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '/')}`}
-                    className="underline"
-                  >
-                    اضغط هنا إن لم يحدث توجيه تلقائي
-                  </a>
-                )}
+                <a
+                  href={`/api/auth/signin/microsoft?callbackUrl=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '/')}`}
+                  className="underline"
+                >
+                  اضغط هنا إن لم يحدث توجيه تلقائي
+                </a>
               </div>
             </div>
           </div>
@@ -265,4 +220,3 @@ export default function LoginPage() {
     </div>
   );
 }
-    

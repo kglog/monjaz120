@@ -1,8 +1,4 @@
 "use client";
-<<<<<<< HEAD
-=======
-import React from "react";
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
 
 import { useEffect, useState } from "react";
 import Link from "next/link";

@@ -1,4 +1,4 @@
-generator client {
+﻿generator client {
   provider = "prisma-client-js"
 }
 
@@ -8,289 +8,53 @@ datasource db {
 }
 
 model User {
-  id                   String                @id @default(cuid())
-  name                 String
-  email                String                @unique
-  password             String
-  role                 String                @default("user")
-  isVerified           Boolean               @default(false)
-  balance              Float                 @default(0)
-  totalEarnings        Float                 @default(0)
-  avatar               String?
-  bio                  String?
-  language             String                @default("ar")
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  commissions          Commission[]
-  discountUsage        DiscountUsage[]
-  receivedMessages     Message[]             @relation("ReceivedMessages")
-  sentMessages         Message[]             @relation("SentMessages")
-  notifications        Notification[]
-  ordersAsBuyer        Order[]               @relation("BuyerOrders")
-  ordersAsSeller       Order[]               @relation("SellerOrders")
-  reviews              Review[]
-  services             Service[]
-<<<<<<< HEAD
-=======
-  cards                Card[]
-  designImages         DesignImage[]
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
-  points               UserPoints[]
-  verificationRequests VerificationRequest[]
-  withdrawals          Withdrawal[]
-
-  @@index([email])
-  @@index([role])
-  @@index([isVerified])
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      String    @default("user")
+  services  Service[]
+  orders    Order[]   @relation("UserOrders")
+  createdAt DateTime  @default(now())
 }
 
 model Service {
-  id           String   @id @default(cuid())
-  title        String
-  description  String
-  price        Float
-  deliveryTime Int
-  category     String
-  tags         String[]
-  images       String[]
-<<<<<<< HEAD
-=======
-  designImages DesignImage[]
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
-  isActive     Boolean  @default(true)
-  viewsCount   Int      @default(0)
-  ordersCount  Int      @default(0)
-  rating       Float    @default(0)
-  userId       String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  orders       Order[]
-  reviews      Review[]
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([category])
-  @@index([isActive])
-  @@index([rating])
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  price       Float
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  orders      Order[]
+  createdAt   DateTime @default(now())
 }
 
 model Order {
-  id           String        @id @default(cuid())
-  title        String
-  description  String?
-  price        Float
-  commission   Float         @default(0)
-  netPrice     Float
-  status       String        @default("pending")
-  deliveryDate DateTime?
-  buyerId      String
-  sellerId     String
-  serviceId    String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  completedAt  DateTime?
-  messages     Message[]
-  buyer        User          @relation("BuyerOrders", fields: [buyerId], references: [id], onDelete: Cascade)
-  seller       User          @relation("SellerOrders", fields: [sellerId], references: [id], onDelete: Cascade)
-  service      Service       @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  reviews      Review[]
-  transactions Transaction[]
-
-  @@index([buyerId])
-  @@index([sellerId])
-  @@index([serviceId])
-  @@index([status])
-}
-
-model Review {
   id        String   @id @default(cuid())
-  rating    Int
-  comment   String?
-  userId    String
-  serviceId String
-  orderId   String
-  createdAt DateTime @default(now())
-  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([orderId, userId])
-  @@index([serviceId])
-  @@index([userId])
-  @@index([rating])
-}
-
-model Message {
-  id          String   @id @default(cuid())
-  content     String
-  attachments String[]
-  isRead      Boolean  @default(false)
-  senderId    String
-  receiverId  String
-  orderId     String?
-  createdAt   DateTime @default(now())
-  order       Order?   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
-  sender      User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
-
-  @@index([senderId])
-  @@index([receiverId])
-  @@index([orderId])
-  @@index([createdAt])
-}
-
-model Notification {
-  id        String   @id @default(cuid())
-  type      String
   title     String
-  content   String
-  isRead    Boolean  @default(false)
-  link      String?
+  price     Float
+  details   String?
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
   userId    String
+  user      User     @relation("UserOrders", fields: [userId], references: [id])
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([isRead])
-  @@index([createdAt])
-}
-
-model UserPoints {
-  id        String    @id @default(cuid())
-  userId    String
-  points    Int       @default(0)
-  type      String
-  reason    String
-  expiresAt DateTime?
-  createdAt DateTime  @default(now())
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([expiresAt])
-}
-
-model Commission {
-  id               String   @id @default(cuid())
-  userId           String
-  orderValue       Float
-  commissionRate   Float
-  commissionAmount Float
-  orderId          String?
-  createdAt        DateTime @default(now())
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([createdAt])
-}
-
-model Withdrawal {
-  id             String    @id @default(cuid())
-  userId         String
-  amount         Float
-  status         String    @default("pending")
-  method         String
-  accountDetails Json
-  notes          String?
-  processedBy    String?
-  processedAt    DateTime?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([status])
-}
-
-model Transaction {
-  id         String   @id @default(cuid())
-  orderId    String
-  amount     Float
-  type       String
-  status     String   @default("pending")
-  gatewayRef String?
-  metadata   Json?
-  createdAt  DateTime @default(now())
-  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-
-  @@index([orderId])
-  @@index([status])
-  @@index([type])
-}
-
-model Discount {
-  id            String          @id @default(cuid())
-  code          String          @unique
-  type          String
-  value         Float
-  minOrderValue Float?
-  maxUses       Int?
-  usedCount     Int             @default(0)
-  isActive      Boolean         @default(true)
-  startsAt      DateTime?
-  expiresAt     DateTime?
-  createdAt     DateTime        @default(now())
-  usage         DiscountUsage[]
-
-  @@index([code])
-  @@index([isActive])
-}
-
-model DiscountUsage {
-  id         String   @id @default(cuid())
-  userId     String
-  discountId String
-  createdAt  DateTime @default(now())
-  discount   Discount @relation(fields: [discountId], references: [id], onDelete: Cascade)
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([discountId])
 }
 
 model IdentitySession {
-  id             String   @id @default(cuid())
-  userId         String?
-  status         String   @default("pending")
-  step           String   @default("basic")
-  frontUrl       String?
-  backUrl        String?
-  selfieUrl      String?
-  ocrResult      Json?
-  faceMatchScore Float?
-  flags          Json?
-<<<<<<< HEAD
-=======
-  decidedAt      DateTime?
-  decidedByEmail String?
-  decisionReason String?
-  verifiedAt     DateTime?
-  rejectedAt     DateTime?
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id          String   @id @default(cuid())
+  userId      String?
+  status      String   @default("pending") // pending | verified | rejected | manual_review
+  step        String   @default("basic")   // basic | front | back | selfie | verify
+  frontUrl    String?
+  backUrl     String?
+  selfieUrl   String?
+  ocrResult   Json?
+  flags       Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([userId])
-  @@index([status])
-}
-
-model VerificationRequest {
-  id              String    @id @default(cuid())
-  userId          String
-  fullName        String
-  nationalId      String
-  dob             DateTime
-  selfiePath      String
-  idCardPath      String
-  status          String    @default("pending")
-  rejectionReason String?
-  reviewedBy      String?
-  reviewedAt      DateTime?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([status])
 }
 
 model Fingerprint {
@@ -300,105 +64,27 @@ model Fingerprint {
   ua        String?
   meta      Json?
   createdAt DateTime @default(now())
-
-  @@index([fpHash])
 }
 
 model AuditLog {
   id        String   @id @default(cuid())
   type      String
-  action    String
   userId    String?
   meta      Json
-  ip        String?
   createdAt DateTime @default(now())
-
-  @@index([type])
-  @@index([userId])
-  @@index([createdAt])
 }
 
-model PlatformSettings {
-  id          String   @id @default(cuid())
-  key         String   @unique
-  value       Json
-  description String?
-  updatedAt   DateTime @updatedAt
-
-  @@index([key])
-<<<<<<< HEAD
-=======
-}
-
-// Incidents/logs for moderation attempts (forbidden contact info, links, etc.)
-model Incident {
-  id        String   @id @default(cuid())
-  userId    String?
-  type      String   // e.g., "forbidden_contact" | "spam"
-  payload   Json?
-  message   String?
-  createdAt DateTime @default(now())
-
-  @@index([userId])
-  @@index([type])
-  @@index([createdAt])
-}
-
-// Requests table: users ask for services and sellers can claim them
-model Request {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  createdBy   String?
-  status      String   @default("open") // open / claimed / closed
-  claimedBy   String?
-  price       Int?     // stored in halalas (e.g., 1000 = 10.00 SAR)
-  platformFee Int      @default(1000)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([status])
-  @@index([createdAt])
-}
-
-// بطاقات الدفع المرتبطة بالمستخدم (نخزن فقط المعرّف من بوابة الدفع وآخر 4 أرقام)
-model Card {
-  id                     String   @id @default(cuid())
-  userId                 String
-  stripePaymentMethodId  String   @unique
-  brand                  String
-  last4                  String
-  expMonth               Int
-  expYear                Int
-  isDefault              Boolean  @default(false)
-  createdAt              DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([createdAt])
-}
-
-// Images uploaded for designs / service listings
-model DesignImage {
+model VerificationRequest {
   id          String   @id @default(cuid())
   userId      String
-  serviceId   String?
-  s3Key       String   @unique
-  filename    String
-  mime        String
-  size        Int
-  width       Int?
-  height      Int?
-  sha256      String?  @unique
-  status      String   @default("pending") // pending / processed / rejected
+  fullName    String
+  nationalId  String
+  dob         DateTime
+  selfiePath  String
+  idCardPath  String
+  status      String   @default("pending") // pending | approved | rejected
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  service Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([serviceId])
-  @@index([status])
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
+  user User @relation(fields: [userId], references: [id])
 }
