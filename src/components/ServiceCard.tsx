@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import React from "react";
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
 import { Star } from "lucide-react";
 
 interface ServiceCardProps {
@@ -12,7 +16,11 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ id, title, description, price, rating, seller, image }: ServiceCardProps) {
   return (
+<<<<<<< HEAD
     <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition">
+=======
+  <div className="bg-[#fbfcfe] border rounded-lg p-4 shadow-sm hover:shadow-md transition">
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
       {/* صورة الخدمة */}
       <img src={image} alt={title} className="w-full h-40 object-cover rounded-md mb-3" />
 
@@ -22,8 +30,13 @@ export default function ServiceCard({ id, title, description, price, rating, sel
       {/* الوصف */}
       <p className="text-sm text-gray-600 mb-2">{description}</p>
 
+<<<<<<< HEAD
       {/* السعر */}
       <p className="text-blue-600 font-bold">{price} ريال</p>
+=======
+  {/* السعر */}
+  <p className="text-slate-900 font-bold">{price} ر.س</p>
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
 
       {/* التقييم */}
       <div className="flex items-center mt-2">

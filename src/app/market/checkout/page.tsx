@@ -23,14 +23,14 @@ export default function CheckoutPage() {
 
   return (
     <div>
-      <h1>Checkout Page</h1>
+      <h1>صفحة الدفع</h1>
       {orderData ? (
         <div>
-          <p>Order ID: {orderData.orderId}</p>
-          <p>Total: ${orderData.total}</p>
+          <p>معرّف الطلب: {orderData.orderId}</p>
+          <p>المجموع: ${orderData.total}</p>
         </div>
       ) : (
-        <p>Loading order data...</p>
+        <p>جاري تحميل بيانات الطلب...</p>
       )}
     </div>
   );

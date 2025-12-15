@@ -1,4 +1,8 @@
 "use client";
+<<<<<<< HEAD
+=======
+import React from "react";
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
 
 type Props = {
   currentStep: number;
@@ -22,7 +26,11 @@ export default function VerifySteps({ currentStep }: Props) {
         return (
           <div key={idx} className="flex-1 text-center">
             <div
+<<<<<<< HEAD
               className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center mb-2 
+=======
+              className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center mb-2
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
                 ${isDone ? "bg-green-500 text-white" : isActive ? "bg-cyan-600 text-white" : "bg-gray-200 text-gray-600"}`}
             >
               {stepNum}

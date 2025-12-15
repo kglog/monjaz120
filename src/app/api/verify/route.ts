@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+<<<<<<< HEAD
 import { prisma } from "@/lib/prisma";
 import { writeFile } from "fs/promises";
 import path from "path";
@@ -54,5 +55,50 @@ await prisma.verificationRequest.create({
       { error: "خطأ في الخادم", details: error.message },
       { status: 500 }
     );
+=======
+import { writeFile, mkdir, readFile } from "fs/promises";
+import path from "path";
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { fullName, nationalId, dob } = body;
+    if (!fullName || !nationalId || !dob) {
+      return NextResponse.json({ error: "حقول ناقصة" }, { status: 400 });
+    }
+
+    // لا نخزن كامل رقم الهوية هنا — نخزن آخر خانتين فقط مع طول الرقم
+    const masked = nationalId.replace(/\d(?=\d{2})/g, "*");
+    const dobYear = String(dob).split("-")[0] || null;
+
+    const storageDir = path.join(process.cwd(), "data");
+    await mkdir(storageDir, { recursive: true });
+    const filePath = path.join(storageDir, "verification-requests.json");
+
+    let list: any[] = [];
+    try {
+      const raw = await readFile(filePath, { encoding: "utf8" });
+      list = JSON.parse(raw || "[]");
+    } catch (e) {
+      list = [];
+    }
+
+    const entry = {
+      id: `vr_${Date.now()}`,
+      fullNameLength: String(fullName).length,
+      nationalIdMask: masked,
+      dobYear,
+      status: "pending",
+      submittedAt: new Date().toISOString(),
+    };
+
+    list.unshift(entry);
+    await writeFile(filePath, JSON.stringify(list, null, 2), { encoding: "utf8" });
+
+    return NextResponse.json({ status: "ok", id: entry.id });
+  } catch (err: any) {
+    console.error("/api/verify error:", err);
+    return NextResponse.json({ error: err?.message || "خطأ في الخادم" }, { status: 500 });
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
   }
 }

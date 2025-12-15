@@ -1,5 +1,5 @@
-'use client';
-import { useEffect, useState } from "react";
+ 'use client';
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 
@@ -41,7 +41,9 @@ export default function ServiceDetailsPage() {
       />
       <p className="mb-4">{service.description || "لا يوجد وصف"}</p>
       <p className="font-bold">السعر: {service.price ?? 0} ريال</p>
-      <button className="mt-6 bg-primary text-white px-4 py-2 rounded">اطلب الخدمة</button>
+  <button className="mt-6 text-white px-4 py-2 rounded" style={{ backgroundColor: '#6aaed1' }}>اطلب الخدمة</button>
     </div>
   );
 }
+
+// ASSISTANT_FINAL: true

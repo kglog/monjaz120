@@ -1,3 +1,4 @@
+import React from "react";
 // src/app/payment-failed/page.tsx
 export default function PaymentFailedPage() {
   return (

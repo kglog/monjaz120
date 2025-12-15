@@ -1,15 +1,16 @@
-'use client';
-
-import { useState } from 'react';
+"use client";
+import React, { useState } from "react";
+import { CATEGORY_MAP } from '@/lib/categoryData';
 
 export default function AddServicePage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('');
+  const [mainCategory, setMainCategory] = useState('');
+  const [subCategory, setSubCategory] = useState('');
   const [image, setImage] = useState('');
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const vendorId = '64884fcadadb30db0a57db9e'; // هذا id البائع من MongoDB
@@ -23,7 +24,8 @@ export default function AddServicePage() {
         title,
         description,
         price,
-        category,
+        category: mainCategory,
+        subcategory: subCategory,
         image,
         vendorId,
       }),
@@ -53,7 +55,23 @@ export default function AddServicePage() {
         <br />
         <input type="text" placeholder="السعر" value={price} onChange={(e) => setPrice(e.target.value)} />
         <br />
-        <input type="text" placeholder="التصنيف" value={category} onChange={(e) => setCategory(e.target.value)} />
+        <label>التصنيف الرئيسي</label>
+        <br />
+        <select value={mainCategory} onChange={(e) => { setMainCategory(e.target.value); setSubCategory(''); }}>
+          <option value="">-- اختر التصنيف --</option>
+          {Object.values(CATEGORY_MAP).map((c) => (
+            <option key={c.key} value={c.key}>{c.title}</option>
+          ))}
+        </select>
+        <br />
+        <label>التصنيف الفرعي</label>
+        <br />
+        <select value={subCategory} onChange={(e) => setSubCategory(e.target.value)} disabled={!mainCategory}>
+          <option value="">-- اختر التصنيف الفرعي --</option>
+          {mainCategory && CATEGORY_MAP[mainCategory]?.subcategories.map((s) => (
+            <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
         <br />
         <input type="text" placeholder="رابط الصورة (مؤقتًا)" value={image} onChange={(e) => setImage(e.target.value)} />
         <br />
@@ -62,3 +80,5 @@ export default function AddServicePage() {
     </div>
   );
 }
+
+// ASSISTANT_FINAL: true

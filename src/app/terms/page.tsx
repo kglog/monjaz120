@@ -1,3 +1,4 @@
+import React from "react";
 // src/app/terms/page.tsx
 export default function TermsPage() {
   return (

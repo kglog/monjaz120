@@ -1,0 +1,23 @@
+[
+  {
+    "key": "emergency_mode",
+    "title": "زر الطوارئ الذكي",
+    "enabled": true,
+    "mode": "manual",
+    "updatedAt": "2025-11-27T00:00:00.000Z"
+  },
+  {
+    "key": "spytraps",
+    "title": "مصائد الجواسيس",
+    "enabled": true,
+    "mode": "auto",
+    "updatedAt": "2025-11-27T00:00:00.000Z"
+  },
+  {
+    "key": "ip_guard",
+    "title": "حماية الملكية (IP Guard)",
+    "enabled": true,
+    "mode": "auto",
+    "updatedAt": "2025-11-27T00:00:00.000Z"
+  }
+]

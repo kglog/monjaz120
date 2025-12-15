@@ -8,3 +8,5 @@ export default function PurchasesPage() {
     </main>
   );
 }
+
+// ASSISTANT_FINAL: true

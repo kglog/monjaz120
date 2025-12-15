@@ -1,8 +1,8 @@
 export default function DeliveryIdPage() {
   return (
     <div>
-      <h1>Delivery API Route (Static)</h1>
-      <p>This is a static placeholder page for /api/delivery/[id]</p>
+      <h1>مسار API التوصيل (ثابت)</h1>
+      <p>هذه صفحة مكانٍ احتياطية ثابتة للمسار <code>/api/delivery/[id]</code></p>
     </div>
   );
 }

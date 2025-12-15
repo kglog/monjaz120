@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FaShoppingCart, FaBars } from "react-icons/fa";
+<<<<<<< HEAD
 
 // قائمة التصنيفات لزر القائمة الجانبية (اختياري)
 const categories = [
@@ -12,6 +13,12 @@ const categories = [
   { name: "برمجة", emoji: "💻", slug: "development" },
   { name: "ترجمة", emoji: "🌐", slug: "translation" },
 ];
+=======
+import { CATALOG } from '@/data/catalog';
+
+// Use the centralized CATALOG as the single source of truth for NAV lists
+const categories = Object.keys(CATALOG).slice(0, 6).map((title) => ({ name: title, emoji: '', slug: title }));
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
@@ -38,6 +45,7 @@ export default function Header() {
             {showMenu && (
               <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50">
                 <div className="p-2 border-b font-bold text-sm">التصنيفات:</div>
+<<<<<<< HEAD
                 <div className="grid grid-cols-1 gap-1 p-2">
                   {categories.map((cat) => (
                     <Link
@@ -50,6 +58,44 @@ export default function Header() {
                       <span>{cat.name}</span>
                     </Link>
                   ))}
+=======
+                <div className="grid grid-cols-2 gap-2 p-2">
+                  {/* Left: main categories */}
+                  <div className="space-y-1">
+                    {categories.map((cat) => (
+                      <button
+                        key={cat.slug}
+                        onClick={() => { setShowMenu(false); window.location.href = `/categories/${cat.slug}`; }}
+                        onMouseEnter={() => setActiveSlug(cat.slug)}
+                        onFocus={() => setActiveSlug(cat.slug)}
+                        className={`w-full text-right hover:bg-gray-100 px-2 py-2 rounded flex items-center justify-between gap-2 text-sm ${activeSlug === cat.slug ? 'bg-gray-50' : ''}`}
+                      >
+                        <span>{cat.name}</span>
+                        <span className="text-slate-400">›</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Right: subcategories for the active category */}
+                  <div className="border-l ps-3">
+                    <div className="text-sm font-medium mb-2">{activeSlug || 'فرعيات'}</div>
+                    <div className="grid gap-1">
+                      {(CATALOG as any)[activeSlug]?.map((s: string) => (
+                        <Link
+                          key={s}
+                          href={`/categories/${encodeURIComponent(activeSlug)}?sub=${encodeURIComponent(s)}`}
+                          className="hover:bg-gray-100 px-2 py-1 rounded text-sm block text-right"
+                          onClick={() => setShowMenu(false)}
+                        >
+                          {s}
+                        </Link>
+                      ))}
+                      {!CATEGORY_MAP[activeSlug]?.subcategories?.length && (
+                        <div className="text-sm text-slate-500">لا توجد بنود فرعية</div>
+                      )}
+                    </div>
+                  </div>
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
                 </div>
               </div>
             )}

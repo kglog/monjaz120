@@ -34,8 +34,10 @@
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
-, "src/app/api/testFirebase/route.ts.backup", "src/app/api/submit-rating/route.ts.backup"  ],
+    ".next/types/**/*.ts",
+    "src/app/api/testFirebase/route.ts.backup",
+    "src/app/api/submit-rating/route.ts.backup"
+  ],
   "exclude": [
     "node_modules"
   ]

@@ -7,11 +7,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
+  // Create a lightweight session payload and encode as base64 so we can
+  // store role info in the cookie without extra dependencies.
+  const session = { role: "OWNER", createdAt: Date.now() };
+  const token = Buffer.from(JSON.stringify(session)).toString("base64");
+
   const res = NextResponse.json({ ok: true });
-  res.cookies.set("admin_pass", pass, {
-    httpOnly: false, // نخليها false عشان تقدر تشوفها في المتصفح لو احتجت
+  // Important cookie shape per repo requirements:
+  // - name: monjaz_owner_session
+  // - path: "/"
+  // - sameSite: "lax"
+  // - secure: only in production
+  // - httpOnly: true (server-read only)
+  res.cookies.set("monjaz_owner_session", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: 60 * 60 * 24 * 3, // 3 أيام
+    maxAge: 60 * 60 * 24 * 7, // 7 days
   });
+
   return res;
 }
+
+// ASSISTANT_FINAL: true

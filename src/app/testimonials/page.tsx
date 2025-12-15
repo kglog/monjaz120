@@ -1,4 +1,5 @@
 // src/app/testimonials/page.tsx
+import React from "react";
 export default function TestimonialsPage() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-primary text-white p-8">

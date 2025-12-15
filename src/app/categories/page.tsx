@@ -1,74 +1,29 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-
-const smartCategories = [
-  {
-    name: "حلول جاهزة",
-    slug: "ready-solutions",
-    image: "/no-image.png",
-  },
-  {
-    name: "تطوير مخصص",
-    slug: "custom-dev",
-    image: "/no-image.png",
-  },
-  {
-    name: "تصميم وواجهة",
-    slug: "design-ui",
-    image: "/no-image.png",
-  },
-  {
-    name: "ذكاء اصطناعي وتلقائي",
-    slug: "ai-automation",
-    image: "/no-image.png",
-  },
-  {
-    name: "أعمال وتحليل",
-    slug: "business-analysis",
-    image: "/no-image.png",
-  },
-  {
-    name: "دعم وتشغيل",
-    slug: "support",
-    image: "/no-image.png",
-  },
-  {
-    name: "من تحت الطاولة",
-    slug: "under-table",
-    image: "/no-image.png",
-  },
-  {
-    name: "عروض محدودة",
-    slug: "limited-offers",
-    image: "/no-image.png",
-  },
-];
+import { CATEGORY_MAP } from "@/lib/categoryData";
 
 export default function CategoriesPage() {
+  const categories = Object.values(CATEGORY_MAP);
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
-      <h1 className="text-2xl font-bold mb-6 text-center">التصنيفات الذكية</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center">التصنيفات</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {smartCategories.map((category) => (
+        {categories.map((c) => (
           <Link
-            key={category.slug}
-            href={`/categories/${category.slug}`}
-            className="block bg-white rounded-lg shadow hover:shadow-md transition overflow-hidden"
+            key={c.key}
+            href={`/categories/${c.key}`}
+            className="block bg-white rounded-lg shadow hover:shadow-md transition overflow-hidden border border-black"
           >
-            <Image
-              src={category.image}
-              alt={category.name}
-              width={400}
-              height={200}
-              className="w-full h-36 object-cover"
-            />
-            <div className="p-3 text-center font-semibold">{category.name}</div>
+            <div className="w-full h-36 bg-gradient-to-br from-white/60 to-[#bfe8f7]/12" />
+            <div className="p-3 text-center font-semibold">{c.title}</div>
           </Link>
         ))}
       </div>
     </div>
   );
 }
+
+// ASSISTANT_FINAL: true

@@ -84,7 +84,7 @@ export default function DeliveryPage() {
 
             {order.deliveredFile && (
               <p className="text-sm mt-1">
-                🔗 <a href={`/uploads/${order.deliveredFile}`} target="_blank" className="text-blue-600 underline">عرض الملف المرفق</a>
+                🔗 <a href={`/uploads/${order.deliveredFile}`} target="_blank" className="text-blue-600 underline" rel="noreferrer">عرض الملف المرفق</a>
               </p>
             )}
 

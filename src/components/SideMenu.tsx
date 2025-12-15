@@ -1,7 +1,9 @@
+import React from "react";
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { CATEGORY_MAP } from '@/lib/categoryData';
 
 export default function SideMenu() {
   const [open, setOpen] = useState(false);
@@ -25,15 +27,7 @@ export default function SideMenu() {
     };
   }, [open]);
 
-  const categories = [
-    { name: 'تصميم', slug: 'design', icon: '🧠' },
-    { name: 'كتابة وترجمة', slug: 'writing', icon: '📝' },
-    { name: 'تسويق رقمي', slug: 'marketing', icon: '📣' },
-    { name: 'برمجة وتطوير', slug: 'development', icon: '💻' },
-    { name: 'فيديو وأنيميشن', slug: 'video', icon: '🎬' },
-    { name: 'هندسة وعمارة', slug: 'engineering', icon: '🏗️' },
-    { name: 'أعمال', slug: 'business', icon: '💼' },
-  ];
+  const categories = Object.values(CATEGORY_MAP).map((c) => ({ name: c.title, slug: c.key, icon: '' }));
 
   return (
     <div className="relative" ref={menuRef}>
@@ -47,7 +41,7 @@ export default function SideMenu() {
       </button>
 
       {open && (
-        <div className="absolute top-full right-0 mt-2 w-56 bg-white border rounded shadow z-50">
+  <div className="absolute top-full right-0 mt-2 w-56 bg-[#ffffff] border rounded shadow z-50">
           <h3 className="p-3 font-bold border-b">التصنيفات</h3>
           <ul className="text-sm p-2 space-y-2">
             {categories.map((cat) => (
@@ -67,3 +61,5 @@ export default function SideMenu() {
     </div>
   );
 }
+
+  // ASSISTANT_FINAL: true

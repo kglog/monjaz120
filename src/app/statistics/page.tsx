@@ -1,3 +1,5 @@
+import React from 'react';
+
 // src/app/statistics/page.tsx
 export default function StatisticsPage() {
   return (
@@ -26,3 +28,5 @@ export default function StatisticsPage() {
     </main>
   );
 }
+
+// ASSISTANT_FINAL: true

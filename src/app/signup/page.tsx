@@ -1,5 +1,5 @@
-'use client';
-import { useState } from 'react';
+ 'use client';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
@@ -47,3 +47,5 @@ export default function SignupPage() {
     </main>
   );
 }
+
+// ASSISTANT_FINAL: true
