@@ -139,7 +139,7 @@ export default function BasicInfoPage() {
 <<<<<<< HEAD
     <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10">
       <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">توثيق الهوية</h2>
-      <div className="mb-5 p-4 bg-gray-50 border border-gray-200 rounded text-sm">
+      <div className="mb-5 p-4 bg-gray-50 border border-gray-200 rounded text-sm border !border-black border-[1px] rounded-xl w-full max-w-2xl mx-auto px-4 md:px-6 py-4 md:py-5 text-sm leading-snug max-h-[240px] overflow-y-auto">
         <b>يرجى إدخال جميع البيانات كما هي في الهوية أو الجواز.</b><br/>
         الاسم بالعربي والانجليزي كما هو في الوثائق.<br/>
         إذا كانت البيانات غير صحيحة أو غير واضحة سيتم رفض الطلب أو إيقاف الحساب.<br/>
