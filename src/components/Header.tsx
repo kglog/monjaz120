@@ -4,20 +4,16 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FaShoppingCart, FaBars } from "react-icons/fa";
+import { CATEGORY_MAP } from '@/lib/categoryData';
 
-// قائمة التصنيفات لزر القائمة الجانبية (اختياري)
-const categories = [
-  { name: "تصميم", emoji: "🎨", slug: "design" },
-  { name: "كتابة", emoji: "✍️", slug: "writing" },
-  { name: "برمجة", emoji: "💻", slug: "development" },
-  { name: "ترجمة", emoji: "🌐", slug: "translation" },
-];
+// استخدم القائمة الموحدة من `CATEGORY_MAP`
+const categories = Object.values(CATEGORY_MAP).slice(0,6).map((c) => ({ name: c.title, emoji: '', slug: c.key }));
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <header className="w-full border-b border-gray-200 shadow-sm bg-white">
+  <header className="w-full border-b border-gray-200 shadow-sm bg-[#9fd8ef]">
       <div className="w-full flex justify-between items-center px-4 py-4">
 
         {/* يمين الصفحة: الشعار + زر التصنيفات */}
@@ -84,3 +80,5 @@ export default function Header() {
     </header>
   );
 }
+
+// ASSISTANT_FINAL: true

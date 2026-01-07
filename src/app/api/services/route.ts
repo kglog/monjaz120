@@ -1,42 +1,38 @@
-// 📁 src/app/api/services/route.ts
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
-import { NextResponse } from 'next/server';
-
-let services = [
-  {
-    id: 1,
-    title: 'تصميم لوقو',
-    description: 'خدمة تصميم احترافي للشعارات',
-    category: 'تصميم',
-    price: 150,
-    featured: true
-  },
-  {
-    id: 2,
-    title: 'كتابة مقالات',
-    description: 'محتوى عربي حصري 100%',
-    category: 'كتابة وترجمة',
-    price: 80,
-    featured: false
-  },
-  {
-    id: 3,
-    title: 'خطة تسويق ذكية',
-    description: 'نموذج خطة تسويقية جاهزة للتحميل',
-    category: 'أفكار جاهزة للبيع',
-    price: 200,
-    featured: true
-  },
-  {
-    id: 4,
-    title: 'إعلانات سوشيال ميديا',
-    description: 'نصوص جذابة + تصميمات',
-    category: 'تسويق وإعلان',
-    price: 120,
-    featured: false
-  }
-];
-
+// GET /api/services => عرض جميع الخدمات
 export async function GET() {
-  return NextResponse.json(services);
+  try {
+    const services = await prisma.service.findMany({
+      include: { user: true },
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(services);
+  } catch (err) {
+    return NextResponse.json({ error: "فشل في جلب الخدمات" }, { status: 500 });
+  }
+}
+
+// POST /api/services => إضافة خدمة جديدة
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { title, description, price, userId } = body;
+
+    if (!title || !description || !price || !userId) {
+      return NextResponse.json(
+        { error: "حقول ناقصة" },
+        { status: 400 }
+      );
+    }
+
+    const service = await prisma.service.create({
+      data: { title, description, price: parseFloat(price), userId },
+    });
+
+    return NextResponse.json(service);
+  } catch (err) {
+    return NextResponse.json({ error: "فشل في إضافة الخدمة" }, { status: 500 });
+  }
 }

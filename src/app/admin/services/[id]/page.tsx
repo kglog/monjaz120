@@ -3,103 +3,101 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-export default function EditServicePage() {
-  const { id } = useParams<{ id: string }>();
+export default function AdminEditServicePage() {
+  const { id } = useParams() as { id: string };
   const router = useRouter();
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({
-    title: "",
-    price: 0,
-    details: "",
-    status: "pending",
-  });
 
   useEffect(() => {
-    (async () => {
-      const res = await fetch(`/api/admin/services/${id}`);
-      const data = await res.json();
-      if (data) {
-        setForm({
-          title: data.title ?? "",
-          price: Number(data.price ?? 0),
-          details: data.details ?? "",
-          status: data.status ?? "pending",
-        });
+    async function fetchService() {
+      try {
+        const res = await fetch(`/api/services/${id}`);
+        if (!res.ok) throw new Error("not found");
+        const s = await res.json();
+        setTitle(s.title || "");
+        setDescription(s.description || "");
+        setPrice(String(s.price ?? ""));
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    })();
+    }
+    if (id) fetchService();
   }, [id]);
 
-  async function submit(e: React.FormEvent) {
+  async function handleSave(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch(`/api/admin/services/${id}`, {
+    const res = await fetch(`/api/services/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: form.title,
-        price: Number(form.price),
-        details: form.details,
-        status: form.status,
-      }),
+      body: JSON.stringify({ title, description, price }),
     });
     if (res.ok) {
-      alert("تم تحديث الخدمة ✅");
+      alert("تم حفظ التعديلات");
       router.push("/admin/services");
     } else {
-      alert("⚠️ خطأ أثناء التحديث");
+      alert("تعذر حفظ التعديلات");
     }
   }
 
-  if (loading) return <p>جاري التحميل...</p>;
+  async function handleDelete() {
+    if (!confirm("متأكد من حذف الخدمة؟")) return;
+    const res = await fetch(`/api/services/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      alert("تم حذف الخدمة");
+      router.push("/admin/services");
+    } else {
+      alert("تعذر حذف الخدمة");
+    }
+  }
+
+  if (loading) {
+    return (
+      <main className="max-w-2xl mx-auto px-4 py-10">
+        <p className="text-gray-600">جاري تحميل البيانات...</p>
+      </main>
+    );
+  }
 
   return (
-    <div className="max-w-md mx-auto mt-10 space-y-4">
-      <h1 className="text-xl font-bold">تعديل خدمة</h1>
-      <form onSubmit={submit} className="space-y-3">
-        <div>
-          <label className="block mb-1">العنوان</label>
-          <input
-            className="w-full border p-2 rounded"
-            value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
-            required
-          />
+    <main className="max-w-2xl mx-auto px-4 py-10">
+      <h1 className="text-2xl font-bold mb-6">تعديل خدمة</h1>
+      <form onSubmit={handleSave} className="space-y-4">
+        <input
+          type="text"
+          placeholder="عنوان الخدمة"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full border p-2 rounded"
+        />
+        <textarea
+          placeholder="وصف الخدمة"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full border p-2 rounded"
+        />
+        <input
+          type="number"
+          placeholder="السعر"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          className="w-full border p-2 rounded"
+        />
+        <div className="flex gap-3">
+          <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+            حفظ
+          </button>
+          <button type="button" onClick={handleDelete} className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700">
+            حذف
+          </button>
         </div>
-        <div>
-          <label className="block mb-1">السعر</label>
-          <input
-            type="number"
-            className="w-full border p-2 rounded"
-            value={form.price}
-            onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
-            required
-            min={0}
-          />
-        </div>
-        <div>
-          <label className="block mb-1">التفاصيل</label>
-          <textarea
-            className="w-full border p-2 rounded"
-            rows={4}
-            value={form.details}
-            onChange={(e) => setForm({ ...form, details: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block mb-1">الحالة</label>
-          <select
-            className="w-full border p-2 rounded"
-            value={form.status}
-            onChange={(e) => setForm({ ...form, status: e.target.value })}
-          >
-            <option value="pending">معلّقة</option>
-            <option value="completed">مكتملة</option>
-          </select>
-        </div>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          حفظ التعديلات
-        </button>
       </form>
-    </div>
+    </main>
   );
 }

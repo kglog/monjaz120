@@ -1,74 +1,71 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function ServicesPage() {
+export default function AdminServicesPage() {
   const [services, setServices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchServices = async () => {
-      const res = await fetch("/api/admin/services");
-      if (res.ok) {
+    async function fetchServices() {
+      try {
+        const res = await fetch("/api/services");
         const data = await res.json();
-        setServices(data);
+        setServices(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("خطأ في جلب الخدمات", err);
+        setServices([]);
+      } finally {
+        setLoading(false);
       }
-    };
+    }
     fetchServices();
   }, []);
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("هل أنت متأكد من حذف الخدمة؟")) return;
-    const res = await fetch(`/api/admin/services/${id}`, {
-      method: "DELETE",
-    });
-    if (res.ok) {
-      setServices((prev) => prev.filter((s) => s.id !== id));
-    }
-  };
-
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-center mb-6">قائمة الخدمات</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {services.map((service) => (
-          <div
-            key={service.id}
-            className="border rounded-lg shadow p-4 flex flex-col justify-between"
-          >
-            {service.image ? (
-              <img
-                src={service.image}
-                alt={service.title}
-                className="w-full h-40 object-cover rounded mb-3"
-              />
-            ) : (
-              <div className="w-full h-40 flex items-center justify-center bg-gray-200 rounded mb-3 text-gray-500">
-                لا توجد صورة
-              </div>
-            )}
-            <h2 className="font-bold">{service.title}</h2>
-            <p className="text-gray-600">{service.description}</p>
-            <p className="text-green-600 font-bold">السعر: {service.price} ريال</p>
-            <p className="text-sm text-gray-500">
-              أضيف بتاريخ: {new Date(service.createdAt).toLocaleDateString("ar-SA")}
-            </p>
-            <div className="flex gap-2 mt-3">
-              <Link
-                href={`/admin/services/${service.id}`}
-                className="bg-blue-500 text-white px-3 py-1 rounded"
-              >
-                تعديل
-              </Link>
-              <button
-                onClick={() => handleDelete(service.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded"
-              >
-                حذف
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    <main className="max-w-6xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold mb-6">إدارة الخدمات</h1>
+      {loading ? (
+        <p className="text-gray-600">جاري تحميل الخدمات...</p>
+      ) : services.length === 0 ? (
+        <p className="text-gray-600">لا توجد خدمات حالياً</p>
+      ) : (
+        <table className="min-w-full bg-white border rounded-lg shadow">
+          <thead>
+            <tr className="bg-gray-100 text-right">
+              <th className="py-3 px-4 border-b">#</th>
+              <th className="py-3 px-4 border-b">العنوان</th>
+              <th className="py-3 px-4 border-b">السعر</th>
+              <th className="py-3 px-4 border-b">الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            {services.map((service, idx) => (
+              <tr key={service.id} className="hover:bg-gray-50">
+                <td className="py-2 px-4 border-b">{idx + 1}</td>
+                <td className="py-2 px-4 border-b">{service.title}</td>
+                <td className="py-2 px-4 border-b">{service.price} ريال</td>
+                <td className="py-2 px-4 border-b">
+                  <Link
+                    href={`/services/${service.id}`}
+                    className="text-blue-600 hover:underline mr-2"
+                  >
+                    عرض
+                  </Link>
+                  <Link
+                    href={`/admin/services/${service.id}`}
+                    className="text-green-600 hover:underline mr-2"
+                  >
+                    تعديل
+                  </Link>
+                  <button className="text-red-600 hover:underline">حذف</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </main>
   );
 }

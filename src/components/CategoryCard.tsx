@@ -1,12 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import { translateTag } from '@/lib/tagTranslations';
 
 type Props = {
   title: string;
   description: string;
   icon: string;
   href?: string;
+  tag?: string;
 };
 
 export default function CategoryCard({ title, description, icon, href }: Props) {
@@ -15,7 +17,7 @@ export default function CategoryCard({ title, description, icon, href }: Props) 
       className="
         w-full h-[165px] p-4
         rounded-xl border-4 border-black
-        bg-white text-center
+  bg-[#fdfeff] text-center
         flex flex-col items-center justify-center
         shadow-sm hover:shadow-md transition
       "
@@ -24,9 +26,12 @@ export default function CategoryCard({ title, description, icon, href }: Props) 
       <h3 className="text-[18px] font-bold tracking-tight text-gray-900">
         {title}
       </h3>
-      <p className="mt-1 text-[15px] font-medium text-gray-900 leading-snug">
-        {description}
-      </p>
+      {/** show translated small tag if provided (display-only) */}
+      {typeof (props as any)?.tag !== 'undefined' ? (
+        <p className="text-sm text-gray-500 mt-1">{translateTag((props as any).tag)}</p>
+      ) : (
+        <p className="mt-1 text-[15px] font-medium text-gray-900 leading-snug">{description}</p>
+      )}
     </div>
   );
 
