@@ -1,0 +1,20 @@
+{
+  "files.autoSave": "off",
+  "files.hotExit": "off",
+  "window.confirmBeforeClose": "always",
+
+  "task.allowAutomaticTasks": "off",
+  "debug.javascript.autoAttachFilter": "disabled",
+  "remote.autoForwardPorts": false,
+  "remote.restoreForwardedPorts": false,
+
+  "liveServer.settings.NoBrowser": true,
+  "liveServer.settings.donotShowInfoMsg": true,
+
+  "security.workspace.trust.untrustedFiles": "open",
+  "editor.codeActionsOnSave": {},
+
+  "terminal.explorerKind": "external",
+  "terminal.integrated.confirmOnKill": "always",
+  "terminal.integrated.enablePersistentSessions": false
+}

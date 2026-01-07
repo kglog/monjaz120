@@ -1,3 +1,4 @@
+import React from "react";
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -40,7 +41,7 @@ export default function SideMenu() {
       </button>
 
       {open && (
-        <div className="absolute top-full right-0 mt-2 w-56 bg-white border rounded shadow z-50">
+  <div className="absolute top-full right-0 mt-2 w-56 bg-[#ffffff] border rounded shadow z-50">
           <h3 className="p-3 font-bold border-b">التصنيفات</h3>
           <ul className="text-sm p-2 space-y-2">
             {categories.map((cat) => (

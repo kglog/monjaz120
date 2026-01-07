@@ -1,6 +1,6 @@
-'use client';
+ 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 
@@ -49,10 +49,12 @@ export default function ServiceDetailsPage() {
         <p className="text-green-600 font-bold mb-4">
           السعر: {service.price} ريال
         </p>
-        <button className="bg-primary text-white px-6 py-2 rounded">
+        <button className="text-white px-6 py-2 rounded" style={{ backgroundColor: '#6aaed1' }}>
           اطلب الآن
         </button>
       </div>
     </main>
   );
 }
+
+// ASSISTANT_FINAL: true

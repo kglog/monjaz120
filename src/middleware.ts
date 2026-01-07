@@ -1,22 +1,32 @@
-// src/middleware.ts
-import { NextResponse, type NextRequest } from "next/server";
+// middleware.ts
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const url = req.nextUrl;
-  const adminPass = req.cookies.get("admin_pass")?.value;
+  const { pathname, search } = req.nextUrl;
 
-  const protectedRoots = ["/orders", "/admin"];
-  const needAuth = protectedRoots.some((p) =>
-    url.pathname === p || url.pathname.startsWith(p + "/")
-  );
+  // اسمح بالدخول للصفحة والـ API حقها
+  if (pathname === "/owner/login" || pathname.startsWith("/api/owner/")) {
+    return NextResponse.next();
+  }
 
-  if (needAuth && adminPass !== process.env.ADMIN_PASS) {
-    return NextResponse.redirect(new URL("/admin-login", req.url));
+  // حماية /owner + /admin: وجود كوكي المالك يكفي هنا
+  const needsOwner = pathname.startsWith("/owner") || pathname.startsWith("/admin");
+  if (needsOwner) {
+    const has = !!req.cookies.get("monaza_owner")?.value;
+    if (!has) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/owner/login";
+      url.search = `?returnTo=${encodeURIComponent(pathname + search)}`;
+      return NextResponse.redirect(url);
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/orders/:path*", "/admin/:path*"],
+  matcher: ["/owner/:path*", "/admin/:path*"],
 };
+
+// ASSISTANT_FINAL: true

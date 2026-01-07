@@ -24,7 +24,10 @@ import {
   FolderKanban,
 } from "lucide-react";
 import CategoryCard from "@/components/CategoryCard";
+<<<<<<< HEAD
 import { translateTag } from '@/lib/tagTranslations';
+=======
+>>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
 
 export default function Home() {
   // ——————————————————————
@@ -245,7 +248,11 @@ function SectionPopular({ popular }: { popular: any[] }) {
             >
               <div className="aspect-[16/9] rounded-xl bg-gradient-to-br from-[#a3d6f7]/40 to-[#7cbdf2]/20 mb-3" />
               <h4 className="font-semibold text-gray-900">{s.title}</h4>
+<<<<<<< HEAD
               <p className="text-sm text-gray-500 mt-1">{translateTag(s.tag)}</p>
+=======
+              <p className="text-sm text-gray-500 mt-1">{s.tag}</p>
+>>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
               <div className="mt-3 text-[#7cbdf2] font-semibold">{s.price}</div>
             </div>
           ))}

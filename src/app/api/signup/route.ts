@@ -5,7 +5,7 @@ import User from '@/models/User';
 
 export async function POST(req: Request) {
   try {
-    const { name, email, password } = await req.json();
+  const { name, email, password, role } = await req.json();
 
     await connectToDB();
 
@@ -16,11 +16,16 @@ export async function POST(req: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+  // map incoming role names to the DB enum. Frontend may send 'vendor' or 'seller'
+  // normalize both to the DB's 'vendor' value. Default to 'buyer'.
+  const incomingRole = (role || 'buyer').toString();
+  const normalizedRole = (incomingRole === 'vendor' || incomingRole === 'seller') ? 'vendor' : 'buyer';
+
     await User.create({
       name,
       email,
       password: hashedPassword,
-      role: 'buyer', // أو vendor حسب التسجيل
+      role: normalizedRole,
     });
 
     return NextResponse.json({ message: 'تم إنشاء الحساب بنجاح' });

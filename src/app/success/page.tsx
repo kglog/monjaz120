@@ -1,3 +1,4 @@
+import React from "react";
 export default function SuccessPage() {
   return (
     <div className="max-w-lg mx-auto mt-16 p-8 bg-white shadow rounded text-center">

@@ -1,6 +1,7 @@
 "use client";
 import CategoryCard from "@/components/CategoryCard";
 import RelatedPills from "@/components/RelatedPills";
+<<<<<<< HEAD
 import { CATEGORY_MAP } from '@/lib/categoryData';
 
 // Prefer canonical data from CATEGORY_MAP; fall back to local defaults if missing
@@ -11,6 +12,10 @@ const matched = aiCategory ? {
   popular: aiCategory.popular.slice(0, 6).map(p => ({ title: p.title, tag: p.tag })),
   subcategories: aiCategory.subcategories || [],
 } : {
+=======
+
+const matched = {
+>>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
   title: "ذكاء اصطناعي",
   hero: { title: "ذكاء اصطناعي", subtitle: "نماذج وواجهات ذكية لأتمتة الأعمال وإنتاج المحتوى.", cta: "استكشف حلول الذكاء" },
   popular: [

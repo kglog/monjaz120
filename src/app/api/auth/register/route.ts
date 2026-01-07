@@ -11,7 +11,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ status: 'error', message: 'Invalid request' }, { status: 400 });
     }
 
+<<<<<<< HEAD
     const { firstName, lastName, email, password, role, specialty, agree } = body;
+=======
+  let { firstName, lastName, email, password, role, specialty, agree } = body;
+
+  // normalize email and trim password to avoid mismatch with login
+  if (typeof email === 'string') email = email.trim().toLowerCase();
+  if (typeof password === 'string') password = password.trim();
+>>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
 
     if (!agree) {
       return NextResponse.json({ status: 'error', message: 'يجب الموافقة على الشروط' }, { status: 400 });

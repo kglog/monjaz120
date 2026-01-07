@@ -1,0 +1,11 @@
+[
+  {
+    "id": "task-1",
+    "type": "identity_verification",
+    "title": "موافقة توثيق مزود اختبار",
+    "payload": { "userId": "test-user-1", "notes": "صورة الهوية غير واضحة" },
+    "status": "open",
+    "createdAt": "2025-11-27T00:00:00.000Z",
+    "updatedAt": "2025-11-27T00:00:00.000Z"
+  }
+]

@@ -1,3 +1,4 @@
+import React from "react";
 // src/app/privacy/page.tsx
 export default function PrivacyPolicyPage() {
   return (

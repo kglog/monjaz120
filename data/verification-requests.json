@@ -1,0 +1,201 @@
+[
+  {
+    "id": "vr_1761713144918",
+    "fullNameLength": 7,
+    "nationalIdMask": "********65",
+    "dobYear": "9996",
+    "status": "pending",
+    "submittedAt": "2025-10-29T04:45:44.918Z"
+  },
+  {
+    "id": "req_1761717943958",
+    "uid": "anon",
+    "status": "verified",
+    "createdAt": "2025-10-29T06:05:43.958Z",
+    "fullName": "فهد حسن خالد محمد",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "1999-12-31",
+    "idFront": {
+      "status": "PENDING_REVIEW",
+      "url": "/data/uploads/idfront_1763913597086.jpg"
+    },
+    "idBack": {
+      "status": "PENDING_REVIEW",
+      "url": "/data/uploads/idback_1763913619097.jpg",
+      "qualityScore": 114,
+      "qualityCode": "MOD"
+    },
+    "selfie": {
+      "status": "PENDING_REVIEW",
+      "url": "/data/uploads/selfie_1763913619099.jpg",
+      "match": 75
+    },
+    "decisionAt": "2025-11-25T00:28:34.722Z",
+    "decisionReason": null,
+    "verifyStatus": "verified",
+    "decision": "approve",
+    "reviewedBy": "admin-local",
+    "decidedAt": 1764081191277
+  },
+  {
+    "id": "req_1761719495848",
+    "uid": "anon",
+    "status": "pending_review",
+    "createdAt": "2025-10-29T06:31:35.848Z",
+    "fullName": "فهد محمد سعد فهد",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "1990-01-01",
+    "idFront": {
+      "status": "PENDING_REVIEW",
+      "url": "/data/uploads/idfront_1764175608018.jpg"
+    },
+    "idBack": {
+      "status": "UPLOADED",
+      "url": "/data/uploads/idback_1764179706709.jpg",
+      "qualityScore": 364
+    },
+    "selfie": {
+      "status": "UPLOADED",
+      "url": "/data/uploads/selfie_1764179706736.jpg",
+      "match": 75
+    },
+    "verifyStatus": "pending_review",
+    "autoApproved": false
+  },
+  {
+    "id": "req_1761720172306",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-10-29T06:42:52.306Z",
+    "fullName": "فعفه نتسيبنيست نسيبنيتس نسيتبينت",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "1990-01-02"
+  },
+  {
+    "id": "req_1761721265800",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-10-29T07:01:05.800Z",
+    "fullName": "لاتاتا عتغغاغ عهغعغغع هعهععه",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "2000-11-11"
+  },
+  {
+    "id": "req_1761724135881",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-10-29T07:48:55.881Z",
+    "fullName": "بهع يبلغاعه ثقفغع قفغعه",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "1990-11-02"
+  },
+  {
+    "id": "req_1761724586976",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-10-29T07:56:26.976Z",
+    "fullName": "بلببل فغ عغعع غعغغع",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "1900-11-23"
+  },
+  {
+    "id": "req_1761724996414",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-10-29T08:03:16.414Z",
+    "fullName": "هعغفقث شسيثقفغ يبلب يبلا",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "1990-12-12"
+  },
+  {
+    "id": "req_1762078579108",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-11-02T10:16:19.108Z",
+    "fullName": "سيبلاتنمك بلاتنم اتنم اتنم",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "2000-11-12"
+  },
+  {
+    "id": "req_1762078590244",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-11-02T10:16:30.244Z",
+    "fullName": "سيبلاتنمك بلاتنم اتنم اتنم",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "2000-11-12"
+  },
+  {
+    "id": "req_1763863519285",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-11-23T02:05:19.285Z",
+    "fullName": "شسيسيس ييق يبيقبي يثثق",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "2000-12-12"
+  },
+  {
+    "id": "req_1763895438146",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-11-23T10:57:18.146Z",
+    "fullName": "ععع تييت تيتيت نيني",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "2000-11-12"
+  },
+  {
+    "id": "req_1763903372798",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-11-23T13:09:32.798Z",
+    "fullName": "fghjuk dfghjk dfghjk fghjkl",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "2000-10-10"
+  },
+  {
+    "id": "req_1763913578203",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-11-23T15:59:38.203Z",
+    "fullName": "حخهعغف ثقفغعه يقفغعه يبفغعه",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "2000-01-03"
+  },
+  {
+    "id": "req_1764175594647",
+    "uid": "anon",
+    "status": "basic_info_submitted",
+    "createdAt": "2025-11-26T16:46:34.647Z",
+    "fullName": "ضضص ضصضص ضصضص ضصض",
+    "encryptedNationalId": null,
+    "last4": "8230",
+    "last4hash": "d3366ba5a450d071e4c03482a504337c57a09efeff4f29752ade75905a69a387",
+    "dob": "2000-01-02"
+  }
+]

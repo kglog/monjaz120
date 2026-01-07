@@ -1,0 +1,234 @@
+"use client";
+<<<<<<< HEAD
+import React, { useState } from "react";
+=======
+
+import React, { useEffect, useState } from "react";
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
+import { useRouter } from "next/navigation";
+import brain from "@/core/brain";
+import { validateFullName, validateSaudiNID, validateBirthDate } from "@/lib/validators";
+
+export default function BasicInfoPage() {
+  const [nameAr, setNameAr] = useState("");
+  const [nameEn, setNameEn] = useState("");
+  const [nationalId, setNationalId] = useState("");
+  const [dob, setDob] = useState("");
+  const [error, setError] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    // Page view event (brain-safe)
+    try {
+      brain.logEvent("view", { page: "verify/basic-info" });
+    } catch (err) {}
+  }, []);
+
+  // فلترة رقم الهوية بحيث يقبل فقط أرقام ويمنع الأحرف نهائياً
+  const handleNationalIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^0-9]/g, "");
+    setNationalId(value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      e.key.length === 1 &&
+      !/[0-9]/.test(e.key) &&
+      !["Backspace", "Tab", "ArrowLeft", "ArrowRight", "Delete"].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pasteData = e.clipboardData.getData("Text");
+    if (!/^\d+$/.test(pasteData)) {
+      e.preventDefault();
+    }
+  };
+
+  const onFieldFocus = (field: string) => {
+    try {
+      brain.logEvent("input_focus", { page: "verify/basic-info", field });
+    } catch (err) {}
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+<<<<<<< HEAD
+    // تحقق إضافي أن كل المدخلات سليمة ورقم الهوية أرقام فقط
+    if (
+      !nameAr ||
+      !nameEn ||
+      !/^\d{10}$/.test(nationalId) ||
+      !dob
+    ) {
+      setError("يرجى إدخال جميع البيانات بشكل صحيح. رقم الهوية يجب أن يكون 10 أرقام فقط.");
+=======
+
+    // client-side validation using shared validators
+    const nameErr = validateFullName(name);
+    if (nameErr) {
+      setError("رجاءً أدخل اسمًا كاملًا صحيحًا.");
+      try { brain.logEvent("validation_error", { page: "verify/basic-info", field: "fullName" }); } catch (e) {}
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
+      return;
+    }
+
+    const nidErr = validateSaudiNID(nationalId);
+    if (nidErr) {
+      setError("رقم الهوية غير صالح (10 أرقام ومطابقة للتحقق)."
+      );
+      try { brain.logEvent("validation_error", { page: "verify/basic-info", field: "national_id" }); } catch (e) {}
+      return;
+    }
+
+    const dobErr = validateBirthDate(dob);
+    if (dobErr) {
+      setError("العمر أقل من الحد المسموح.");
+      try { brain.logEvent("validation_error", { page: "verify/basic-info", field: "dob" }); } catch (e) {}
+      return;
+    }
+
+    if (!consent) {
+      setError("يرجى الموافقة على استخدام بياناتك للتحقق قبل المتابعة.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      try { brain.logEvent("submit", { page: "verify/basic-info" }); } catch (e) {}
+
+      const res = await fetch("/api/account/verify/basic-info", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fullName: name.trim(), nationalId, dob }),
+      });
+
+      if (res.status === 429) {
+        try { brain.logEvent("ratelimit_triggered", { page: "verify/basic-info" }); } catch (e) {}
+        setError("حاولت كثيرًا. رجاءً أكمل التحقق الأمني.");
+        setSubmitting(false);
+        return;
+      }
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data?.error || "فشل في إرسال البيانات. حاول مرة أخرى.");
+        setSubmitting(false);
+        return;
+      }
+
+      router.push("/account/verify/id-front");
+    } catch (err) {
+      console.error(err);
+      setError("فشل في الاتصال بالخادم. تحقق من الشبكة.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const isFormValid = () => {
+    return !validateFullName(name) && !validateSaudiNID(nationalId) && !validateBirthDate(dob) && consent && !submitting;
+  };
+
+  return (
+<<<<<<< HEAD
+    <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10">
+      <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">توثيق الهوية</h2>
+      <div className="mb-5 p-4 bg-gray-50 border border-gray-200 rounded text-sm">
+        <b>يرجى إدخال جميع البيانات كما هي في الهوية أو الجواز.</b><br/>
+        الاسم بالعربي والانجليزي كما هو في الوثائق.<br/>
+        إذا كانت البيانات غير صحيحة أو غير واضحة سيتم رفض الطلب أو إيقاف الحساب.<br/>
+        منصة.كوم تحمي بياناتك وتتحقق منها بأنظمة ذكية لضمان الأمان والجودة.<br/>
+        <hr className="my-2" />
+        <b>Please enter your details exactly as in your official ID or passport.</b><br/>
+        Name in Arabic and English as shown in your documents.<br/>
+        Wrong or unclear information will result in rejection or account suspension.<br/>
+        Monjaz platform protects your data and verifies it with smart systems for safety and quality.<br/>
+      </div>
+=======
+  <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10 border-2 border-black/20">
+      <h2 className="text-xl font-bold mb-2 text-center text-cyan-700">البيانات الأساسية</h2>
+      <p className="text-sm text-gray-600 text-center mb-6">يُستخدم هذا القسم للتحقق من الهوية فقط. لا نُظهر هذه البيانات لأحد، وتُحذف تلقائيًا بعد اكتمال التحقق.</p>
+
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
+      <form onSubmit={handleSubmit}>
+        <label className="block font-semibold mb-2">الاسم الكامل (بالعربي)</label>
+        <input
+          type="text"
+<<<<<<< HEAD
+          value={nameAr}
+          onChange={e => setNameAr(e.target.value)}
+          className="w-full mb-4 p-3 border rounded"
+          placeholder="أدخل اسمك بالعربي كما في الهوية"
+        />
+
+        <label className="block font-semibold mb-2">الاسم الكامل (بالإنجليزي)</label>
+        <input
+          type="text"
+          value={nameEn}
+          onChange={e => setNameEn(e.target.value)}
+          className="w-full mb-4 p-3 border rounded"
+          placeholder="أدخل اسمك بالإنجليزي كما في الجواز"
+=======
+          value={name}
+          onChange={e => setName(e.target.value)}
+          onFocus={() => onFieldFocus("fullName")}
+          className="w-full mb-2 p-3 border rounded"
+          placeholder="اكتب اسمك الرباعي كما في الهوية."
+>>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
+        />
+        <div className="text-xs text-gray-500 mb-4">اكتب اسمك الرباعي كما في الهوية.</div>
+
+        <label className="block font-semibold mb-2">رقم الهوية الوطنية</label>
+        <input
+          type="text"
+          value={nationalId}
+          onChange={handleNationalIdChange}
+          onKeyDown={handleKeyDown}
+          onPaste={handlePaste}
+          onFocus={() => onFieldFocus("national_id")}
+          maxLength={10}
+          className="w-full mb-2 p-3 border rounded"
+          placeholder="10 أرقام. للمواطن يبدأ عادةً بـ 1، وللمقيم بـ 2."
+          inputMode="numeric"
+          pattern="[0-9]*"
+          autoComplete="off"
+        />
+        <div className="text-xs text-gray-500 mb-4">10 أرقام. للمواطن يبدأ عادةً بـ 1، وللمقيم بـ 2.</div>
+
+        <label className="block font-semibold mb-2">تاريخ الميلاد</label>
+        <input
+          type="date"
+          value={dob}
+          onChange={e => setDob(e.target.value)}
+          onFocus={() => onFieldFocus("dob")}
+          className="w-full mb-2 p-3 border rounded"
+        />
+        <div className="text-xs text-gray-500 mb-4">اختر من التقويم (يُسمح +18 سنة فأكثر).</div>
+
+        <label className="flex items-center gap-2 mb-4">
+          <input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} />
+          <span className="text-sm">أوافق على استخدام بياناتي للتحقق فقط، وفق سياسة الخصوصية.</span>
+        </label>
+
+        <div className="text-xs text-gray-500 mb-4">🔒 حماية مشددة: تشفير على مستوى الحقل، وحذف ذكي بعد التحقق. لا تُشارك مع طرف ثالث إلا لغرض التحقق النظامي.</div>
+
+        {error && <div className="text-red-600 mb-4">{error}</div>}
+        <button
+          type="submit"
+          disabled={!isFormValid()}
+          className={`w-full py-3 ${isFormValid() ? "bg-cyan-600 hover:bg-cyan-700 text-white" : "bg-gray-300 text-gray-600 cursor-not-allowed"} font-bold rounded`}
+        >
+          حفظ البيانات والمتابعة
+        </button>
+
+        <p className="text-xs text-gray-500 mt-3">بالمتابعة، فأنت تقرّ أن بياناتك ستُستخدم للتحقق فقط، ولن تُشارك لأغراض تسويقية. يمكن حذفها بطلبك ما لم تكن مطلوبة نظاميًا.</p>
+      </form>
+    </div>
+  );
+}

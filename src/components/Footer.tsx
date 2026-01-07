@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+﻿import React from "react";
+
+>>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
 export default function Footer() {
   return (
     <footer className="bg-gray-800 text-gray-200 py-10 mt-16">
@@ -28,7 +33,11 @@ export default function Footer() {
           <p>تويتر - فيسبوك - لينكدإن</p>
         </div>
       </div>
+<<<<<<< HEAD
       <p className="text-center mt-8 text-sm">© {new Date().getFullYear()} منصة.كوم - جميع الحقوق محفوظة</p>
+=======
+      <p className="text-center mt-8 text-sm"> {new Date().getFullYear()} منصة.كوم - جميع الحقوق محفوظة</p>
+>>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
     </footer>
   );
 }

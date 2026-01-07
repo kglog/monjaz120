@@ -9,7 +9,7 @@ type Order = {
   status: "جديد" | "جاري" | "تم" | "مرفوض";
 };
 
-let orders: Order[] = [];
+const orders: Order[] = [];
 
 export function createOrder(service: Order) {
   orders.push(service);

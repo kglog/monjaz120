@@ -1,0 +1,110 @@
+[
+  {
+    "id": "svc-1765108324326",
+    "title": "اااااااااااااا",
+    "seller": "ثقفغع شصثق يثقفغع",
+    "priceFrom": 10,
+    "rating": 0,
+    "createdAt": "2025-12-07T11:52:04.326Z",
+    "category": "engineering",
+    "subcategory": "تصميم معماري",
+    "images": [
+      "/data/uploads/1765108324326-images.jpg"
+    ]
+  },
+  {
+    "id": "svc-1765096411861",
+    "title": "سسسسسسسسسسسسسسس",
+    "seller": "ثقفغع شصثق يثقفغع",
+    "priceFrom": 10,
+    "rating": 0,
+    "createdAt": "2025-12-07T08:33:31.861Z",
+    "category": "business",
+    "subcategory": "consulting",
+    "images": [
+      "/data/uploads/1765096411861-1350x1800_2CECBEB9-C6AE-442B-8CF8-53CE81B027D4.jpg-700.webp"
+    ]
+  },
+  {
+    "id": "svc-1765096191498",
+    "title": "ثقفغعهخحج",
+    "seller": "ثقفغع شصثق يثقفغع",
+    "priceFrom": 10,
+    "rating": 0,
+    "createdAt": "2025-12-07T08:29:51.498Z",
+    "category": "development",
+    "subcategory": "wordpress",
+    "images": [
+      "/data/uploads/1765096191498-a-close-up-of-saudi-arabian-preview-44086.jpg"
+    ]
+  },
+  {
+    "id": "svc-1765092439642",
+    "title": "يثقبفغعهخ",
+    "seller": "ثقفغع شصثق يثقفغع",
+    "priceFrom": 10,
+    "rating": 0,
+    "createdAt": "2025-12-07T07:27:19.642Z",
+    "images": [
+      "/data/uploads/1765092439642-48378bcd-910b-433b-a023-5d19b436b384-1024x10241.webp"
+    ]
+  },
+  {
+    "id": "svc-1762432794609",
+    "title": "ثقفغع",
+    "seller": "DevSeller",
+    "priceFrom": 10,
+    "rating": 0,
+    "createdAt": "2025-11-06T12:39:54.609Z",
+    "images": [
+      "/api/static/uploads?name=1765092349577-1350x1800_2CECBEB9-C6AE-442B-8CF8-53CE81B027D4.jpg-700.webp",
+      "/api/static/uploads?name=1762891731267-images__2_.jpg",
+      "/data/uploads/1762432794609-image2.png"
+    ],
+    "active": true
+  },
+  {
+    "id": "svc-1762430095761",
+    "title": "حخصيتي",
+    "seller": "DevSeller",
+    "priceFrom": 11,
+    "rating": 0,
+    "createdAt": "2025-11-06T11:54:55.761Z",
+    "images": [
+      "/api/static/uploads?name=1762890461627-download.jpg",
+      "/data/uploads/1762430095761-705f35de-d4a4-42a4-b37c-a401e361b32f.png"
+    ],
+    "active": false
+  },
+  {
+    "id": "svc-1762430084760",
+    "title": "حخصيتي",
+    "seller": "DevSeller",
+    "priceFrom": 11,
+    "rating": 0,
+    "createdAt": "2025-11-06T11:54:44.760Z",
+    "images": [
+      "/data/uploads/1762430084760-705f35de-d4a4-42a4-b37c-a401e361b32f.png"
+    ]
+  },
+  {
+    "id": "svc-1762081628354",
+    "title": "فقث",
+    "seller": "أنت",
+    "priceFrom": "$0.00",
+    "rating": 0,
+    "createdAt": "2025-11-02T11:07:08.354Z",
+    "images": [
+      "/api/static/uploads?name=1762891785675-images__1_.jpg",
+      "/data/uploads/1762081628354-3373a418-edca-443e-b040-72116c09374e.png"
+    ]
+  },
+  {
+    "id": "svc-001",
+    "title": "تصميم شعار احترافي",
+    "seller": "أحمد المصمم",
+    "priceFrom": "10 ريال",
+    "rating": 5,
+    "createdAt": "2025-11-02T00:00:00.000Z"
+  }
+]
