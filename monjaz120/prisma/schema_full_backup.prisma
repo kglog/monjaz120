@@ -1,0 +1,112 @@
+﻿generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      String    @default("user")
+  services  Service[]
+  orders    Order[]   @relation("UserOrders")
+  createdAt DateTime  @default(now())
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  price       Float
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  orders      Order[]
+  createdAt   DateTime @default(now())
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  title     String
+  price     Float
+  details   String?
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
+  userId    String
+  user      User     @relation("UserOrders", fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+# safe-add-identity-models.ps1
+$schema = "prisma\schema.prisma"
+if (-not (Test-Path $schema)) {
+  Write-Error "ملف prisma\schema.prisma ما موجود. شغّل من جذر المشروع."
+  exit 1
+}
+
+# باك أب للملف
+$bak = "prisma\schema.prisma.bak_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+Copy-Item $schema $bak
+Write-Host "تم إنشاء نسخة احتياطية من schema.prisma => $bak"
+
+# نتحقّق إذا الموديل موجود
+$exists = Select-String -Path $schema -Pattern "model IdentitySession" -SimpleMatch
+
+if ($exists) {
+  Write-Host "Model IdentitySession موجود مسبقًا في schema.prisma — لن نضيف شيء."
+  exit 0
+}
+
+$models = @"
+model IdentitySession {
+  id          String   @id @default(cuid())
+  userId      String?  @index
+  status      String   @default("pending") // pending | verified | rejected | manual_review
+  step        String   @default("basic") // basic | front | back | selfie | verify
+  frontUrl    String?
+  backUrl     String?
+  selfieUrl   String?
+  ocrResult   Json?
+  flags       Json?    // suspicious flags
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Fingerprint {
+  id      String   @id @default(cuid())
+  fpHash  String   @unique
+  ip      String?
+  ua      String?
+  meta    Json?
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  type      String
+  userId    String?
+  meta      Json
+  createdAt DateTime @default(now())
+}
+"@
+
+Add-Content -Path $schema -Value "`n// --- Monjaz Identity Models (added) ---`n"
+Add-Content -Path $schema -Value $models
+Write-Host "تم إضافة الموديلات إلى prisma\schema.prisma بنجاح."
+model VerificationRequest {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  fullName    String
+  nationalId  String
+  dob         DateTime
+  selfiePath  String
+  idCardPath  String
+  status      String   @default("pending") // pending | approved | rejected
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  User User @relation(fields: [userId], references: [id])
+}
