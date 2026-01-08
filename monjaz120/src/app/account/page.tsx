@@ -1,10 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
 import {
   User,
   ShieldCheck,
@@ -29,15 +25,8 @@ export default function AccountPage() {
     <div className="bg-white min-h-screen py-8">
       {/* صورة واسم */}
       <div className="flex flex-col items-center">
-<<<<<<< HEAD
-        <div className="w-20 h-20 rounded-full bg-cyan-600 flex items-center justify-center text-white text-2xl font-bold shadow-md overflow-hidden border border-black">
-          {user?.avatar ? (
-            <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" />
-          ) : user?.username ? (
-=======
         <div className="w-20 h-20 rounded-full bg-cyan-600 flex items-center justify-center text-white text-2xl font-bold shadow-md">
           {user?.username ? (
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
             user.username.charAt(0).toUpperCase()
           ) : (
             <User className="w-10 h-10" />
@@ -48,13 +37,6 @@ export default function AccountPage() {
         </h1>
 
         {/* تاريخ التسجيل */}
-<<<<<<< HEAD
-        {/* عرض المسمى الوظيفي إذا موجود */}
-        {user?.job && (
-          <p className="text-sm text-gray-700 mt-1">{user.job}</p>
-        )}
-=======
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
         {user && (
           <p className="text-sm text-gray-600">
             تاريخ التسجيل:{" "}
@@ -94,11 +76,7 @@ export default function AccountPage() {
       {/* البطاقات */}
       <div className="max-w-5xl mx-auto mt-10 grid md:grid-cols-3 gap-6">
         {/* التوثيق */}
-<<<<<<< HEAD
-  <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-between h-40 bg-white hover:shadow-md transition cursor-pointer">
-=======
         <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-between h-44 bg-white hover:shadow-md transition cursor-pointer">
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
           <div>
             <h2 className="flex items-center gap-2 text-lg font-semibold text-cyan-600">
               <ShieldCheck className="w-5 h-5" /> التوثيق
@@ -116,11 +94,7 @@ export default function AccountPage() {
                     <span className="text-red-600 font-bold">✗</span>
                   </li>
                 </ul>
-<<<<<<< HEAD
-                <p className="text-xs text-red-600 font-semibold mt-1">
-=======
                 <p className="text-xs text-red-600 font-semibold mt-3">
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
                   لا يمكنك سحب أرباحك إلا بعد توثيق الهوية
                 </p>
               </>
@@ -132,11 +106,7 @@ export default function AccountPage() {
           </div>
           <a
             href="/account/verify"
-<<<<<<< HEAD
-            className="mt-2 w-full bg-cyan-600 text-white px-4 py-1 rounded-md text-sm font-semibold hover:bg-cyan-700 transition text-center"
-=======
             className="mt-3 inline-block bg-cyan-600 text-white px-4 py-1 rounded-md text-sm font-semibold hover:bg-cyan-700 transition text-center"
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
           >
             وثّق هويتك
           </a>
@@ -155,9 +125,6 @@ export default function AccountPage() {
             </p>
           )}
         </div>
-<<<<<<< HEAD
-=======
-=======
 import { useSearchParams } from "next/navigation";
 import { User, BarChart3, Info, Mail, UserCircle, CreditCard } from "lucide-react";
 import VerifyLiveStatus from "@/app/account/_components/VerifyLiveStatus";
@@ -303,8 +270,6 @@ export default function AccountPage() {
             <p className="text-sm text-gray-600 mt-2">سجّل دخولك لمتابعة لوحة التحكم</p>
           )}
         </a>
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
 
         {/* نبذة عني */}
         <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer">
@@ -318,10 +283,6 @@ export default function AccountPage() {
           </p>
         </div>
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
       {/* كرت حساباتك المربوطة للسحب */}
       <section className="bg-white rounded-xl shadow p-4 md:p-5 border border-gray-200">
         <h2 className="flex items-center gap-2 text-lg font-bold mb-2">
@@ -375,8 +336,6 @@ export default function AccountPage() {
         )}
       </section>
 
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
         {/* البريد الإلكتروني */}
         <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-cyan-600">
@@ -390,20 +349,10 @@ export default function AccountPage() {
         </div>
 
         {/* المعلومات الشخصية */}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer">
-=======
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
         <a
           href={user ? "/account/edit" : "/login"}
           className="block border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition"
         >
-<<<<<<< HEAD
-=======
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
           <h2 className="flex items-center gap-2 text-lg font-semibold text-cyan-600">
             <UserCircle className="w-5 h-5" /> المعلومات الشخصية
           </h2>
@@ -412,15 +361,6 @@ export default function AccountPage() {
               ? "تعديل الاسم وصورتك وبياناتك."
               : "سجّل دخولك لتعديل بياناتك."}
           </p>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-        </div>
-
-        {/* البطاقات الائتمانية */}
-        <div className="border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition cursor-pointer">
-=======
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
         </a>
 
         {/* البطاقات الائتمانية */}
@@ -428,10 +368,6 @@ export default function AccountPage() {
           href="/account/cards"
           className="block border border-cyan-600 rounded-lg p-4 shadow-sm flex flex-col justify-center h-40 bg-white hover:shadow-md transition"
         >
-<<<<<<< HEAD
-=======
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
           <h2 className="flex items-center gap-2 text-lg font-semibold text-cyan-600">
             <CreditCard className="w-5 h-5" /> البطاقات الائتمانية
           </h2>
@@ -440,24 +376,11 @@ export default function AccountPage() {
               ? "إدارة بطاقاتك المرتبطة بالحساب."
               : "سجّل دخولك لإضافة بطاقات الدفع."}
           </p>
-<<<<<<< HEAD
         </a>
-=======
-<<<<<<< HEAD
-        </div>
-=======
-        </a>
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
       </div>
     </div>
   );
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
 
 // ASSISTANT_FINAL: true
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
+

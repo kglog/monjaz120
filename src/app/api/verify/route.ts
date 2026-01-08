@@ -1,25 +1,4 @@
 import { NextResponse } from "next/server";
-<<<<<<< HEAD
-import prisma from "@/lib/prisma"; // ✅ تعديل هنا
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
-import fs from "fs";
-
-export async function POST(req: Request) {
-  try {
-    const formData = await req.formData();
-=======
-<<<<<<< HEAD
-import { prisma } from "@/lib/prisma";
-import { writeFile } from "fs/promises";
-import path from "path";
-
-// 📝 استقبال بيانات التوثيق
-export async function POST(req: Request) {
-  try {
-    const formData = await req.formData();
-
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
     const fullName = formData.get("fullName") as string;
     const nationalId = formData.get("nationalId") as string;
     const dob = formData.get("dob") as string;
@@ -27,43 +6,6 @@ export async function POST(req: Request) {
     const idCard = formData.get("idCard") as File | null;
 
     if (!fullName || !nationalId || !dob || !selfie || !idCard) {
-<<<<<<< HEAD
-      return NextResponse.json({ error: "حقول ناقصة" }, { status: 400 });
-    }
-
-    // 📂 مسار التخزين
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    if (!fs.existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
-    }
-
-    // 💾 حفظ الملفات
-    const selfieFileName = `${Date.now()}-selfie-${selfie.name}`;
-    const idFileName = `${Date.now()}-id-${idCard.name}`;
-    const selfiePath = path.join(uploadDir, selfieFileName);
-    const idPath = path.join(uploadDir, idFileName);
-
-    await writeFile(selfiePath, Buffer.from(await selfie.arrayBuffer()));
-    await writeFile(idPath, Buffer.from(await idCard.arrayBuffer()));
-
-    // 🗄️ حفظ في قاعدة البيانات
-    const saved = await prisma.verificationRequest.create({
-      data: {
-        userId: "test-user", // ✅ عدلها لاحقًا تربط بالمستخدم الحقيقي
-        fullName,
-        nationalId,
-        dob: new Date(dob),
-        selfiePath: `/uploads/${selfieFileName}`,
-        idCardPath: `/uploads/${idFileName}`,
-        status: "pending",
-      },
-    });
-
-    return NextResponse.json({ status: saved.status });
-  } catch (err: any) {
-    console.error("Verify API error:", err);
-    return NextResponse.json({ error: err.message || "خطأ في الخادم" }, { status: 500 });
-=======
       return NextResponse.json(
         { error: "جميع الحقول مطلوبة" },
         { status: 400 }
@@ -103,7 +45,6 @@ await prisma.verificationRequest.create({
       { error: "خطأ في الخادم", details: error.message },
       { status: 500 }
     );
-=======
 import { writeFile, mkdir, readFile } from "fs/promises";
 import path from "path";
 
@@ -147,7 +88,6 @@ export async function POST(req: Request) {
   } catch (err: any) {
     console.error("/api/verify error:", err);
     return NextResponse.json({ error: err?.message || "خطأ في الخادم" }, { status: 500 });
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
   }
 }
+

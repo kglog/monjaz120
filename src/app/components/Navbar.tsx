@@ -11,12 +11,6 @@ import {
 export default function Navbar() {
   const [user, setUser] = useState<any>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-<<<<<<< HEAD
-  const [openMenu, setOpenMenu] = useState<"messages" | "notifications" | "account" | null>(null);
-=======
-<<<<<<< HEAD
-  const [openMenu, setOpenMenu] = useState<"messages" | "notifications" | "account" | null>(null);
-=======
   
 const pathname = usePathname();
 
@@ -25,8 +19,6 @@ useEffect(() => {
   setOpenMenu(null as any);
 }, [pathname]);
 const [openMenu, setOpenMenu] = useState<"messages" | "notifications" | "account" | null>(null);
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -42,43 +34,21 @@ const [openMenu, setOpenMenu] = useState<"messages" | "notifications" | "account
   };
 
   return (
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
    <>
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
    <nav className="bg-white shadow px-4 py-2 flex justify-between items-center relative sticky top-0 z-50">
 
       {/* الشعار */}
       <Link
         href="/"
-<<<<<<< HEAD
-        className="text-base font-bold px-3 py-1 rounded-full border border-[#050505] text-[#050505] hover:bg-[#e0f7fd]/40 transition"
-=======
-<<<<<<< HEAD
-        className="text-lg font-bold px-3 py-1 rounded-full border border-[#050505] text-[#050505] hover:bg-[#e0f7fd]/40 transition"
-=======
         className="text-base font-bold px-3 py-1 rounded-full border border-[#050505] text-[#050505] hover:bg-[#e0f7fd]/40 transition translate-x-5"
         style={{ transform: 'translateX(20px)' }}
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
       >
         منصة.كوم
       </Link>
 
       {/* الروابط + الأيقونات */}
       <div className="flex gap-4 items-center relative">
-<<<<<<< HEAD
-        <Link href="/categories" className="flex items-center gap-1 text-sm text-gray-700 hover:text-[#38bdf8]">
-=======
-<<<<<<< HEAD
-        <Link href="/categories" className="flex items-center gap-1 text-sm text-gray-700 hover:text-[#38bdf8]">
-=======
         <Link href="/categories" className="flex items-center gap-1 text-sm text-gray-700 hover:text-[#38bdf8] translate-y-1">
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
           <FolderKanban className="w-4 h-4" />
           التصنيفات
         </Link>
@@ -138,23 +108,11 @@ const [openMenu, setOpenMenu] = useState<"messages" | "notifications" | "account
                 <Link href="/groups" className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                   <Bookmark className="w-4 h-4" /> مجموعاتي
                 </Link>
-<<<<<<< HEAD
-                <Link href="/balance" className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
-                  <DollarSign className="w-4 h-4" /> الرصيد
-                </Link>
-=======
-<<<<<<< HEAD
-                <Link href="/balance" className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
-                  <DollarSign className="w-4 h-4" /> الرصيد
-                </Link>
-=======
                 {user && (user.role === 'seller' || user.role === 'vendor') && (
                   <Link href="/balance" className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                     <DollarSign className="w-4 h-4" /> الرصيد
                   </Link>
                 )}
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
                 <Link href="/settings" className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                   <Settings className="w-4 h-4" /> الإعدادات
                 </Link>
@@ -180,19 +138,12 @@ const [openMenu, setOpenMenu] = useState<"messages" | "notifications" | "account
           </div>
         )}
       </div>
-<<<<<<< HEAD
-    </nav>
-=======
-<<<<<<< HEAD
-    </nav>
-=======
       </nav>
       {/* platform rectangle moved below the header */}
       <div className="w-full flex justify-center mt-2">
         <span className="text-[1.25rem] md:text-[1.6rem] font-extrabold text-gray-700 leading-tight">منصتك لإنجاز المهام الذكية بسهولة وأمان</span>
       </div>
    </>
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
   );
 }
+

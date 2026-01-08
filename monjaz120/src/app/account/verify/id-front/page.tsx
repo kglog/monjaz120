@@ -1,8 +1,5 @@
 "use client";
-<<<<<<< HEAD
-=======
 
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { preCheck } from "./client-guard";
@@ -133,29 +130,6 @@ export default function IdFrontPage() {
       setError("يرجى رفع صورة وجه الهوية الأمامية.");
       return;
     }
-<<<<<<< HEAD
-    // هنا ترفع الصورة للسيرفر (لو فيه API)
-    // بعد نجاح الرفع تنتقل للخطوة التالية
-    router.push("/account/verify/id-back");
-  };
-
-  return (
-    <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10">
-      <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">
-        رفع صورة الهوية (وجه أمامي)
-      </h2>
-      <div className="mb-5 p-4 bg-gray-50 border border-gray-200 rounded text-sm">
-        <b>يرجى رفع صورة واضحة للوجه الأمامي للهوية.</b><br/>
-        يجب أن تظهر كل البيانات والأرقام بوضوح، الحواف سوداء وحادة.<br/>
-        لا تقم بتغطية أو تعديل أي جزء من الصورة.<br/>
-        أي صورة غير واضحة أو معدلة سيتم رفضها تلقائيًا.<br/>
-        <hr className="my-2" />
-        <b>Please upload a clear image of your ID front side.</b><br/>
-        All details and numbers must be visible, edges black and sharp.<br/>
-        Do not cover or edit any part of the image.<br/>
-        Any unclear or edited images will be rejected automatically.<br/>
-      </div>
-=======
 
     setUploading(true);
     try {
@@ -214,7 +188,6 @@ export default function IdFrontPage() {
         <li className="text-red-600">تحذير: صور مموّهة أو مقصوصة/معدّلة يتم رفضها فورًا.</li>
       </ul>
 
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
       <form onSubmit={handleSubmit}>
         <label className="block font-semibold mb-2">اختر صورة الوجه الأمامي</label>
   <div className="flex gap-2 mb-2">

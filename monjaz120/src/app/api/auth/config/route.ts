@@ -4,13 +4,6 @@ export async function GET() {
   try {
     const gid = process.env.GOOGLE_CLIENT_ID || null;
     const msid = process.env.MICROSOFT_CLIENT_ID || null;
-<<<<<<< HEAD
-    return NextResponse.json({
-      googleConfigured: !!gid,
-      googleHint: gid ? `${gid.slice(0,6)}...` : null,
-      microsoftConfigured: !!msid,
-      microsoftHint: msid ? `${msid.slice(0,6)}...` : null,
-=======
 
     // Additionally check whether the Microsoft provider module is actually available.
     // Use a filesystem check under process.cwd() to avoid static bundler resolution which
@@ -48,9 +41,9 @@ export async function GET() {
       microsoftConfigured: microsoftConfigured,
       microsoftHint: msid ? `${msid.slice(0,6)}...` : null,
       microsoftModuleAvailable,
->>>>>>> 00718cd219b2fc648988ef78590cdd3567cd44d0
     });
   } catch (e) {
     return NextResponse.json({ googleConfigured: false, microsoftConfigured: false });
   }
 }
+

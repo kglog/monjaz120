@@ -1,10 +1,6 @@
 "use client";
-<<<<<<< HEAD
-import React, { useState } from "react";
-=======
 
 import React, { useEffect, useState } from "react";
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
 import { useRouter } from "next/navigation";
 import brain from "@/core/brain";
 import { validateFullName, validateSaudiNID, validateBirthDate } from "@/lib/validators";
@@ -58,23 +54,12 @@ export default function BasicInfoPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-<<<<<<< HEAD
-    // تحقق إضافي أن كل المدخلات سليمة ورقم الهوية أرقام فقط
-    if (
-      !nameAr ||
-      !nameEn ||
-      !/^\d{10}$/.test(nationalId) ||
-      !dob
-    ) {
-      setError("يرجى إدخال جميع البيانات بشكل صحيح. رقم الهوية يجب أن يكون 10 أرقام فقط.");
-=======
 
     // client-side validation using shared validators
     const nameErr = validateFullName(name);
     if (nameErr) {
       setError("رجاءً أدخل اسمًا كاملًا صحيحًا.");
       try { brain.logEvent("validation_error", { page: "verify/basic-info", field: "fullName" }); } catch (e) {}
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
       return;
     }
 
@@ -136,51 +121,19 @@ export default function BasicInfoPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10">
-      <h2 className="text-xl font-bold mb-6 text-center text-cyan-700">توثيق الهوية</h2>
-      <div className="mb-5 p-4 bg-gray-50 border border-gray-200 rounded text-sm">
-        <b>يرجى إدخال جميع البيانات كما هي في الهوية أو الجواز.</b><br/>
-        الاسم بالعربي والانجليزي كما هو في الوثائق.<br/>
-        إذا كانت البيانات غير صحيحة أو غير واضحة سيتم رفض الطلب أو إيقاف الحساب.<br/>
-        منصة.كوم تحمي بياناتك وتتحقق منها بأنظمة ذكية لضمان الأمان والجودة.<br/>
-        <hr className="my-2" />
-        <b>Please enter your details exactly as in your official ID or passport.</b><br/>
-        Name in Arabic and English as shown in your documents.<br/>
-        Wrong or unclear information will result in rejection or account suspension.<br/>
-        Monjaz platform protects your data and verifies it with smart systems for safety and quality.<br/>
-      </div>
-=======
   <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow mt-10 border-2 border-black/20">
       <h2 className="text-xl font-bold mb-2 text-center text-cyan-700">البيانات الأساسية</h2>
       <p className="text-sm text-gray-600 text-center mb-6">يُستخدم هذا القسم للتحقق من الهوية فقط. لا نُظهر هذه البيانات لأحد، وتُحذف تلقائيًا بعد اكتمال التحقق.</p>
 
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
       <form onSubmit={handleSubmit}>
         <label className="block font-semibold mb-2">الاسم الكامل (بالعربي)</label>
         <input
           type="text"
-<<<<<<< HEAD
-          value={nameAr}
-          onChange={e => setNameAr(e.target.value)}
-          className="w-full mb-4 p-3 border rounded"
-          placeholder="أدخل اسمك بالعربي كما في الهوية"
-        />
-
-        <label className="block font-semibold mb-2">الاسم الكامل (بالإنجليزي)</label>
-        <input
-          type="text"
-          value={nameEn}
-          onChange={e => setNameEn(e.target.value)}
-          className="w-full mb-4 p-3 border rounded"
-          placeholder="أدخل اسمك بالإنجليزي كما في الجواز"
-=======
           value={name}
           onChange={e => setName(e.target.value)}
           onFocus={() => onFieldFocus("fullName")}
           className="w-full mb-2 p-3 border rounded"
           placeholder="اكتب اسمك الرباعي كما في الهوية."
->>>>>>> cf326c0 (chore: centralize CATALOG, unify category routing to ?sub=, make NAV and homepage read from catalog // ASSISTANT_FINAL: true)
         />
         <div className="text-xs text-gray-500 mb-4">اكتب اسمك الرباعي كما في الهوية.</div>
 
