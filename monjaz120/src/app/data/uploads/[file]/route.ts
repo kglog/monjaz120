@@ -2,17 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { file: string } }
-) {
+export async function GET(_req: NextRequest, context: any) {
   try {
     // مكان الملفات على الهارد
-    const filePath = path.join(process.cwd(), "data", "uploads", params.file);
+    const filePath = path.join(process.cwd(), "data", "uploads", context.params.file);
 
     const fileBuf = await fs.readFile(filePath);
 
-    const ext = path.extname(params.file).toLowerCase();
+    const ext = path.extname(context.params.file).toLowerCase();
     let contentType = "image/jpeg";
 
     if (ext === ".png") contentType = "image/png";
@@ -26,7 +23,8 @@ export async function GET(
       },
     });
   } catch (err) {
-    console.error("file not found:", params.file, err);
+    const fname = context?.params?.file ?? "unknown";
+    console.error("file not found:", fname, err);
     return new NextResponse("Not found", { status: 404 });
   }
 }

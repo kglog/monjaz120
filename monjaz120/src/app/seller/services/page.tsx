@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import useCurrentUser from "@/app/components/useCurrentUser";
 
-type Service = { id: string; title: string; seller: string; priceFrom: string; rating: number };
+type Service = { id: string; title: string; seller: string; priceFrom: string; rating: number; images?: string[] };
 
 export default function SellerServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
@@ -48,7 +48,7 @@ export default function SellerServicesPage() {
             <article key={s.id} className="p-4 border rounded bg-white shadow-sm">
               <div className="h-40 mb-3 bg-slate-50 rounded overflow-hidden flex items-center justify-center">
                 {s.images && s.images[0] ? (
-                  <img src={`/api/static/uploads?name=${encodeURIComponent(s.images[0].split('/').pop())}`} alt={s.title} className="w-full h-full object-cover" />
+                  <img src={`/api/static/uploads?name=${encodeURIComponent(String(s.images[0]?.split('/').pop() || ''))}`} alt={s.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="text-slate-400">لا توجد صورة</div>
                 )}

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Model } from 'mongoose';
 
 const userSchema = new Schema({
   name: String,
@@ -7,4 +7,6 @@ const userSchema = new Schema({
   role: { type: String, enum: ['vendor', 'buyer'], default: 'buyer' },
 }, { timestamps: true });
 
-export default mongoose.models.User || mongoose.model('User', userSchema);
+const User = (mongoose.models.User || mongoose.model('User', userSchema)) as any;
+
+export default User;

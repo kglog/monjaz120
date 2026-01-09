@@ -1,5 +1,4 @@
 // 📄 src/lib/identity/status.ts
-import prisma from "@/lib/prisma";
 import fs from "fs/promises";
 import path from "path";
 
@@ -10,16 +9,28 @@ export async function getUserVerificationStatus(
 ): Promise<VerificationStatus> {
   // نجيب أحدث جلسة توثيق لهذا المستخدم
   try {
-    const latest = await (prisma as any).identitySession.findFirst({
-      where: { userId },
-      orderBy: { createdAt: "desc" },
-    });
-
-    if (latest) {
-      if (latest.status === "verified") return "verified";
-      if (latest.status === "rejected") return "rejected";
-      return "pending";
+    // Lazy-load Prisma client to avoid build-time require when `prisma generate` hasn't run
+    let prismaClient: any = null;
+    try {
+      const mod = await import("@/lib/prisma");
+      prismaClient = mod.default || mod;
+    } catch (e) {
+      prismaClient = null;
     }
+
+    if (prismaClient) {
+      const latest = await prismaClient.identitySession.findFirst({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+      });
+
+      if (latest) {
+        if (latest.status === "verified") return "verified";
+        if (latest.status === "rejected") return "rejected";
+        return "pending";
+      }
+    }
+    // if prisma client not available or no latest found, fall through to file-based fallback
   } catch (e) {
     // ignore prisma errors and fallback to file-based dev storage below
   }

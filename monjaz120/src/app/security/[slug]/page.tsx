@@ -1,8 +1,8 @@
 import { CATEGORY_MAP } from "@/lib/categoryData";
 import ServiceListTemplate from "@/components/ServiceListTemplate";
 
-export default function SubcategoryPage({ params }: { params: { slug: string } }) {
-  const slug = params.slug || "";
+export default function SubcategoryPage(props: any) {
+  const slug = props.params?.slug || "";
   const cat = CATEGORY_MAP["security"];
 
   // Find popular item by key or title; fall back to slug-decoded title

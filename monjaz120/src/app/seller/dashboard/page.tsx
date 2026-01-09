@@ -6,7 +6,6 @@ import SellerStatsBar from '@/components/seller/SellerStatsBar';
 import ServiceCard from '@/components/seller/ServiceCard';
 import ServiceModal from '@/components/seller/ServiceModal';
 import OrdersTable from '@/components/seller/OrdersTable';
-import UploadWidget from '@/components/seller/UploadWidget';
 import useCurrentUser from '@/app/components/useCurrentUser';
 
 type User = { id: string; name?: string | null; email?: string | null; role?: string | null; avatar?: string | null };
@@ -122,8 +121,8 @@ export default function SellerDashboardPage() {
         return;
       }
       // success: remove from local list and close modal if open
-      setServices((cur) => cur.filter((s) => (s.id || s._id) !== id));
-      setSelectedService((cur) => ((cur && ((cur.id || cur._id) === id)) ? null : cur));
+      setServices((cur: any) => cur.filter((s: any) => (s.id || s._id) !== id));
+      setSelectedService((cur: any) => ((cur && ((cur.id || cur._id) === id)) ? null : cur));
     } catch (err) {
       console.error('delete service error', err);
       alert('فشل حذف الخدمة — تحقق من سطر الأوامر (terminal) لمزيد من التفاصيل');
@@ -139,9 +138,9 @@ export default function SellerDashboardPage() {
         const svcId = detail.serviceId;
         // update services list
         if (svcId) {
-          setServices((cur) => cur.map((s) => ((s.id || s._id) === svcId ? { ...s, images: [detail.url, ...(s.images || [])] } : s)));
+          setServices((cur: any) => cur.map((s: any) => ((s.id || s._id) === svcId ? { ...s, images: [detail.url, ...(s.images || [])] } : s)));
           // also update selectedService if it's the same
-          setSelectedService((cur) => {
+          setSelectedService((cur: any) => {
             if (!cur) return cur;
             if ((cur.id || cur._id) === svcId) {
               return { ...cur, images: [detail.url, ...(cur.images || [])] };
@@ -297,8 +296,8 @@ export default function SellerDashboardPage() {
               const res = await fetch(`/api/seller/services/${id}`, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ active: next }) });
               const json = await res.json().catch(() => ({}));
               if (!res.ok) throw new Error(json.error || 'update failed');
-              setServices((cur) => cur.map((s) => ((s.id || s._id) === id ? { ...s, active: next } : s)));
-              setSelectedService((cur) => {
+              setServices((cur: any) => cur.map((s: any) => ((s.id || s._id) === id ? { ...s, active: next } : s)));
+              setSelectedService((cur: any) => {
                 if (!cur) return cur;
                 return ((cur.id || cur._id) === id) ? { ...cur, active: next } : cur;
               });

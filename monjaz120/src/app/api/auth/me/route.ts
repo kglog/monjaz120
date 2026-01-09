@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import { connectToDB } from '@/lib/mongodb';
 import User from '@/models/User';
 
@@ -82,7 +82,7 @@ export async function GET(req: Request) {
       if (emailCandidate) {
         try {
           await connectToDB();
-          const mongoUser = await User.findOne({ email: emailCandidate }).select('id name email role avatar').lean();
+          const mongoUser: any = await User.findOne({ email: emailCandidate }).select('id name email role avatar').lean();
           if (mongoUser) {
             // Normalize to the shape the client expects
             const normalizedRole = mongoUser.role === 'vendor' ? 'seller' : (mongoUser.role || 'buyer');

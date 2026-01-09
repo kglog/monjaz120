@@ -31,8 +31,8 @@ function tryGetNameFromRaw(raw: string): string | null {
   return null;
 }
 
-export default function OwnerNameBadge() {
-  const c = cookies();
+export default async function OwnerNameBadge() {
+  const c = await cookies();
 
   const ownerNameCookie = c.get("owner_name")?.value || "";
   const session = c.get(COOKIE_NAME)?.value || "";

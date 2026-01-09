@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function CheckoutPage() {
-  const [orderData, setOrderData] = useState(null);
+  const [orderData, setOrderData] = useState<any | null>(null);
 
   useEffect(() => {
     // هنا تقدر تسوي أي منطق جلب بيانات (مثلاً من Firebase)

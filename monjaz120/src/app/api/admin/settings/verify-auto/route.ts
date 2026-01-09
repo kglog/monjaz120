@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     await fs.writeFile(FILE, JSON.stringify(settings, null, 2), "utf8");
 
     try {
-      await brain.log("verify_auto_approve_toggle", { enabled, time: Date.now() });
+      await brain.logEvent("verify_auto_approve_toggle", { enabled, time: Date.now() });
     } catch {}
 
     return NextResponse.json({ ok: true, enabled });

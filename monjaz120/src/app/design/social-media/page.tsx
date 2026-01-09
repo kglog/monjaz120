@@ -230,7 +230,7 @@ export default function SocialMediaPage() {
                 <span className="font-bold text-slate-900">{selectedCard.priceFrom}</span>
                 <div className="flex items-center gap-1 text-amber-500">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className={`size-4 ${i < selectedCard.rating ? "fill-amber-400" : ""}`} />
+                    <Star key={i} className={`size-4 ${i < (selectedCard?.rating ?? 0) ? "fill-amber-400" : ""}`} />
                   ))}
                 </div>
               </div>
@@ -304,7 +304,7 @@ function ServiceCard({ card, onOpen }: { card: Card; onOpen?: () => void }) {
             </div>
           <div className="flex items-center gap-1 text-amber-500" aria-label="rating">
             {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} className={`size-4 ${i < card.rating ? "fill-amber-400" : ""}`} />
+              <Star key={i} className={`size-4 ${i < (card.rating ?? 0) ? "fill-amber-400" : ""}`} />
             ))}
           </div>
         </div>

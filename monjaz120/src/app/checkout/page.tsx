@@ -38,8 +38,8 @@ export default function CheckoutPage() {
     const raw = localStorage.getItem("orders");
     const orders = raw ? JSON.parse(raw) : [];
     orders.push({
-      ...order,
-      price: Number(order.price),
+      ...order!,
+      price: Number(order!.price),
       id: crypto.randomUUID(),
       status: "pending",
       createdAt: new Date().toISOString(),

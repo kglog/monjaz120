@@ -2,13 +2,10 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 // GET /api/orders/[id] => جلب تفاصيل طلب واحد
-export async function GET(
-  _req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(_req: Request, context: any) {
   try {
     const order = await prisma.order.findUnique({
-      where: { id: params.id },
+      where: { id: context.params.id },
       include: { service: true, user: true },
     });
 
@@ -23,16 +20,13 @@ export async function GET(
 }
 
 // PUT /api/orders/[id] => تعديل طلب
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: Request, context: any) {
   try {
     const body = await req.json();
     const { title, price, details } = body;
 
     const updated = await prisma.order.update({
-      where: { id: params.id },
+      where: { id: context.params.id },
       data: {
         title,
         price: price !== undefined ? parseFloat(price) : undefined,
@@ -47,12 +41,9 @@ export async function PUT(
 }
 
 // DELETE /api/orders/[id] => حذف طلب
-export async function DELETE(
-  _req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(_req: Request, context: any) {
   try {
-    await prisma.order.delete({ where: { id: params.id } });
+    await prisma.order.delete({ where: { id: context.params.id } });
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "فشل في حذف الطلب" }, { status: 500 });

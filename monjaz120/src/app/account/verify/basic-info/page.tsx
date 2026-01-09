@@ -56,7 +56,7 @@ export default function BasicInfoPage() {
     setError("");
 
     // client-side validation using shared validators
-    const nameErr = validateFullName(name);
+    const nameErr = validateFullName(nameAr);
     if (nameErr) {
       setError("رجاءً أدخل اسمًا كاملًا صحيحًا.");
       try { brain.logEvent("validation_error", { page: "verify/basic-info", field: "fullName" }); } catch (e) {}
@@ -90,7 +90,7 @@ export default function BasicInfoPage() {
       const res = await fetch("/api/account/verify/basic-info", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullName: name.trim(), nationalId, dob }),
+        body: JSON.stringify({ fullName: nameAr.trim(), nationalId, dob }),
       });
 
       if (res.status === 429) {
@@ -117,7 +117,7 @@ export default function BasicInfoPage() {
   };
 
   const isFormValid = () => {
-    return !validateFullName(name) && !validateSaudiNID(nationalId) && !validateBirthDate(dob) && consent && !submitting;
+    return !validateFullName(nameAr) && !validateSaudiNID(nationalId) && !validateBirthDate(dob) && consent && !submitting;
   };
 
   return (
@@ -129,8 +129,8 @@ export default function BasicInfoPage() {
         <label className="block font-semibold mb-2">الاسم الكامل (بالعربي)</label>
         <input
           type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
+          value={nameAr}
+          onChange={e => setNameAr(e.target.value)}
           onFocus={() => onFieldFocus("fullName")}
           className="w-full mb-2 p-3 border rounded"
           placeholder="اكتب اسمك الرباعي كما في الهوية."

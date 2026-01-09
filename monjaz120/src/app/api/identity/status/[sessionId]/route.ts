@@ -1,8 +1,8 @@
 ﻿import { NextResponse } from 'next/server';
 
 // قراءة حالة جلسة التوثيق
-export async function GET(req: Request, { params }) {
-  const sessionId = params.sessionId;
+export async function GET(req: Request, context: any) {
+  const sessionId = context.params.sessionId;
   // read from DB IdentitySession where id = sessionId
   return NextResponse.json({ ok:true, sessionId, status:'pending' });
 }

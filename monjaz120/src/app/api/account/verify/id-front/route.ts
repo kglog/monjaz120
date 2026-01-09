@@ -89,7 +89,7 @@ export async function POST(req: Request) {
 
     // brain-safe log (no PII)
     try {
-      await brain.log("verify.id_front.uploaded", {
+      await brain.logEvent("verify.id_front.uploaded", {
         docType: userDocType,
         w: meta.width, h: meta.height,
         blurVar: Math.round(variance),

@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 
 type Props = { params: { sub: string } };
 
-export default function SubProgrammingRedirect({ params }: Props) {
+export default function SubProgrammingRedirect(props: any) {
   const router = useRouter();
   useEffect(() => {
-    const sub = decodeURIComponent(params.sub || "");
+    const sub = decodeURIComponent(props.params?.sub || "");
     const url = `/categories/${encodeURIComponent("برمجة وتطوير")}?sub=${encodeURIComponent(sub)}`;
     router.replace(url);
-  }, [params, router]);
+  }, [props, router]);
   return null;
 }

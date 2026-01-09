@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { 
   Menu, X, Bell, Mail, User, LogOut, 
   Settings, HelpCircle, Bookmark, DollarSign, Edit,

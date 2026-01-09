@@ -1,9 +1,9 @@
 ﻿"use client";
 import { useState } from "react";
 
-export default function NewOrderPage({ searchParams }: { searchParams: { serviceId?: string } }) {
+export default function NewOrderPage(props: any) {
   const [loading, setLoading] = useState(false);
-  const serviceId = searchParams.serviceId || "";
+  const serviceId = props.searchParams?.serviceId || "";
   
   // قيم افتراضية عشان ما تكون فاضية
   const title = "طلب خدمة";

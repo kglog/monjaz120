@@ -1,8 +1,9 @@
-export async function preCheck(file: File, opts?: { minW?: number; minH?: number }) {
+export async function preCheck(file: File, opts?: { minW?: number; minH?: number; maxSize?: number }) {
   const MIN_W = opts?.minW ?? 900;
   const MIN_H = opts?.minH ?? 600;
+  const MAX_SIZE = opts?.maxSize ?? 8 * 1024 * 1024;
   const okType = ["image/jpeg", "image/png"].includes(file.type);
-  const okSize = file.size <= 8 * 1024 * 1024;
+  const okSize = file.size <= MAX_SIZE;
   if (!okType) throw new Error("يُقبل JPG/PNG فقط.");
   if (!okSize) throw new Error("الحجم الأقصى 8MB.");
 

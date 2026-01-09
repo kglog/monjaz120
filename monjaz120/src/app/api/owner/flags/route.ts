@@ -4,7 +4,7 @@ import { OWNER_COOKIE, ownerVerifyToken } from "@/lib/owner/auth";
 import { getAllFlags, setFlag } from "@/lib/owner/flags";
 
 function requireOwner() {
-  const token = cookies().get(OWNER_COOKIE)?.value || "";
+  const token = (cookies() as any).get?.(OWNER_COOKIE)?.value || "";
   const ok = ownerVerifyToken(token);
   if (!ok) return null;
   return ok;

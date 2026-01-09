@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const { vendorEmail } = await req.json();
 
     const vendorServices = await Service.find({ vendorEmail });
-    const slugs = vendorServices.map((s) => s.slug);
+    const slugs = vendorServices.map((s: any) => s.slug);
 
     const orders = await Order.find({ serviceSlug: { $in: slugs } }).sort({ createdAt: -1 });
 

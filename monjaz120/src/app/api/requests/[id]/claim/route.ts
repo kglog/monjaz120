@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/authOptions';
 import fs from 'fs';
 
 const FALLBACK_PATH = process.cwd() + '/prisma/requests_fallback.json';
@@ -23,9 +23,9 @@ async function writeFallback(arr: any[]) {
   }
 }
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, context: any) {
   try {
-    const { id } = params;
+    const { id } = context.params;
     if (!id) return new NextResponse('Missing id', { status: 400 });
     // require authenticated seller via NextAuth session
   const session: any = await getServerSession(authOptions as any);

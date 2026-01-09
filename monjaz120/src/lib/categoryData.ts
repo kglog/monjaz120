@@ -4,6 +4,7 @@ export type CategoryData = {
   hero: { title: string; subtitle: string; cta?: string };
   popular: { title: string; tag: string; key?: string }[];
   subcategories: string[];
+  subcategoriesDetailed?: { title: string; href: string }[];
 };
 
 export const CATEGORY_MAP: Record<string, CategoryData> = {

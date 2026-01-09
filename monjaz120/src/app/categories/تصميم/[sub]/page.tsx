@@ -5,14 +5,14 @@ import { useRouter } from "next/navigation";
 
 type Props = { params: { sub: string } };
 
-export default function SubDesignRedirect({ params }: Props) {
+export default function SubDesignRedirect(props: any) {
   const router = useRouter();
   useEffect(() => {
-    const sub = decodeURIComponent(params.sub || "");
+    const sub = decodeURIComponent(props.params?.sub || "");
     const url = `/categories/${encodeURIComponent("تصميم")}?sub=${encodeURIComponent(sub)}`;
     // replace to avoid creating history entry for old path
     router.replace(url);
-  }, [params, router]);
+  }, [props, router]);
 
   return null;
 }

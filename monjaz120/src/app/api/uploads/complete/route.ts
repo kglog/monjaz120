@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 
 // This endpoint is called after the client successfully PUTs the file to S3.
 // It records metadata in the DB (DesignImage). Requires authentication; we use
@@ -88,7 +88,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ ok: true, created: rec, local: true });
       } catch (innerErr) {
         console.error("complete upload dev fallback error", innerErr);
-        return NextResponse.json({ error: String(innerErr?.message || innerErr) }, { status: 500 });
+        return NextResponse.json({ error: String((innerErr as any)?.message || innerErr) }, { status: 500 });
       }
     }
 

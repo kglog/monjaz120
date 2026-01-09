@@ -6,7 +6,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -14,7 +14,7 @@ const handler = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials) {
+      async authorize(credentials: any) {
         await connectDB();
         const user = await User.findOne({ email: credentials.email });
 
@@ -24,19 +24,17 @@ const handler = NextAuth({
           return null;
         }
       }
-    })
-    ,
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     }),
-    // Microsoft provider removed: add back if your next-auth build includes it or upgrade next-auth
   ],
   pages: {
     signIn: "/login",
   },
   callbacks: {
-    async jwt({ token, user, account }: any) {
+    async jwt({ token, user }: any) {
       if (user) token.id = user.id ?? token.sub ?? token.id;
       return token;
     },
@@ -46,7 +44,9 @@ const handler = NextAuth({
       return session;
     }
   }
-});
+};
+
+const handler = NextAuth(authOptions);
 
 // Safe debug: log presence of Google client id (masked) so developer can verify server reads env
 try {

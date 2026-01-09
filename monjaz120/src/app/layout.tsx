@@ -2,6 +2,8 @@ import Navbar from "@/components/Navbar";
 import "./globals.css";
 import Footer from "@/components/Footer";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "منصة.كوم",
   description: "أكبر سوق عربي للخدمات المصغّرة",

@@ -102,14 +102,14 @@ export async function POST(req: Request) {
     const selfie_match_score = 75; // simulate 75% match for dev
 
     try {
-      await brain.log("id_upload_back_attempt", {
+      await brain.logEvent("id_upload_back_attempt", {
         qualityScore,
         doc: "back",
         time: Date.now(),
       });
     } catch (e) {}
     try {
-      await brain.log("selfie_match_score", {
+      await brain.logEvent("selfie_match_score", {
         score: selfie_match_score,
         time: Date.now(),
       });
@@ -151,7 +151,7 @@ export async function POST(req: Request) {
           rec.autoApproved = true;
 
           try {
-            await brain.log("verify_auto_approved", {
+            await brain.logEvent("verify_auto_approved", {
               uid,
               qualityScore,
               selfie_match_score,

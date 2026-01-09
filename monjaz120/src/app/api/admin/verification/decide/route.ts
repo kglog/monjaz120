@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     await fs.writeFile(FILE, JSON.stringify(arr, null, 2), "utf8");
 
     try {
-      await brain.log("verify_manual_decision", {
+      await brain.logEvent("verify_manual_decision", {
         uid,
         decision,
         reason,

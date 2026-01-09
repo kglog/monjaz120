@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function GET() {
-  const services = await prisma.service.findMany({
+  const services = await (prisma as any).service.findMany({
     orderBy: { createdAt: "desc" },
   });
   return NextResponse.json(services);
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "البيانات ناقصة" }, { status: 400 });
   }
 
-  const newService = await prisma.service.create({
+  const newService = await (prisma as any).service.create({
     data: {
       title,
       description,

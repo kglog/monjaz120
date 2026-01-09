@@ -1,9 +1,6 @@
 // src/app/owner/login/page.tsx
-export default function OwnerLoginPage({
-  searchParams,
-}: {
-  searchParams?: { e?: string; returnTo?: string };
-}) {
+export default function OwnerLoginPage(props: any) {
+  const searchParams = props.searchParams || {};
   const err = searchParams?.e === "1";
   const returnTo = searchParams?.returnTo || "/owner";
 

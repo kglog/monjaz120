@@ -17,9 +17,9 @@ function writeData(data: any) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
 }
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, context: any) {
   try {
-    const { id } = params;
+    const { id } = context.params;
     console.log(`[api] PATCH /api/seller/services/${id} called`);
     const body = await req.json().catch(() => ({}));
     const items = readData();
@@ -41,9 +41,9 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, context: any) {
   try {
-    const { id } = params;
+    const { id } = context.params;
     console.log(`[api] DELETE /api/seller/services/${id} called`);
     const items = readData();
     const idx = items.findIndex((s: any) => (s.id || s._id || '') === id);

@@ -4,7 +4,7 @@ import { OWNER_COOKIE, ownerVerifyToken } from "@/lib/owner/auth";
 import { listTasks, updateTask } from "@/lib/owner/tasks";
 
 function requireOwner() {
-  const token = cookies().get(OWNER_COOKIE)?.value || "";
+  const token = (cookies() as any).get?.(OWNER_COOKIE)?.value || "";
   return ownerVerifyToken(token);
 }
 
@@ -21,7 +21,7 @@ export async function PATCH(req: Request) {
   const status = body?.status;
 
   const updated = updateTask(id, {
-    ...(typeof status === "string" ? { status } : {}),
+    ...(typeof status === "string" ? { status: status as any } : {}),
   });
 
   return NextResponse.json({ ok: true, updated });

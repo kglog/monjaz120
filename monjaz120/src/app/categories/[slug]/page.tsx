@@ -1,5 +1,6 @@
 // 📄 src/app/categories/[slug]/page.tsx
 "use client";
+export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -122,8 +123,8 @@ export default function CategoryPage() {
           <div className="mx-auto max-w-7xl px-4">
             <h2 className="mb-8 text-center text-2xl font-bold text-slate-800">خدمات شائعة في {displayTitle}</h2>
             <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {matched.subcategories.map((sub) => {
-                const cardHref = `/categories/${encodeURIComponent(matched.title)}?sub=${encodeURIComponent(sub)}`;
+              {matched!.subcategories.map((sub) => {
+                const cardHref = `/categories/${encodeURIComponent(matched!.title)}?sub=${encodeURIComponent(sub)}`;
                 return (
                   <Link key={sub} href={cardHref} className="block">
                     <CategoryCard title={sub} tag={''} icon={IconForSubcategory(sub)} />
@@ -138,8 +139,8 @@ export default function CategoryPage() {
           <div className="mx-auto max-w-7xl px-4">
             <h2 className="mb-10 text-center text-3xl font-extrabold text-slate-900">تصفّح خدمات {displayTitle}</h2>
             <div className="grid gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {matched.subcategories.map((sub) => {
-                const subHref = `/categories/${encodeURIComponent(matched.title)}?sub=${encodeURIComponent(sub)}`;
+              {matched!.subcategories.map((sub) => {
+                const subHref = `/categories/${encodeURIComponent(matched!.title)}?sub=${encodeURIComponent(sub)}`;
                 return (
                   <Link key={sub} href={subHref} className="block">
                     <div className="rounded-2xl border border-black bg-white p-6 shadow-sm hover:shadow-md transition-shadow">

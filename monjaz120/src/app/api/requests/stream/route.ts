@@ -22,5 +22,5 @@ export async function GET(req: Request) {
     // also try res if it exposes on
     if ((res as any).on) (res as any).on('close', () => removeClient(res));
   } catch (e) {}
-  return new Promise(() => {});
+  return new Promise<void>(() => {});
 }

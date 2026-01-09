@@ -39,6 +39,8 @@
     "src/app/api/submit-rating/route.ts.backup"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "../src",
+    "prisma"
   ]
 }

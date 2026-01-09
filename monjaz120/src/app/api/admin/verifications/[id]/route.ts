@@ -18,8 +18,14 @@ function decodeSessionToken(token: string | undefined | null) {
 
 async function ensureAdmin() {
   // Read cookies list and the owner session token
-  const all = cookies().getAll().map((c) => ({ name: c.name, valuePresent: !!c.value }));
-  const token = cookies().get("monjaz_owner_session")?.value;
+  let all: Array<{ name: string; valuePresent: boolean }> = [];
+  try {
+    const raw = (cookies() as any).getAll?.() || [];
+    all = raw.map((c: any) => ({ name: c.name, valuePresent: !!c.value }));
+  } catch (e) {
+    all = [];
+  }
+  const token = (cookies() as any).get?.("monjaz_owner_session")?.value;
   const session = decodeSessionToken(token);
 
   // Log cookie diagnostic info for debugging (temporary)

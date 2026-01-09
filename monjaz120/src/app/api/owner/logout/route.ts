@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 const COOKIE_NAME = process.env.OWNER_COOKIE_NAME || "owner_session";
 
 function nuke(name: string) {
-  const c = cookies();
+  const c = cookies() as any;
   // تنظيف قوي (عشان اختلاف path يسبب “يطلع لك كأنك مو مسجل”)
   c.set(name, "", { path: "/", expires: new Date(0) });
   c.set(name, "", { path: "/owner", expires: new Date(0) });

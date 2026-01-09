@@ -29,7 +29,7 @@ export default function ServiceModal({ service, onClose, onDelete, onToggleActiv
       try {
         const detail = e?.detail || {};
         if (!detail) return;
-        if (detail.serviceId && detail.serviceId !== service.id) return;
+        if (detail.serviceId && detail.serviceId !== service?.id) return;
         if (detail.url) {
           setImages((cur) => [detail.url, ...cur]);
         }
@@ -39,7 +39,7 @@ export default function ServiceModal({ service, onClose, onDelete, onToggleActiv
     }
     window.addEventListener("service-image-uploaded", handler as EventListener);
     return () => window.removeEventListener("service-image-uploaded", handler as EventListener);
-  }, [service.id]);
+  }, [service?.id]);
 
   return (
     <div className="fixed inset-0 bg-black/40 z-40 flex items-center justify-center">

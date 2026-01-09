@@ -2,12 +2,9 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 // GET /api/services/[id]
-export async function GET(
-  _req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(_req: Request, context: any) {
   try {
-    const service = await prisma.service.findUnique({ where: { id: params.id } });
+    const service = await prisma.service.findUnique({ where: { id: context.params.id } });
     if (!service) return NextResponse.json({ error: "غير موجود" }, { status: 404 });
     return NextResponse.json(service);
   } catch {
@@ -16,15 +13,12 @@ export async function GET(
 }
 
 // PUT /api/services/[id]
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: Request, context: any) {
   try {
     const body = await req.json();
     const { title, description, price } = body;
     const updated = await prisma.service.update({
-      where: { id: params.id },
+      where: { id: context.params.id },
       data: {
         title,
         description,
@@ -38,12 +32,9 @@ export async function PUT(
 }
 
 // DELETE /api/services/[id]
-export async function DELETE(
-  _req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(_req: Request, context: any) {
   try {
-    await prisma.service.delete({ where: { id: params.id } });
+    await prisma.service.delete({ where: { id: context.params.id } });
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "فشل في الحذف" }, { status: 500 });

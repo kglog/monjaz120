@@ -21,8 +21,8 @@ const ID_TO_NAME: Record<string, string> = {
   "16": "الحماية الإلكترونية",
 };
 
-export default function Page({ params }: { params: { id: string } }) {
-  const name = ID_TO_NAME[params.id];
+export default function Page(props: any) {
+  const name = ID_TO_NAME[props.params?.id];
 
   // لو عندنا اسم مطابق، نحول للـslug
   if (name) {
