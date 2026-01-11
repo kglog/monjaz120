@@ -1,5 +1,5 @@
 import connectDB from '@/lib/mongodb';
-import Order from '@/models/order';
+import Order from '@/models/Order';
 
 export default async function ServiceRequestPage() {
   await connectDB();

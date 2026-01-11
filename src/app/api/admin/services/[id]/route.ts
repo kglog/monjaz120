@@ -10,7 +10,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   const body = await req.json();
-  const { title, description, price, image } = body;
+  const { title, description, price, images } = body;
 
   const updatedService = await prisma.service.update({
     where: { id: params.id },
@@ -18,7 +18,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       title,
       description,
       price: Number(price),
-      image: image || null, // ✅ تحديث الصورة
+      images: images || null, // ✅ تحديث الصورة (اسم الحقل الصحيح)
     },
   });
 

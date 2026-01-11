@@ -10,10 +10,13 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { title, description, price, image } = body;
+  const { title, description, price, images, category, deliveryTime, userId } = body;
 
-  if (!title || !price) {
-    return NextResponse.json({ error: "البيانات ناقصة" }, { status: 400 });
+  if (!title || price === undefined || price === null || !category || deliveryTime === undefined || deliveryTime === null || !userId) {
+    return NextResponse.json(
+      { error: "البيانات ناقصة (title, price, category, deliveryTime, userId)" },
+      { status: 400 }
+    );
   }
 
   const newService = await prisma.service.create({
@@ -21,7 +24,10 @@ export async function POST(req: Request) {
       title,
       description,
       price: Number(price),
-      image: image || null, // ✅ هنا يحفظ الصورة
+      images: images ?? null,
+      category: String(category),
+      deliveryTime: Number(deliveryTime),
+      user: { connect: { id: String(userId) } }, // ✅ ربط الخدمة بصاحبها
     },
   });
 

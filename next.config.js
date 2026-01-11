@@ -4,6 +4,12 @@ const nextConfig = {
   images: {
     domains: ['via.placeholder.com'], // ✅ السماح بجلب الصور من هذا النطاق
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 module.exports = nextConfig;

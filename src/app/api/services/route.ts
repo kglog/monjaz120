@@ -1,42 +1,27 @@
-// 📁 src/app/api/services/route.ts
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
-import { NextResponse } from 'next/server';
+export async function POST(req: Request) {
+  try {
+    const { title, description, price, userId, category, deliveryTime } = await req.json();
 
-let services = [
-  {
-    id: 1,
-    title: 'تصميم لوقو',
-    description: 'خدمة تصميم احترافي للشعارات',
-    category: 'تصميم',
-    price: 150,
-    featured: true
-  },
-  {
-    id: 2,
-    title: 'كتابة مقالات',
-    description: 'محتوى عربي حصري 100%',
-    category: 'كتابة وترجمة',
-    price: 80,
-    featured: false
-  },
-  {
-    id: 3,
-    title: 'خطة تسويق ذكية',
-    description: 'نموذج خطة تسويقية جاهزة للتحميل',
-    category: 'أفكار جاهزة للبيع',
-    price: 200,
-    featured: true
-  },
-  {
-    id: 4,
-    title: 'إعلانات سوشيال ميديا',
-    description: 'نصوص جذابة + تصميمات',
-    category: 'تسويق وإعلان',
-    price: 120,
-    featured: false
+    if (!title || !description || price === undefined || !userId || !category || deliveryTime === undefined) {
+      return NextResponse.json({ error: "حقول ناقصة" }, { status: 400 });
+    }
+
+    const service = await prisma.service.create({
+      data: {
+        title,
+        description,
+        price: parseFloat(price),
+        category,
+        deliveryTime: Number(deliveryTime),
+        user: { connect: { id: userId } },
+      },
+    });
+
+    return NextResponse.json(service);
+  } catch (err) {
+    return NextResponse.json({ error: "فشل في إنشاء الخدمة" }, { status: 500 });
   }
-];
-
-export async function GET() {
-  return NextResponse.json(services);
 }

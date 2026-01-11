@@ -1,72 +1,53 @@
-"use client";
-
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Star } from "lucide-react";
 
-type Props = {
+interface ServiceCardProps {
   id: string;
   title: string;
+  description: string;
+  price: number;
+  rating?: number; // ممكن يكون undefined
   seller: string;
-  price: number; // بالريال
-  rating: number; // 0-5
-  badge?: string; // اختياري مثل: "الأكثر مبيعًا"
-};
+  image: string;
+}
 
-export default function ServiceCard({ id, title, seller, price, rating, badge }: Props) {
-  const router = useRouter();
-
-  const handleOrder = () => {
-    // وجّه لصفحة الطلب/الدفع مع تمرير بيانات الخدمة كاملة
-    router.push(
-      `/order/new?serviceId=${encodeURIComponent(id)}&title=${encodeURIComponent(title)}&price=${price}`
-    );
-  };
-
+export default function ServiceCard({ id, title, description, price, rating, seller, image }: ServiceCardProps) {
   return (
-    <div className="rounded-2xl border border-gray-200 shadow-sm p-5 bg-white hover:shadow-md transition">
-      {!!badge && (
-        <div className="mb-3 inline-flex items-center rounded-full border px-3 py-1 text-[12px] font-medium">
-          {badge}
-        </div>
-      )}
+    <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition">
+      {/* صورة الخدمة */}
+      <img src={image} alt={title} className="w-full h-40 object-cover rounded-md mb-3" />
 
-      <div className="flex items-start gap-3">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 text-2xl">🤖</div>
-        <div className="flex-1">
-          <h3 className="text-lg font-semibold leading-snug">{title}</h3>
-          <p className="mt-1 text-sm text-gray-500">البائع: {seller}</p>
-        </div>
+      {/* العنوان */}
+      <h3 className="text-lg font-semibold">{title}</h3>
+
+      {/* الوصف */}
+      <p className="text-sm text-gray-600 mb-2">{description}</p>
+
+      {/* السعر */}
+      <p className="text-blue-600 font-bold">{price} ريال</p>
+
+      {/* التقييم */}
+      <div className="flex items-center mt-2">
+        {[...Array(5)].map((_, i) => (
+          <Star
+            key={i}
+            className={`h-4 w-4 ${i < Math.round(rating ?? 0) ? "fill-current text-yellow-500" : "text-gray-300"}`}
+          />
+        ))}
+        <span className="ms-1 text-sm text-gray-600">
+          {rating?.toFixed(1) ?? "0.0"}
+        </span>
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-green-700 font-semibold">{price} ريال</span>
-        </div>
+      {/* البائع */}
+      <p className="text-xs text-gray-500 mt-1">البائع: {seller}</p>
 
-        <div className="flex items-center gap-1 text-amber-500">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className={`h-4 w-4 ${i < Math.round(rating) ? "fill-current" : ""}`} />
-          ))}
-          <span className="ms-1 text-sm text-gray-600">{rating.toFixed(1)}</span>
-        </div>
-      </div>
-
-      <div className="mt-5 grid grid-cols-2 gap-3">
-        <Link
-          href={`/services/${id}`}
-          className="text-center rounded-xl border px-4 py-2 text-sm font-medium hover:bg-gray-50"
-        >
-          عرض التفاصيل
-        </Link>
-
-        <button
-          onClick={handleOrder}
-          className="rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white hover:opacity-90"
-        >
-          اطلب الآن
-        </button>
-      </div>
+      {/* زر التفاصيل */}
+      <a
+        href={`/services/${id}`}
+        className="block text-center bg-blue-500 text-white text-sm rounded-md py-2 mt-3 hover:bg-blue-600"
+      >
+        عرض التفاصيل
+      </a>
     </div>
   );
 }

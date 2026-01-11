@@ -37,6 +37,7 @@ export default function CheckoutPage() {
     // تخزين بسيط كأنها قاعدة بيانات محلية
     const raw = localStorage.getItem("orders");
     const orders = raw ? JSON.parse(raw) : [];
+    if (!order) return;
     orders.push({
       ...order,
       price: Number(order.price),

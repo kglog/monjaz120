@@ -1,47 +1,62 @@
-// src/app/add-service/page.tsx
+"use client";
+
+import { useState } from "react";
+
 export default function AddServicePage() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/services", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description, price }),
+      });
+      if (res.ok) {
+        alert("تمت إضافة الخدمة بنجاح");
+        setTitle("");
+        setDescription("");
+        setPrice("");
+      } else {
+        alert("تعذر إضافة الخدمة");
+      }
+    } catch (err) {
+      console.error("خطأ:", err);
+    }
+  };
+
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-primary text-white p-8">
-      <header className="text-center mb-8">
-        <h1 className="text-3xl font-bold">إضافة خدمة جديدة</h1>
-        <p className="text-sm mt-2">قم بإضافة خدمتك وابدأ ببيعها الآن</p>
-      </header>
-
-      <form className="w-full max-w-md bg-white text-black rounded shadow p-4 space-y-4">
-        <div>
-          <label htmlFor="title" className="block text-sm font-bold mb-1">عنوان الخدمة:</label>
-          <input
-            type="text"
-            id="title"
-            placeholder="مثلاً: تصميم شعار احترافي"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="description" className="block text-sm font-bold mb-1">وصف الخدمة:</label>
-          <textarea
-            id="description"
-            placeholder="وصف مختصر للخدمة"
-            className="w-full p-2 border rounded"
-          ></textarea>
-        </div>
-
-        <div>
-          <label htmlFor="price" className="block text-sm font-bold mb-1">سعر الخدمة (ريال):</label>
-          <input
-            type="number"
-            id="price"
-            placeholder="مثلاً: 50"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
+    <main className="max-w-2xl mx-auto px-4 py-10">
+      <h1 className="text-2xl font-bold mb-6">إضافة خدمة جديدة</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          placeholder="عنوان الخدمة"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full border p-2 rounded"
+        />
+        <textarea
+          placeholder="وصف الخدمة"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full border p-2 rounded"
+        />
+        <input
+          type="number"
+          placeholder="السعر بالريال"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          className="w-full border p-2 rounded"
+        />
         <button
           type="submit"
-          className="w-full bg-secondary hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded shadow hover:shadow-lg transition-all duration-300"
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
         >
-          إضافة الخدمة
+          إضافة
         </button>
       </form>
     </main>
