@@ -1,7 +1,4 @@
-<<<<<<< Updated upstream
-=======
 import React from "react";
->>>>>>> Stashed changes
 import { Star } from "lucide-react";
 
 interface ServiceCardProps {

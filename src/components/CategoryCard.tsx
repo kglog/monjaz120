@@ -27,14 +27,8 @@ export default function CategoryCard({ title, description, icon, href, tag }: Pr
       <h3 className="text-[18px] font-bold tracking-tight text-gray-900">
         {title}
       </h3>
-<<<<<<< Updated upstream
-      {/** show translated small tag if provided (display-only) */}
-      {typeof (props as any)?.tag !== 'undefined' ? (
-        <p className="text-sm text-gray-500 mt-1">{translateTag((props as any).tag)}</p>
-=======
       {tag !== undefined ? (
         <p className="text-sm text-gray-500 mt-1">{translateTag(tag)}</p>
->>>>>>> Stashed changes
       ) : (
         <p className="mt-1 text-[15px] font-medium text-gray-900 leading-snug">{description}</p>
       )}

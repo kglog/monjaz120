@@ -1,4 +1,3 @@
-
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -22,7 +21,8 @@ async function main() {
         price: 150,
         userId: user.id,
         deliveryTime: 3,
-        images: ""
+        images: "[]",
+        image: ""
       },
       {
         title: "موقع شخصي بسيط",
@@ -30,7 +30,8 @@ async function main() {
         price: 500,
         userId: user.id,
         deliveryTime: 7,
-        images: ""
+        images: "[]",
+        image: ""
       },
     ],
     // skipDuplicates: true, // Not supported for SQLite

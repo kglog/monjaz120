@@ -1,12 +1,5 @@
-<<<<<<< Updated upstream:monjaz120/src/app/profile/edit/page.tsx
 'use client';
-import React from "react";
-=======
->>>>>>> Stashed changes:src/app/profile/edit/page.tsx
-
-'use client';
-import React from "react";
-import { useState } from 'react';
+import React, { useState } from "react";
 
 export default function EditProfilePage() {
   const [newName, setNewName] = useState('');
@@ -17,7 +10,6 @@ export default function EditProfilePage() {
       setMessage('❌ يرجى كتابة الاسم أولًا');
       return;
     }
-
     localStorage.setItem('monjaz-username', newName);
     setMessage('✅ تم حفظ الاسم بنجاح');
   };
@@ -25,7 +17,6 @@ export default function EditProfilePage() {
   return (
     <main style={{ padding: '30px' }}>
       <h1>✏️ تعديل الملف الشخصي</h1>
-
       <div style={{ marginTop: '20px' }}>
         <label>الاسم الجديد:</label>
         <br />
@@ -38,30 +29,27 @@ export default function EditProfilePage() {
             width: '100%',
             padding: '10px',
             fontSize: '16px',
-            marginTop: '5px',
+            borderRadius: '8px',
+            border: '1px solid #ccc',
             marginBottom: '10px',
           }}
         />
+        <button
+          onClick={handleSave}
+          style={{
+            background: '#2563eb',
+            color: 'white',
+            padding: '10px 20px',
+            border: 'none',
+            borderRadius: '8px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+          }}
+        >
+          حفظ
+        </button>
+        {message && <div style={{ marginTop: '10px', color: '#2563eb' }}>{message}</div>}
       </div>
-
-      <button
-        onClick={handleSave}
-        style={{
-          padding: '10px 20px',
-          background: '#4caf50',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '6px',
-          fontSize: '16px',
-          cursor: 'pointer',
-        }}
-      >
-        ✅ حفظ الاسم
-      </button>
-
-      {message && (
-        <p style={{ marginTop: '20px', color: '#333' }}>{message}</p>
-      )}
     </main>
   );
 }

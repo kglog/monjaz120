@@ -1,12 +1,5 @@
-<<<<<<< Updated upstream
-import React from "react";
-'use client';
-=======
 "use client";
-import React from "react";
->>>>>>> Stashed changes
-
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import Link from 'next/link';
 import { CATEGORY_MAP } from '@/lib/categoryData';
 
@@ -46,7 +39,7 @@ export default function SideMenu() {
       </button>
 
       {open && (
-  <div className="absolute top-full right-0 mt-2 w-56 bg-[#ffffff] border rounded shadow z-50">
+        <div className="absolute top-full right-0 mt-2 w-56 bg-[#ffffff] border rounded shadow z-50">
           <h3 className="p-3 font-bold border-b">التصنيفات</h3>
           <ul className="text-sm p-2 space-y-2">
             {categories.map((cat) => (
@@ -66,5 +59,4 @@ export default function SideMenu() {
     </div>
   );
 }
-
-  // ASSISTANT_FINAL: true
+// ASSISTANT_FINAL: true

@@ -1,8 +1,5 @@
 import React from "react";
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 export default function FAQ() {
   return (
     <section className="my-12">

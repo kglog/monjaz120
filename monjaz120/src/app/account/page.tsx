@@ -12,7 +12,7 @@ import {
   UserCircle,
   CreditCard,
 } from "lucide-react";
-import VerifyLiveStatus from "@/app/account/_components/VerifyLiveStatus";
+import VerifyLiveStatus from "./_components/VerifyLiveStatus";
 
 export default function AccountPage() {
   const searchParams = useSearchParams();

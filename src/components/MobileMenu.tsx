@@ -1,11 +1,5 @@
-<<<<<<< Updated upstream
-import React from "react";
-'use client';
-=======
 "use client";
-import React from "react";
->>>>>>> Stashed changes
-import { useState } from 'react';
+import React, { useState } from "react";
 import Link from 'next/link';
 
 export default function MobileMenu() {

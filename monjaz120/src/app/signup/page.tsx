@@ -1,11 +1,5 @@
-<<<<<<< Updated upstream:monjaz120/src/app/signup/page.tsx
- 'use client';
-import React, { useState } from 'react';
-=======
 "use client";
-import React from "react";
-import { useState } from 'react';
->>>>>>> Stashed changes:src/app/signup/page.tsx
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
@@ -36,22 +30,16 @@ export default function SignupPage() {
     <main className="flex justify-center items-center py-10">
       <form onSubmit={handleSignup} className="w-full max-w-md bg-white p-8 rounded shadow">
         <h1 className="text-xl font-bold mb-6 text-center">إنشاء حساب جديد</h1>
-
         <input type="text" placeholder="الاسم" value={name} onChange={(e) => setName(e.target.value)} className="w-full mb-4 p-2 border rounded" />
         <input type="email" placeholder="البريد الإلكتروني" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full mb-4 p-2 border rounded" />
         <input type="password" placeholder="كلمة المرور" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full mb-4 p-2 border rounded" />
-
-        <select value={role} onChange={(e) => setRole(e.target.value)} className="w-full mb-6 p-2 border rounded">
+        <select value={role} onChange={(e) => setRole(e.target.value)} className="w-full mb-4 p-2 border rounded">
           <option value="buyer">مشتري</option>
           <option value="vendor">بائع</option>
         </select>
-
-        <button type="submit" className="w-full bg-primary text-white py-2 rounded">
-          تسجيل الحساب
-        </button>
+        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded font-bold">تسجيل</button>
       </form>
     </main>
   );
 }
-
 // ASSISTANT_FINAL: true
