@@ -1,3 +1,4 @@
+import React from "react";
 // src/app/offers/page.tsx
 export default function SpecialOffersPage() {
   return (

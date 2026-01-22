@@ -1,15 +1,17 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/mongodb';
-import Service from '@/models/Service';
+// كود مونقو دي بي (قديم - legacy)
+// import connectDB from '@/lib/mongodb';
+// import Service from '@/models/Service';
+import { PrismaClient } from '@prisma/client';
+const prismaClient = new PrismaClient();
 
 export async function GET(req: Request) {
   try {
-    await connectDB();
+    // await connectDB(); // كود مونقو دي بي (قديم - legacy)
+    // const services = await Service.find({ vendorId }); // كود مونقو دي بي (قديم - legacy)
 
-    const vendorId = '64884fcadadb30db0a57db9e'; // مؤقتًا نستخدم نفس ID المستخدم
-
-    const services = await Service.find({ vendorId });
-
+    // جلب الخدمات من بريزما فقط
+    const services = await prismaClient.service.findMany();
     return NextResponse.json(services);
   } catch (error) {
     console.error('❌ خطأ أثناء جلب الخدمات:', error);

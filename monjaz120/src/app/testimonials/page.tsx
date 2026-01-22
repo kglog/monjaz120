@@ -1,3 +1,4 @@
+import React from "react";
 // src/app/testimonials/page.tsx
 import React from "react";
 export default function TestimonialsPage() {

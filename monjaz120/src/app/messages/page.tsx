@@ -1,3 +1,4 @@
+import React from "react";
 // src/app/messages/page.tsx
 export default function MessagesPage() {
   return (

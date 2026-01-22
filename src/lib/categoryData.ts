@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 export type CategoryData = {
   key: string;
   title: string;
@@ -380,6 +381,86 @@ export const CATEGORY_MAP: Record<string, CategoryData> = {
     ],
   },
  // ASSISTANT_FINAL: true
+=======
+
+export type CategoryData = {
+	key: string;
+	title: string;
+	hero: { title: string; subtitle: string; cta?: string };
+	popular: { title: string; tag: string; key?: string }[];
+	subcategories: string[];
+};
+
+export const CATEGORY_MAP: Record<string, CategoryData> = {
+	// Reordered and pruned to match the exact approved list and order
+	design: {
+		key: 'design',
+		title: 'تصميم',
+		hero: { title: 'تصميم', subtitle: 'خدمات التصميم: شعارات، هوية، واجهات، وسوشيال ميديا.', cta: 'ابدأ التصفح' },
+		popular: [
+			{ title: 'تصميم شعار', tag: 'Logo', key: 'logo' },
+			{ title: 'تصاميم سوشيال', tag: 'Social', key: 'social' },
+			{ title: 'صور مصغّرة', tag: 'Thumbnails', key: 'thumbnails' },
+			{ title: 'هوية بصرية', tag: 'Branding', key: 'branding' },
+			{ title: 'عروض تقديمية', tag: 'Presentations', key: 'presentations' },
+			{ title: 'سيرة ذاتية', tag: 'Resume', key: 'resume' },
+			{ title: 'بنرات إعلانية', tag: 'Banners', key: 'banners' },
+			{ title: 'الرسوم بالذكاء الاصطناعي', tag: 'AI Art', key: 'ai-art' },
+			{ title: 'صفحات هبوط', tag: 'Landing', key: 'landing' },
+			{ title: 'تصميم موقع', tag: 'Website', key: 'website' },
+		],
+		subcategories: [
+			'تصميم شعار',
+			'تصاميم سوشيال',
+			'صور مصغّرة',
+			'هوية بصرية',
+			'عروض تقديمية',
+			'سيرة ذاتية',
+			'بنرات إعلانية',
+			'الرسوم بالذكاء الاصطناعي',
+			'صفحات هبوط',
+			'تصميم موقع'
+		],
+	},
+	programming: {
+		key: 'programming',
+		title: 'برمجة وتطوير',
+		hero: { title: 'برمجة وتطوير', subtitle: 'تطوير مواقع، تطبيقات وبرمجيات مخصّصة.', cta: 'ابدأ التصفح' },
+		popular: [
+			{ title: 'تطوير مواقع', tag: 'Websites', key: 'website' },
+			{ title: 'تطوير تطبيقات', tag: 'Apps', key: 'apps' },
+			{ title: 'برمجة واجهات أمامية', tag: 'Front-end', key: 'front-end' },
+			{ title: 'برمجة خلفية', tag: 'Back-end', key: 'back-end' },
+			{ title: 'متاجر إلكترونية', tag: 'Ecommerce', key: 'ecommerce' },
+			{ title: 'أنظمة ولوحات تحكم', tag: 'Dashboards', key: 'dashboards' },
+			{ title: 'ربط APIs وخدمات خارجية', tag: 'API Integration', key: 'api-integration' },
+			{ title: 'صيانة وتعديل مواقع', tag: 'Maintenance', key: 'maintenance' },
+			{ title: 'برمجة ووردبريس', tag: 'WordPress', key: 'wordpress' },
+			{ title: 'أتمتة وبرمجة سكربتات', tag: 'Automation', key: 'automation-scripts' },
+		],
+		subcategories: [
+			'تطوير مواقع',
+			'تطوير تطبيقات',
+			'برمجة واجهات أمامية',
+			'برمجة خلفية',
+			'متاجر إلكترونية',
+			'أنظمة ولوحات تحكم',
+			'ربط APIs وخدمات خارجية',
+			'صيانة وتعديل مواقع',
+			'برمجة ووردبريس',
+			'أتمتة وبرمجة سكربتات',
+			'برمجة بوتات',
+			'برمجة متاجر إلكترونية',
+			'برمجة إضافات ووردبريس',
+			'تطوير ألعاب بسيطة',
+			'برمجة ذكاء اصطناعي',
+			'تكامل API وربط الأنظمة',
+			'تصليح أخطاء برمجية',
+			'تصميم قواعد بيانات'
+		],
+	},
+	// ... (rest of CATEGORY_MAP copied from local src/lib/categoryData.ts)
+>>>>>>> Stashed changes
 };
 
 // ASSISTANT_FINAL: true

@@ -1,5 +1,7 @@
-// src/components/Header.tsx
+
 "use client";
+import React from "react";
+// src/components/Header.tsx
 
 import Link from "next/link";
 import { useState } from "react";

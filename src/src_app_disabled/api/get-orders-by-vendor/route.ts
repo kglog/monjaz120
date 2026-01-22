@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     console.log('كل الطلبات:', allOrders);
 
     // نفلتر الطلبات داخل الكود بدل MongoDB
-    const filtered = allOrders.filter(order => order.vendorId === vendorId);
+    const filtered = allOrders.filter((order: any) => order.vendorId === vendorId);
 
     return NextResponse.json({
       success: true,

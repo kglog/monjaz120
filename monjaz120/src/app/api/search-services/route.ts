@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
+// Legacy MongoDB logic preserved below as comments (additive only)
 import { MongoClient } from 'mongodb';
+// Prisma integration (additive)
+import prisma from '@/lib/prisma';
 
 // ✅ بيانات وهمية احتياطية
 const fakeServices = [
@@ -42,8 +45,26 @@ export async function POST(req: Request) {
       ]
     }).toArray();
 
+
+    // Prisma version (additive)
+    const results_prisma = await prisma.service.findMany({
+      where: {
+        OR: [
+          { title: { contains: query } },
+          { description: { contains: query } },
+          // { category: { contains: query } }, // حقل category غير موجود في الموديل
+        ]
+      }
+    });
+
+
     if (results.length > 0) {
       return NextResponse.json({ success: true, results });
+    }
+
+    // إذا فيه نتائج من Prisma
+    if (results_prisma.length > 0) {
+      return NextResponse.json({ success: true, results: results_prisma });
     }
 
     // ✅ fallback: استخدام بيانات وهمية إذا ما فيه نتائج

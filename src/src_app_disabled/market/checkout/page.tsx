@@ -3,8 +3,13 @@
 
 import React, { useEffect, useState } from "react";
 
+interface OrderData {
+  orderId: string;
+  total: number;
+}
+
 export default function CheckoutPage() {
-  const [orderData, setOrderData] = useState(null);
+  const [orderData, setOrderData] = useState<OrderData | null>(null);
 
   useEffect(() => {
     // هنا تقدر تسوي أي منطق جلب بيانات (مثلاً من Firebase)

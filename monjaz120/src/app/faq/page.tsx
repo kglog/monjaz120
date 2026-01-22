@@ -1,3 +1,4 @@
+import React from "react";
 // src/app/faq/page.tsx
 export default function FAQPage() {
   return (

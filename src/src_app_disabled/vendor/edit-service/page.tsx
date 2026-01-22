@@ -1,10 +1,14 @@
 "use client";
+<<<<<<< Updated upstream:src/src_app_disabled/vendor/edit-service/page.tsx
 import React from "react";
 
 import { useEffect, useState } from 'react';
+=======
+import React, { Suspense, useEffect, useState } from "react";
+>>>>>>> Stashed changes:src/app/vendor/edit-service/page.tsx
 import { useSearchParams } from 'next/navigation';
 
-export default function EditServicePage() {
+function EditServiceForm() {
   const params = useSearchParams();
   const id = params.get('id');
 
@@ -71,5 +75,13 @@ export default function EditServicePage() {
       <br />
       <button onClick={handleUpdate}>💾 حفظ التعديلات</button>
     </div>
+  );
+}
+
+export default function EditServicePage() {
+  return (
+    <Suspense>
+      <EditServiceForm />
+    </Suspense>
   );
 }

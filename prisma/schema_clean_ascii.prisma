@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      String    @default("user")
+  services  Service[]
+  orders    Order[]   @relation("UserOrders")
+  createdAt DateTime  @default(now())
+  verificationRequests VerificationRequest[]
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  price       Float
+  image       String?
+  userId      String
+  orders      Order[]
+  createdAt   DateTime @default(now())
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  title     String
+  price     Float
+  details   String?
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
+  userId    String
+  user      User     @relation("UserOrders", fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model IdentitySession {
+  id          String   @id @default(cuid())
+  userId      String?
+  status      String   @default("pending")
+  step        String   @default("basic")
+  frontUrl    String?
+  backUrl     String?
+  selfieUrl   String?
+  ocrResult   Json?
+  flags       Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Fingerprint {
+  id        String   @id @default(cuid())
+  fpHash    String   @unique
+  ip        String?
+  ua        String?
+  meta      Json?
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  type      String
+  userId    String?
+  meta      Json
+  createdAt DateTime @default(now())
+}
+
+model VerificationRequest {
+  id          String   @id @default(cuid())
+  userId      String
+  fullName    String
+  nationalId  String
+  dob         DateTime
+  selfiePath  String
+  idCardPath  String
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+// ASSISTANT_FINAL: true

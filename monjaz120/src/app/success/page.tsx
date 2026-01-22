@@ -1,4 +1,8 @@
 import React from "react";
+<<<<<<< Updated upstream:monjaz120/src/app/success/page.tsx
+=======
+
+>>>>>>> Stashed changes:src/app/success/page.tsx
 export default function SuccessPage() {
   return (
     <div className="max-w-lg mx-auto mt-16 p-8 bg-white shadow rounded text-center">

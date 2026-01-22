@@ -1,5 +1,9 @@
+<<<<<<< Updated upstream:monjaz120/src/app/statistics/page.tsx
 import React from 'react';
 
+=======
+import React from "react";
+>>>>>>> Stashed changes:src/app/statistics/page.tsx
 // src/app/statistics/page.tsx
 export default function StatisticsPage() {
   return (

@@ -1,3 +1,4 @@
+import React from "react";
 // src/app/not-found.tsx
 export default function NotFound() {
   return (

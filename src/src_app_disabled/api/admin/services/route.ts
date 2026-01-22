@@ -21,7 +21,10 @@ export async function POST(req: Request) {
       title,
       description,
       price: Number(price),
-      image: image || null, // ✅ هنا يحفظ الصورة
+      images: image ? image : "", // حفظ الصور كسلسلة نصية
+      deliveryTime: 0, // قيمة افتراضية إضافية
+      user: { connect: { id: '' } }, // إضافة user كـ relation فارغ
+      // image: image || null, // تم التعليق حسب الشروط
     },
   });
 

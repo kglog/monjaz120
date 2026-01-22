@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 ﻿import React from "react";
+=======
+import React from "react";
+>>>>>>> Stashed changes
 
 export default function Footer() {
   return (
@@ -30,8 +34,15 @@ export default function Footer() {
           <p>تويتر - فيسبوك - لينكدإن</p>
         </div>
       </div>
+<<<<<<< Updated upstream
       <p className="text-center mt-8 text-sm"> {new Date().getFullYear()} منصة.كوم - جميع الحقوق محفوظة</p>
     </footer>
   );
 }
 
+=======
+      <p className="text-center mt-8 text-sm">© {new Date().getFullYear()} منصة.كوم - جميع الحقوق محفوظة</p>
+    </footer>
+  );
+}
+>>>>>>> Stashed changes

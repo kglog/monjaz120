@@ -1,18 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/mongodb';
-import Service from '@/models/Service';
+// كود مونقو دي بي (قديم - legacy)
+// import connectDB from '@/lib/mongodb';
+// import Service from '@/models/Service';
+
+// كود بريزما فقط (المعتمد)
+import { PrismaClient } from '@prisma/client';
+const prismaClient = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
+    // await connectDB(); // كود مونقو دي بي (قديم - legacy)
+    // await Service.findByIdAndUpdate(id, {...}); // كود مونقو دي بي (قديم - legacy)
+
     const { id, title, description, price, category, image } = await req.json();
 
-    await Service.findByIdAndUpdate(id, {
-      title,
-      description,
-      price,
-      category,
-      image,
+    // تحديث الخدمة في بريزما فقط
+    await prismaClient.service.update({
+      where: { id: String(id) },
+      data: {
+        title,
+        description,
+        price,
+        // category, // غير موجود في Prisma model، فقط للتوافق مع الكود القديم
+        image,
+      }
     });
 
     return NextResponse.json({ success: true });

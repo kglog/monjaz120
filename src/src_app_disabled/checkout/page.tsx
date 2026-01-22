@@ -37,13 +37,15 @@ export default function CheckoutPage() {
     // تخزين بسيط كأنها قاعدة بيانات محلية
     const raw = localStorage.getItem("orders");
     const orders = raw ? JSON.parse(raw) : [];
-    orders.push({
-      ...order,
-      price: Number(order.price),
-      id: crypto.randomUUID(),
-      status: "pending",
-      createdAt: new Date().toISOString(),
-    });
+    if (order) {
+      orders.push({
+        ...order,
+        price: Number(order.price),
+        id: crypto.randomUUID(),
+        status: "pending",
+        createdAt: new Date().toISOString(),
+      });
+    }
     localStorage.setItem("orders", JSON.stringify(orders));
     localStorage.removeItem("pendingOrder");
     router.push("/success");

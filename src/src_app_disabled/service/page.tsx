@@ -1,10 +1,10 @@
-'use client';
 
-import { useEffect, useState } from 'react';
+"use client";
+import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function ServiceDetailsPage() {
+function ServiceDetailsContent() {
   const searchParams = useSearchParams();
   const [service, setService] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -103,5 +103,13 @@ export default function ServiceDetailsPage() {
         🔙 العودة إلى جميع الخدمات
       </Link>
     </div>
+  );
+}
+
+export default function ServiceDetailsPage() {
+  return (
+    <Suspense>
+      <ServiceDetailsContent />
+    </Suspense>
   );
 }

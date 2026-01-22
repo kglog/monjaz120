@@ -1,5 +1,11 @@
+<<<<<<< Updated upstream:monjaz120/src/app/signup/page.tsx
  'use client';
 import React, { useState } from 'react';
+=======
+"use client";
+import React from "react";
+import { useState } from 'react';
+>>>>>>> Stashed changes:src/app/signup/page.tsx
 import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {

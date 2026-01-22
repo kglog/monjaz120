@@ -1,6 +1,11 @@
+<<<<<<< Updated upstream:monjaz120/src/app/profile/edit/page.tsx
 'use client';
 import React from "react";
+=======
+>>>>>>> Stashed changes:src/app/profile/edit/page.tsx
 
+'use client';
+import React from "react";
 import { useState } from 'react';
 
 export default function EditProfilePage() {

@@ -1,3 +1,4 @@
+import React from "react";
 // src/app/forgot-password/page.tsx
 export default function ForgotPasswordPage() {
   return (

@@ -1,3 +1,4 @@
+import React from "react";
 import { db } from '@/lib/firebaseConfig';
 
 export default function MyPurchasesPage() {
